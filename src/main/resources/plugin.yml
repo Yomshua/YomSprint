@@ -1,0 +1,7 @@
+name: YomSprint
+version: '1.0-SNAPSHOT'
+main: yom.yomSprint.YomSprint
+api-version: '1.20'
+commands:
+  run:
+    description: Main command that opens the main GUI
