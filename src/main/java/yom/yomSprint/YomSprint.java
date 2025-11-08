@@ -29,8 +29,6 @@ public final class YomSprint extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this),this);
         this.loadDefaulttConfigs();
         commandsManager = new CommandsManager(this);
-        //sigma
-
     }
 
     @Override
