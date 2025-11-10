@@ -20,15 +20,17 @@ public class CreateTrackSubCommand extends TrackSubCommands {
     @Override
     public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         if(!(sender instanceof Player)) return;
-        player.sendMessage("ai");
         if(args.length != 3 ){
             player.sendMessage(helpMessage);
             return;
+
         }
         String arenaName = args[2];
         FileConfiguration trackConfig = plugin.getTracksConfiguration().getConfig();
         trackConfig.set("tracks." + arenaName + ".display_name", arenaName);
         plugin.getTracksConfiguration().saveConfig();
+        player.sendMessage(ChatColor.GREEN + "Pista " + arenaName + " criada com sucesso!");
+        
     }
 
 }

@@ -34,7 +34,7 @@ public class ChoseGameGUIListener implements Listener {
             if(tracksConfig.getConfigurationSection("tracks." + track.getName()) != null &&
                     tracksConfig.getConfigurationSection("tracks." + track.getName()).contains("location")) {
                 if (track.getName().equals(item.getItemMeta().getDisplayName())) {
-                    TrackManager.teleportPlayerToWaitLobby(player,track);
+                    TrackManager.teleportPlayerToWaitLobby(player,track,plugin);
                 }
             }
         }

@@ -16,30 +16,35 @@ public class Track {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-
     private YomSprint plugin;
     private String name;
     private String displayName;
     private Location waitLobby;
     private GameStatus gameStatus = GameStatus.JOIN;
     private List<Location> laneLocations;
+    private HashMap<String,String> configs = new HashMap<>();
 
     public Track(YomSprint plugin,String name) {
         this.plugin = plugin;
         this.name = name;
-        createTrack();
-        loadConfigs();
-    }
-
-    private void loadConfigs(){
-        HashMap<String,String> configs = new HashMap<>();
         configs.put("location", "Localizacoes");
         configs.put("display_name","Display Name");;
+        loadConfigs();
+        createTrack();
+    }
+    private void loadConfigs(){
         for(String config : configs.keySet()){
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)){
                 System.out.println((ANSI_RED + "A configuracao da pista "+ name + ": "  + configs.get(config) + ", nao foi configurada" + ANSI_RESET));
             }
         }
+    }
+
+    public boolean hasAllConfigs(){
+        for(String config : configs.keySet()){
+            if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)) return false;
+        }
+        return true;
     }
 
     private void createTrack(){

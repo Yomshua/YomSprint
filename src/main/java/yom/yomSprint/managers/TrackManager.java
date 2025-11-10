@@ -11,6 +11,7 @@ import yom.yomSprint.YomSprint;
 import yom.yomSprint.utils.Track;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public final class TrackManager {
@@ -23,19 +24,22 @@ public final class TrackManager {
     }
 
     public static void addTracks(Track track, Inventory inventory){
-        ItemStack item = new ItemStack(Material.WOOL, 1,(short) 13);
-        ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(track.getName());
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.GRAY + " Status: " +  track.getGameStatus().getStatus());
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        inventory.addItem(item);
+        if(track.hasAllConfigs()) {
+            ItemStack item = new ItemStack(Material.WOOL, 1, (short) 13);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(track.getName());
+            List<String> lore = new ArrayList<>();
+            lore.add(ChatColor.GRAY + " Status: " + track.getGameStatus().getStatus());
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+            inventory.addItem(item);
+        }
     }
 
-    public static void teleportPlayerToWaitLobby(Player player,Track track){
-        if(track.getWaitLobbyLocation() != null){
-            player.teleport((Location) track.getWaitLobbyLocation());
+
+    public static void teleportPlayerToWaitLobby(Player player,Track track, YomSprint plugin){
+        if(true){
+            player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + track.getName()).get("location"));
             player.sendMessage("Você entrou na pista " + track.getName());
         }else {
             player.sendMessage("Pista não configurada!");

@@ -16,12 +16,13 @@ import java.util.Set;
 
 public final class YomSprint extends JavaPlugin {
 
-    private TracksConfiguration tracksConfiguration = new TracksConfiguration(this);
+    private TracksConfiguration tracksConfiguration;
     private CommandsManager commandsManager;
     private CommandExecutorBase base;
 
     @Override
     public void onEnable() {
+        tracksConfiguration = new TracksConfiguration(this);
         loadTracks();
         base = new CommandExecutorBase();
         getCommand("run").setExecutor(base);
@@ -38,7 +39,7 @@ public final class YomSprint extends JavaPlugin {
 
     private void loadTracks(){
         Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);
-        for (String key : getTracksConfiguration().getConfig().getConfigurationSection("tracks").getKeys(false)){
+        for (String key : tracks){
             Track track = new Track(this,getTracksConfiguration().getConfig().getString("tracks." + key + ".display_name" ));
         }
     }
