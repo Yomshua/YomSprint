@@ -8,6 +8,7 @@ import yom.yomSprint.commands.CommandExecutorBase;
 import yom.yomSprint.commands.CommandsManager;
 import yom.yomSprint.listeners.ChoseGameGUIListener;
 import yom.yomSprint.listeners.MainGUIListener;
+import yom.yomSprint.listeners.PlayerJoinWaitLobbyListener;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.utils.Track;
 
@@ -27,6 +28,7 @@ public final class YomSprint extends JavaPlugin {
         base = new CommandExecutorBase();
         getCommand("run").setExecutor(base);
         getServer().getPluginManager().registerEvents(new MainGUIListener(this),this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinWaitLobbyListener(),this);
         getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this),this);
         this.loadDefaulttConfigs();
         commandsManager = new CommandsManager(this);

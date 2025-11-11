@@ -1,5 +1,6 @@
 package yom.yomSprint.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.utils.Track;
 
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public final class TrackManager {
             meta.setDisplayName(track.getName());
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + " Status: " + track.getGameStatus().getStatus());
+            lore.add("");
+            lore.add(ChatColor.YELLOW + "" + ChatColor.BOLD + "Players na pista: " + ChatColor.GRAY + track.getPlayersInGame().size());
             meta.setLore(lore);
             item.setItemMeta(meta);
             inventory.addItem(item);

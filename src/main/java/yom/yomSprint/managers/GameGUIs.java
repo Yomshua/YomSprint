@@ -31,7 +31,6 @@ public class GameGUIs {
     }
 
 
-
     public static Inventory tracksGUI(YomSprint plugin){
         Inventory inventory = Bukkit.createInventory(null,54,"C");
         for (Track track : TrackManager.getTracks()){

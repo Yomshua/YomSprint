@@ -2,6 +2,7 @@ package yom.yomSprint.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.YomSprint;
@@ -10,6 +11,7 @@ import javax.xml.stream.Location;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Track {
 
@@ -21,23 +23,35 @@ public class Track {
     private String displayName;
     private Location waitLobby;
     private GameStatus gameStatus = GameStatus.JOIN;
+    private int minPlayers;
     private List<Location> laneLocations;
+    private List<UUID> playersInGame;
     private HashMap<String,String> configs = new HashMap<>();
 
     public Track(YomSprint plugin,String name) {
         this.plugin = plugin;
         this.name = name;
+        this.playersInGame = new ArrayList<>();
         configs.put("location", "Localizacoes");
-        configs.put("display_name","Display Name");;
+        configs.put("display_name","Display Name");
+        configs.put("min_players","Players Minimos");
         loadConfigs();
         createTrack();
     }
     private void loadConfigs(){
         for(String config : configs.keySet()){
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)){
-                System.out.println((ANSI_RED + "A configuracao da pista "+ name + ": "  + configs.get(config) + ", nao foi configurada" + ANSI_RESET));
+                System.out.print((ANSI_RED + "A configuração " +configs.get(config)+ " da pista " + name + " está incompleta!" + ANSI_RESET));
             }
         }
+    }
+
+    public void addPlayerInGame(Player player){
+        playersInGame.add(player.getUniqueId());
+    }
+
+    public void removePlayerInGame(Player player){
+        playersInGame.remove(player.getUniqueId());
     }
 
     public boolean hasAllConfigs(){
@@ -45,6 +59,11 @@ public class Track {
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)) return false;
         }
         return true;
+    }
+
+    public int getMinPlayers(){
+        if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains("min_players")) return 0;
+        return (int) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).get("min_players");
     }
 
     private void createTrack(){
@@ -57,6 +76,10 @@ public class Track {
 
     public GameStatus getGameStatus() {
         return gameStatus;
+    }
+
+    public List<UUID> getPlayersInGame() {
+        return playersInGame;
     }
 
     public String getName(){
