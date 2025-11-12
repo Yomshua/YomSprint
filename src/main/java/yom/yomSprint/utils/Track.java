@@ -1,5 +1,6 @@
 package yom.yomSprint.utils;
 
+import org.apache.logging.log4j.spi.LoggerContextFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 public class Track {
 
@@ -28,17 +30,41 @@ public class Track {
     private List<UUID> playersInGame;
     private HashMap<String,String> configs = new HashMap<>();
 
-    public Track(YomSprint plugin,String name) {
+    private Track(YomSprint plugin,String name) {
         this.plugin = plugin;
         this.name = name;
         this.playersInGame = new ArrayList<>();
         configs.put("location", "Localizacoes");
         configs.put("display_name","Display Name");
         configs.put("min_players","Players Minimos");
-        loadConfigs();
-        createTrack();
     }
-    private void loadConfigs(){
+
+    public static class TrackBuilder {
+
+        YomSprint plugin;
+        String name;
+
+
+        public TrackBuilder setPlugin(YomSprint plugin){
+            this.plugin = plugin;
+            return this;
+        }
+
+        public TrackBuilder setName(String name){
+            this.name = name;
+            return this;
+        }
+
+        public Track build(){
+            if (plugin == null || name == null){
+                throw new IllegalStateException("Está faltando arugmentos para a construção da pista");
+            }
+            return new Track(plugin,name);
+        }
+
+    }
+
+    public void loadConfigs(){
         for(String config : configs.keySet()){
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)){
                 System.out.print((ANSI_RED + "A configuração " +configs.get(config)+ " da pista " + name + " está incompleta!" + ANSI_RESET));
@@ -66,7 +92,7 @@ public class Track {
         return (int) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).get("min_players");
     }
 
-    private void createTrack(){
+    public void build(){
         TrackManager.getTracks().add(this);
     }
 

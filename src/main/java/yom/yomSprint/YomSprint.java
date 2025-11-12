@@ -14,6 +14,7 @@ import yom.yomSprint.utils.Track;
 
 import javax.xml.stream.Location;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public final class YomSprint extends JavaPlugin {
 
@@ -21,8 +22,10 @@ public final class YomSprint extends JavaPlugin {
     private CommandsManager commandsManager;
     private CommandExecutorBase base;
 
+
     @Override
     public void onEnable() {
+
         tracksConfiguration = new TracksConfiguration(this);
         loadTracks();
         base = new CommandExecutorBase();
@@ -40,10 +43,18 @@ public final class YomSprint extends JavaPlugin {
     }
 
     private void loadTracks(){
-        Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);
-        for (String key : tracks){
-            Track track = new Track(this,getTracksConfiguration().getConfig().getString("tracks." + key + ".display_name" ));
-        }
+            Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);
+            for (String key : tracks) {
+                Track track = new Track.TrackBuilder()
+                        .setName(getTracksConfiguration().getConfig().getString("tracks." + key + ".display_name"))
+                        .setPlugin(this)
+                        .build();
+                track.loadConfigs();
+                if(track.hasAllConfigs()){
+                    track.build();
+                }
+            }
+
     }
 
     private void loadDefaulttConfigs(){

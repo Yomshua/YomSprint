@@ -25,9 +25,14 @@ public final class TrackManager {
         this.plugin = plugin;
     }
 
+    public static boolean isPlayerAnTrack(Player player){
+
+        return false;
+    }
+
     public static void addTracks(Track track, Inventory inventory){
         if(track.hasAllConfigs()) {
-            ItemStack item = new ItemStack(Material.WOOL, 1, (short) 13);
+            ItemStack item = new ItemStack(Material.WOOL,1,(byte)13);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(track.getName());
             List<String> lore = new ArrayList<>();

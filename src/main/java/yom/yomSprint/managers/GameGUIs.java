@@ -41,7 +41,7 @@ public class GameGUIs {
 
 
     private static ItemStack getSkull(Player player){
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM,1 ,(byte) 3);
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM,1,(byte) 3  );
         SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
         skullMeta.setOwner(player.getDisplayName());
         skullMeta.setDisplayName(ChatColor.YELLOW + "Status");
@@ -50,7 +50,7 @@ public class GameGUIs {
     }
 
     private static ItemStack getGameSkull(){
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM,1 , (byte) 3);
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM,1,(byte) 3 );
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(),"Join Game");
         profile.getProperties().put("textures",new Property("texture","eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWNjZWZkNWYyYTk0ZjI0MjgxOTg1OGE5NjU1NWExM2JhZWJhOWRhZThkNDY3ZjQwNjE5NzRlZTk5OWI2OTU5YiJ9fX0="));
