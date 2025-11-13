@@ -15,6 +15,7 @@ import yom.yomSprint.utils.Track;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public final class TrackManager {
 
@@ -25,14 +26,10 @@ public final class TrackManager {
         this.plugin = plugin;
     }
 
-    public static boolean isPlayerAnTrack(Player player){
 
-        return false;
-    }
-
-    public static void addTracks(Track track, Inventory inventory){
-        if(track.hasAllConfigs()) {
-            ItemStack item = new ItemStack(Material.WOOL,1,(byte)13);
+    public static void addTracks(Track track, Inventory inventory) {
+        if (track.hasAllConfigs()) {
+            ItemStack item = new ItemStack(Material.WOOL, 1, (byte) 13);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(track.getName());
             List<String> lore = new ArrayList<>();
@@ -46,15 +43,31 @@ public final class TrackManager {
     }
 
 
-    public static void teleportPlayerToWaitLobby(Player player,Track track, YomSprint plugin){
-        if(true){
+    public static void teleportPlayerToWaitLobby(Player player, Track track, YomSprint plugin) {
+        if (true) {
             player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + track.getName()).get("location"));
             player.sendMessage("Você entrou na pista " + track.getName());
-        }else {
+        } else {
             player.sendMessage("Pista não configurada!");
         }
+    }
 
+    public static boolean isPlayerInAnyTrack(Player player) {
+        for (Track track : tracks) {
+            for (UUID uuid : track.getPlayersInGame()) {
+                if (player.getUniqueId().equals(uuid)) return true;
+            }
+        }
+        return false;
+    }
 
+    public static Track getTrackByPlayer(Player player){
+        for (Track track : tracks) {
+            for (UUID uuid : track.getPlayersInGame()) {
+                if (player.getUniqueId().equals(uuid)) return track;
+            }
+        }
+        return null;
     }
 
     public static List<Track> getTracks() {

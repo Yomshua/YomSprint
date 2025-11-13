@@ -23,7 +23,7 @@ public class ChoseGameGUIListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler (priority = EventPriority.HIGH)
+    @EventHandler
     void onClickEvent(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
         Player player = (Player) event.getWhoClicked();

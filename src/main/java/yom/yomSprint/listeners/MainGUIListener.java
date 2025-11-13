@@ -1,6 +1,7 @@
 package yom.yomSprint.listeners;
 
 import net.md_5.bungee.api.chat.TranslatableComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.PermissionAttachment;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.managers.GameGUIs;
+import yom.yomSprint.managers.TrackManager;
 
 
 public class MainGUIListener implements Listener {
@@ -37,7 +39,11 @@ public class MainGUIListener implements Listener {
                 case "§eStatus": // yellow
                     break;
                 case "§a§lGames":
-                    player.openInventory(GameGUIs.tracksGUI(plugin));
+                    if(!TrackManager.isPlayerInAnyTrack(player)) {
+                        player.openInventory(GameGUIs.tracksGUI(plugin));
+                    }else {
+                        player.sendMessage(ChatColor.RED + "Você não pode mudar de pista, saia primeiro a qual está");
+                    }
                     break;
 
             }

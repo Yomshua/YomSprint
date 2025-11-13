@@ -17,5 +17,6 @@ public class CommandsManager{
     private void loadSubCommands(){
         base.add(new CreateTrackSubCommand(plugin));
         base.add(new SetWaitLobbyCommand(plugin));
+        base.add(new LeaveTrackCommand(plugin));
     }
 }
