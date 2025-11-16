@@ -19,7 +19,7 @@ public class HelpCode {
 //    WTF: Fizeram um besteira muito grande aqui
 
     /* - TabCompleter Bugado
-       -
+       - Adicionar compatiblidade com MySQL e Json
        -
      */
 }

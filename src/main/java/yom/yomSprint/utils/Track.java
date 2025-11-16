@@ -17,6 +17,7 @@ public class Track {
 
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_WHITE = "\033[37m";
 
     private YomSprint plugin;
     private String name;
@@ -24,25 +25,32 @@ public class Track {
     private Location waitLobby;
     private GameStatus gameStatus = GameStatus.JOIN;
     private int minPlayers;
+    private int maxPlayers;
     private List<Location> laneLocations;
     private List<UUID> playersInGame;
     private HashMap<String,String> configs = new HashMap<>();
     private Map<UUID, FastBoard> scoreboardsMap = new HashMap<>();
 
-    private Track(YomSprint plugin,String name) {
+    private Track(YomSprint plugin,String name, String displayName, int maxPlayers, int minPlayers) {
         this.plugin = plugin;
         this.name = name;
+        this.minPlayers = minPlayers;
+        this.maxPlayers = maxPlayers;
+        this.displayName = displayName;
         this.playersInGame = new ArrayList<>();
         configs.put("location", "Localizacoes");
         configs.put("display_name","Display Name");
         configs.put("min_players","Players Minimos");
+        configs.put("max_players","Players Maximos");
     }
 
     public static class TrackBuilder {
 
         YomSprint plugin;
         String name;
-
+        String displayName;
+        int maxPlayers;
+        int minPlayers;
 
         public TrackBuilder setPlugin(YomSprint plugin){
             this.plugin = plugin;
@@ -54,11 +62,26 @@ public class Track {
             return this;
         }
 
+        public TrackBuilder setDisplayName(String displayName){
+            this.displayName = displayName;
+            return this;
+        }
+
+        public TrackBuilder setMinSize(int minPlayers){
+            this.minPlayers = minPlayers;
+            return this;
+        }
+
+        public TrackBuilder setMaxSize(int maxPlayers){
+            this.maxPlayers = maxPlayers;
+            return this;
+        }
+
         public Track build(){
             if (plugin == null || name == null){
                 throw new IllegalStateException("Está faltando arugmentos para a construção da pista");
             }
-            return new Track(plugin,name);
+            return new Track(plugin,name,displayName,maxPlayers,minPlayers);
         }
 
     }
@@ -66,7 +89,7 @@ public class Track {
     public void loadConfigs(){
         for(String config : configs.keySet()){
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)){
-                System.out.print((ANSI_RED + "A configuração " +configs.get(config)+ " da pista " + name + " está incompleta!" + ANSI_RESET));
+                System.out.print((ANSI_RED + "A configuracao " +configs.get(config)+ " da pista " + ANSI_WHITE + name + ANSI_RED + " está incompleta!" + ANSI_RESET));
             }
         }
     }
@@ -95,15 +118,22 @@ public class Track {
     }
 
     public int getMinPlayers(){
-        if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains("min_players")) return 0;
-        return (int) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).get("min_players");
+        return minPlayers;
+    }
+
+    public int getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public int getWaitLobbySize(){
+        return playersInGame.size();
     }
 
     public Map<UUID, FastBoard> getScoreboardsMap() {
         return scoreboardsMap;
     }
 
-    public void build(){
+    public void addToList(){
         TrackManager.getTracks().add(this);
     }
 
@@ -119,8 +149,12 @@ public class Track {
         return playersInGame;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
+    }
+
+    public String getDisplayName(){
+        return displayName;
     }
 
 }

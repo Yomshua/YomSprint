@@ -20,7 +20,7 @@ public class LeaveTrackCommand extends TrackSubCommands{
         if(TrackManager.isPlayerInAnyTrack(player)){
             Track track = TrackManager.getTrackByPlayer(player);
             track.getPlayersInGame().remove(player.getUniqueId());
-            player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY +  track.getName());
+            player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY +  track.getDisplayName());
             track.getScoreboardsMap().get(player.getUniqueId()).delete();
             if(!track.getPlayersInGame().isEmpty()) {
                 track.getPlayersInGame().forEach((uuid) -> {

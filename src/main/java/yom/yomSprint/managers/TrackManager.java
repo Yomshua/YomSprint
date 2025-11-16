@@ -36,7 +36,11 @@ public final class TrackManager {
             List<String> lore = new ArrayList<>();
             lore.add(ChatColor.GRAY + " Status: " + track.getGameStatus().getStatus());
             lore.add("");
-            lore.add(ChatColor.YELLOW + "" + ChatColor.BOLD + "Players na pista: " + ChatColor.GRAY + track.getPlayersInGame().size());
+            lore.add(ChatColor.BLUE + "Players na pista: " + (track.getWaitLobbySize() > 1 ? ChatColor.WHITE:ChatColor.GRAY) + track.getPlayersInGame().size());
+            lore.add("");
+            lore.add(ChatColor.YELLOW.toString() + "Players máximos: " + ChatColor.WHITE + track.getMaxPlayers());
+            lore.add(ChatColor.YELLOW.toString() + "Players minimos: " + ChatColor.WHITE + track.getMinPlayers());
+
             meta.setLore(lore);
             item.setItemMeta(meta);
             inventory.addItem(item);

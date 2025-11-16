@@ -43,12 +43,15 @@ public final class YomSprint extends JavaPlugin {
             Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);
             for (String key : tracks) {
                 Track track = new Track.TrackBuilder()
-                        .setName(getTracksConfiguration().getConfig().getString("tracks." + key + ".display_name"))
+                        .setName(key)
+                        .setDisplayName(tracksConfiguration.getConfig().getString("tracks." + key + ".display_name"))
+                        .setMinSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".min_players"))
+                        .setMaxSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".max_players"))
                         .setPlugin(this)
                         .build();
                 track.loadConfigs();
                 if(track.hasAllConfigs()){
-                    track.build();
+                    track.addToList();
                 }
             }
 

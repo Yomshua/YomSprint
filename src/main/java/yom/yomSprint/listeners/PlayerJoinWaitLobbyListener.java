@@ -19,8 +19,10 @@ public class PlayerJoinWaitLobbyListener implements Listener {
         player.sendMessage(ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + event.getTrack().getName());
 
         FastBoard waitLobbyBoard = track.waitLobbyBoard(player);
-        waitLobbyBoard.updateTitle(ChatColor.GREEN.toString() + ChatColor.BOLD + track.getName());
-        waitLobbyBoard.updateLines("",ChatColor.BLACK +  "Players :  " + track.getPlayersInGame().size());
+        waitLobbyBoard.updateTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + track.getName());
+        waitLobbyBoard.updateLines(
+                "",
+                ChatColor.GRAY +  "Players :  " + ChatColor.WHITE +  track.getWaitLobbySize());
 
     }
 
