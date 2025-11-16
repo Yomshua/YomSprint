@@ -22,6 +22,7 @@ public final class TrackManager {
     private YomSprint plugin;
     private static List<Track> tracks = new ArrayList<>();
 
+
     public TrackManager(YomSprint plugin) {
         this.plugin = plugin;
     }
@@ -46,7 +47,6 @@ public final class TrackManager {
     public static void teleportPlayerToWaitLobby(Player player, Track track, YomSprint plugin) {
         if (true) {
             player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + track.getName()).get("location"));
-            player.sendMessage("Você entrou na pista " + track.getName());
         } else {
             player.sendMessage("Pista não configurada!");
         }

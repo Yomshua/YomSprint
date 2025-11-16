@@ -1,22 +1,15 @@
 package yom.yomSprint;
 
-import org.bukkit.Bukkit;
-import org.bukkit.permissions.Permissible;
-import org.bukkit.permissions.PermissibleBase;
-import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.java.JavaPlugin;
 import yom.yomSprint.commands.CommandExecutorBase;
 import yom.yomSprint.commands.CommandsManager;
 import yom.yomSprint.listeners.ChoseGameGUIListener;
 import yom.yomSprint.listeners.MainGUIListener;
 import yom.yomSprint.listeners.PlayerJoinWaitLobbyListener;
-import yom.yomSprint.listeners.PlayerLeaveListener;
-import yom.yomSprint.managers.TrackManager;
+import yom.yomSprint.listeners.PlayerQuitListener;
 import yom.yomSprint.utils.Track;
 
-import javax.xml.stream.Location;
 import java.util.Set;
-import java.util.logging.Logger;
 
 public final class YomSprint extends JavaPlugin {
 
@@ -35,7 +28,7 @@ public final class YomSprint extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MainGUIListener(this),this);
         getServer().getPluginManager().registerEvents(new PlayerJoinWaitLobbyListener(),this);
         getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this),this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(),this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(),this);
         this.loadDefaulttConfigs();
         commandsManager = new CommandsManager(this);
 

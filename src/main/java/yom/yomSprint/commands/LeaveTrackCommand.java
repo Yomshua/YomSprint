@@ -1,5 +1,6 @@
 package yom.yomSprint.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,6 +21,13 @@ public class LeaveTrackCommand extends TrackSubCommands{
             Track track = TrackManager.getTrackByPlayer(player);
             track.getPlayersInGame().remove(player.getUniqueId());
             player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY +  track.getName());
+            track.getScoreboardsMap().get(player.getUniqueId()).delete();
+            if(!track.getPlayersInGame().isEmpty()) {
+                track.getPlayersInGame().forEach((uuid) -> {
+                    track.getScoreboardsMap().get(uuid).updateLine(1, "Players : " + track.getPlayersInGame().size());
+
+                });
+            }
         }else{
             player.sendMessage(ChatColor.RED + "Você não está e nenhum pista!");
         }

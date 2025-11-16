@@ -18,7 +18,7 @@ public class CommandExecutorBase implements TabExecutor {
 
     private final List<TrackSubCommands> subCommandsMain = new ArrayList<>();
 
-    // [FIXME] Tá bugado kkk
+    // FIXME: Tá bugado kkk
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         Set<String> list = new HashSet<>();

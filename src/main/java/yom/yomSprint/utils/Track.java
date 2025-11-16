@@ -4,15 +4,13 @@ import org.apache.logging.log4j.spi.LoggerContextFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.YomSprint;
 
 import javax.xml.stream.Location;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Track {
@@ -29,6 +27,7 @@ public class Track {
     private List<Location> laneLocations;
     private List<UUID> playersInGame;
     private HashMap<String,String> configs = new HashMap<>();
+    private Map<UUID, FastBoard> scoreboardsMap = new HashMap<>();
 
     private Track(YomSprint plugin,String name) {
         this.plugin = plugin;
@@ -72,6 +71,14 @@ public class Track {
         }
     }
 
+    public FastBoard waitLobbyBoard(Player player){
+        FastBoard board = new FastBoard(player);
+        board.updateTitle(ChatColor.GREEN.toString() + ChatColor.BOLD + getName());
+        board.updateLines("",ChatColor.BLACK +  "Players :  " + getPlayersInGame().size());
+        scoreboardsMap.put(player.getUniqueId(),board);
+        return board;
+    }
+
     public void addPlayerInGame(Player player){
         playersInGame.add(player.getUniqueId());
     }
@@ -90,6 +97,10 @@ public class Track {
     public int getMinPlayers(){
         if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains("min_players")) return 0;
         return (int) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).get("min_players");
+    }
+
+    public Map<UUID, FastBoard> getScoreboardsMap() {
+        return scoreboardsMap;
     }
 
     public void build(){

@@ -17,4 +17,9 @@ public class HelpCode {
 //    GLITCH: ("falha") Algo estranho ocorre aqui em situação bem específica
 //    REVIEW: ("revise") Revise isso pra mim, usado onde se costuma fazer peer review
 //    WTF: Fizeram um besteira muito grande aqui
+
+    /* - TabCompleter Bugado
+       -
+       -
+     */
 }
