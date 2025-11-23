@@ -1,0 +1,13 @@
+tracks:
+  teste:
+    display_name: teste
+    waitLobby_location:
+      ==: org.bukkit.Location
+      world: world
+      x: -334.23287601186763
+      y: 67.00063554902955
+      z: 235.08921778169855
+      pitch: 25.235521
+      yaw: -175.8199
+    min_players: 5
+    max_players: 10

@@ -10,18 +10,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d331d726-40f9-45c7-a077-f6ffa91fc0aa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/tracks.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/YomSprint_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/YomSprint_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/HelpCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/HelpCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/TracksConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/TracksConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/YomSprint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/YomSprint.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/LeaveTrackCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/LeaveTrackCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetWaitLobbyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetWaitLobbyCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChoseGameGUIListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChoseGameGUIListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerJoinWaitLobbyListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerJoinWaitLobbyListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerQuitListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerQuitListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/GameGUIs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/GameGUIs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/TrackManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/TrackManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/utils/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/utils/Track.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/TracksConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/TracksConfiguration.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/YomSprint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/YomSprint.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/LeaveTrackCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/LeaveTrackCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/SetWaitLobbyCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/SetWaitLobbyCommand.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/ChoseGameGUIListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/ChoseGameGUIListener.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerJoinWaitLobbyListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerJoinWaitLobbyListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerQuitListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerQuitListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/GameGUIs.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/GameGUIs.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/TrackManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/TrackManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/Track$TrackBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/Track$TrackBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/Track.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/Track.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +106,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15527344",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager",

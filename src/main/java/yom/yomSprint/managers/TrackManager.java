@@ -1,6 +1,5 @@
 package yom.yomSprint.managers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -9,11 +8,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.utils.Track;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,16 +27,18 @@ public final class TrackManager {
 
     public static void addTracks(Track track, Inventory inventory) {
         if (track.hasAllConfigs()) {
-            ItemStack item = new ItemStack(Material.WOOL, 1, (byte) 13);
+            ItemStack item = new ItemStack(Material.GREEN_WOOL);
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(track.getName());
+            meta.setDisplayName(track.getDisplayName());
             List<String> lore = new ArrayList<>();
-            lore.add(ChatColor.GRAY + " Status: " + track.getGameStatus().getStatus());
             lore.add("");
-            lore.add(ChatColor.BLUE + "Players na pista: " + (track.getWaitLobbySize() > 1 ? ChatColor.WHITE:ChatColor.GRAY) + track.getPlayersInGame().size());
+            lore.add(ChatColor.WHITE+ "▪ Status: " + track.getGameStatus().getStatus());
+            lore.add(ChatColor.WHITE + "▪ Players na pista: "
+                    + (track.getWaitLobbySize() > 0 ? ChatColor.WHITE:ChatColor.GRAY)
+                    + track.getPlayersInGame().size());
             lore.add("");
-            lore.add(ChatColor.YELLOW.toString() + "Players máximos: " + ChatColor.WHITE + track.getMaxPlayers());
-            lore.add(ChatColor.YELLOW.toString() + "Players minimos: " + ChatColor.WHITE + track.getMinPlayers());
+            lore.add(ChatColor.GRAY.toString() + "Players máximos: " + ChatColor.WHITE + track.getMaxPlayers());
+            lore.add(ChatColor.GRAY.toString() + "Players minimos: " + ChatColor.WHITE + track.getMinPlayers());
 
             meta.setLore(lore);
             item.setItemMeta(meta);
@@ -50,7 +49,7 @@ public final class TrackManager {
 
     public static void teleportPlayerToWaitLobby(Player player, Track track, YomSprint plugin) {
         if (true) {
-            player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + track.getName()).get("location"));
+            player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + track.getName()).get("waitLobby_location"));
         } else {
             player.sendMessage("Pista não configurada!");
         }

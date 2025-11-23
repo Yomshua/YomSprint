@@ -35,14 +35,12 @@ public class ChoseGameGUIListener implements Listener {
         FileConfiguration tracksConfig = plugin.getTracksConfiguration().getConfig();
         for (Track track : TrackManager.getTracks()) {
             if(!item.hasItemMeta()) return;
-            if(tracksConfig.getConfigurationSection("tracks." + track.getName()) != null &&
-                    tracksConfig.getConfigurationSection("tracks." + track.getName()).contains("location")) {
-                if (track.getName().equals(item.getItemMeta().getDisplayName())) {
+                if (tracksConfig.getConfigurationSection("tracks." + track.getName()).getString("display_name").equals(item.getItemMeta().getDisplayName())) {
                     TrackManager.teleportPlayerToWaitLobby(player,track,plugin);
                     Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(track,player));
                 }
-            }
         }
     }
+
 
 }

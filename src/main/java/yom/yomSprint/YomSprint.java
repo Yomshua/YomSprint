@@ -1,15 +1,16 @@
 package yom.yomSprint;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import yom.yomSprint.commands.CommandExecutorBase;
 import yom.yomSprint.commands.CommandsManager;
-import yom.yomSprint.listeners.ChoseGameGUIListener;
-import yom.yomSprint.listeners.MainGUIListener;
-import yom.yomSprint.listeners.PlayerJoinWaitLobbyListener;
-import yom.yomSprint.listeners.PlayerQuitListener;
+import yom.yomSprint.listeners.*;
+import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.utils.Track;
 
 import java.util.Set;
+import java.util.UUID;
 
 public final class YomSprint extends JavaPlugin {
 
@@ -20,7 +21,7 @@ public final class YomSprint extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        this.loadDefaulttConfigs();
         tracksConfiguration = new TracksConfiguration(this);
         loadTracks();
         base = new CommandExecutorBase();
@@ -29,14 +30,19 @@ public final class YomSprint extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinWaitLobbyListener(),this);
         getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this),this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(),this);
-        this.loadDefaulttConfigs();
         commandsManager = new CommandsManager(this);
 
     }
 
     @Override
     public void onDisable() {
-      
+      for(Track track : TrackManager.getTracks()){
+          for(UUID uuid : track.getPlayersInGame()){
+              Player player = Bukkit.getPlayer(uuid);
+              player.setInvulnerable(false);
+              track.getScoreboardsMap().get(uuid).delete();
+          }
+      }
     }
 
     private void loadTracks(){
@@ -58,8 +64,7 @@ public final class YomSprint extends JavaPlugin {
     }
 
     private void loadDefaulttConfigs(){
-        getConfig().options().copyDefaults(false);
-        saveConfig();
+        saveDefaultConfig();
     }
 
     public CommandExecutorBase getBase() {

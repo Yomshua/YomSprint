@@ -21,11 +21,7 @@ public class TracksConfiguration {
 
     private void notExists(){
         if(!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            plugin.saveResource("tracks.yml",false);
         }
     }
 

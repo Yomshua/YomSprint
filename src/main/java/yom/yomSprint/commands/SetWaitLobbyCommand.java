@@ -25,7 +25,7 @@ public class SetWaitLobbyCommand extends TrackSubCommands {
         TracksConfiguration tracksConfiguation = plugin.getTracksConfiguration();
         if (tracksConfiguation.getConfig().getConfigurationSection("tracks").contains(track)) {
             player.sendMessage("a");
-            tracksConfiguation.getConfig().getConfigurationSection("tracks." + track).set("location", player.getLocation());
+            tracksConfiguation.getConfig().getConfigurationSection("tracks." + track).set("waitLobby_location", player.getLocation());
             tracksConfiguation.saveConfig();
         }else {
             player.sendMessage(ChatColor.RED + track + " não existe!");

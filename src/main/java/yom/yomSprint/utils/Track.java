@@ -38,7 +38,7 @@ public class Track {
         this.maxPlayers = maxPlayers;
         this.displayName = displayName;
         this.playersInGame = new ArrayList<>();
-        configs.put("location", "Localizacoes");
+        configs.put("waitLobby_location", "Localizacoes");
         configs.put("display_name","Display Name");
         configs.put("min_players","Players Minimos");
         configs.put("max_players","Players Maximos");

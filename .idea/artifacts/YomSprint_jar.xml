@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="YomSprint:jar">
-    <output-path>$USER_HOME$/Desktop/serverForPlTest/plugins</output-path>
+    <output-path>$USER_HOME$/Desktop/serverForPlTest - Copia/plugins</output-path>
     <root id="archive" name="YomSprint.jar">
       <element id="module-output" name="YomSprint" />
     </root>
