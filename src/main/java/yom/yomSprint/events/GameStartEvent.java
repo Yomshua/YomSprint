@@ -1,28 +1,31 @@
 package yom.yomSprint.events;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import yom.yomSprint.models.Track;
 
-public class PlayerJoinWaitLobbyEvent extends Event {
+import java.util.Set;
+import java.util.UUID;
+
+
+public class GameStartEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
-    Player player;
+    Set<UUID> playersList;
     Track track;
 
-    public PlayerJoinWaitLobbyEvent(Track track,Player player) {
+    public GameStartEvent(Track track,Set<UUID> playersList) {
         this.track = track;
-        this.player = player;
+        this.playersList = playersList;
     }
 
     public Track getTrack() {
         return track;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Set<UUID> getPlayer() {
+        return playersList;
     }
 
     public static HandlerList getHandlerList() {

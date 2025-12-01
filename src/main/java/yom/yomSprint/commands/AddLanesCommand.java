@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import yom.yomSprint.TracksConfiguration;
+import yom.yomSprint.configurations.TracksConfiguration;
 import yom.yomSprint.YomSprint;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class AddLanesCommand extends TrackSubCommands{
             for(String key : config.getConfigurationSection(PATH +".lanes").getKeys(false)){
                 integers.add(Integer.parseInt(key));
             }
-            int maxPlayers = config.getInt(PATH + ".maxPlayers");
+            int maxPlayers = config.getInt(PATH + ".max_players");
             if(integers.size() >= maxPlayers){
                 player.sendMessage(ChatColor.RED + "Você não pode adicionar mais raias do que o número máximo de players");
                 return;

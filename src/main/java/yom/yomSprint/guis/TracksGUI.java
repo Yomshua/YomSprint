@@ -1,11 +1,10 @@
 package yom.yomSprint.guis;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.utils.Track;
+import yom.yomSprint.models.Track;
 
 public class TracksGUI implements YomGUI{
 

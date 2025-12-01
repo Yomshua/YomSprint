@@ -8,7 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.utils.Track;
+import yom.yomSprint.models.Track;
 
 import java.util.ArrayList;
 import java.util.List;

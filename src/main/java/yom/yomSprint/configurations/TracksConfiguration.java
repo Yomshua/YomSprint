@@ -1,7 +1,8 @@
-package yom.yomSprint;
+package yom.yomSprint.configurations;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import yom.yomSprint.YomSprint;
 
 import java.io.File;
 import java.io.IOException;

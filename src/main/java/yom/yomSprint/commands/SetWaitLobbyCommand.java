@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import yom.yomSprint.TracksConfiguration;
+import yom.yomSprint.configurations.TracksConfiguration;
 import yom.yomSprint.YomSprint;
 
 public class SetWaitLobbyCommand extends TrackSubCommands {

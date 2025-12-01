@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.utils.Track;
+import yom.yomSprint.models.Track;
 
 import java.util.Set;
 import java.util.UUID;

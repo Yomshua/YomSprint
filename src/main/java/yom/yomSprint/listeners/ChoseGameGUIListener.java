@@ -5,15 +5,13 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.utils.Track;
+import yom.yomSprint.models.Track;
 
 public class ChoseGameGUIListener implements Listener {
 

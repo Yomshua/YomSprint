@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.utils.Track;
+import yom.yomSprint.models.Track;
 
 import java.util.UUID;
 

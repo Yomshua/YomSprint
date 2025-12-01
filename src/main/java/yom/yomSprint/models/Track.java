@@ -1,4 +1,4 @@
-package yom.yomSprint.utils;
+package yom.yomSprint.models;
 
 
 import org.bukkit.ChatColor;
@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.enums.GameStatus;
-import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.YomSprint;
 
 import java.util.*;
@@ -27,14 +26,15 @@ public class Track {
     private final Set<UUID> playersInGame = new HashSet<>();
     private final HashMap<String,String> needConfigs = new HashMap<>();
     private Map<UUID, FastBoard> scoreboardsMap = new HashMap<>();
-    private List<Location> lanes = new ArrayList<>();
+    private List<Lane> lanes = new ArrayList<>();
 
-    private Track(YomSprint plugin,String name, String displayName, int maxPlayers, int minPlayers) {
+    private Track(YomSprint plugin,String name, String displayName, int maxPlayers, int minPlayers, List<Lane> lanes) {
         this.plugin = plugin;
         this.name = name;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.displayName = displayName;
+        this.lanes = lanes;
         needConfigs.put("waitLobby_location", "Localizacoes");
         needConfigs.put("display_name","Display Name");
         needConfigs.put("min_players","Players Minimos");
@@ -48,6 +48,7 @@ public class Track {
         String displayName;
         int maxPlayers;
         int minPlayers;
+        List<Lane> lanes;
 
         public TrackBuilder setPlugin(YomSprint plugin){
             this.plugin = plugin;
@@ -56,6 +57,11 @@ public class Track {
 
         public TrackBuilder setName(String name){
             this.name = name;
+            return this;
+        }
+
+        public TrackBuilder setLanes(List<Lane> lanes){
+            this.lanes = lanes;
             return this;
         }
 
@@ -81,7 +87,7 @@ public class Track {
             if(maxPlayers < minPlayers){
                 throw new IllegalStateException("O número players máximos é menor do que o número de players mínimos!");
             }
-            return new Track(plugin,name,displayName,maxPlayers,minPlayers);
+            return new Track(plugin,name,displayName,maxPlayers,minPlayers,lanes);
         }
 
     }
@@ -133,6 +139,9 @@ public class Track {
         return scoreboardsMap;
     }
 
+    public List<Lane> getLanes() {
+        return lanes;
+    }
 
     public Location getWaitLobbyLocation(){
         return waitLobby;

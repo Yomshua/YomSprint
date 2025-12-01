@@ -1,4 +1,4 @@
-package yom.yomSprint;
+package yom.yomSprint.utils;
 
 public class HelpCode {
 //    TODO: ("para fazer") Alguém [eu] precisa arrumar isso urgente

@@ -1,17 +1,14 @@
 package yom.yomSprint.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import yom.yomSprint.TracksConfiguration;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.utils.Track;
+import yom.yomSprint.models.Track;
 
-import java.util.Set;
 import java.util.UUID;
 
 public class ReloadCommand extends TrackSubCommands{

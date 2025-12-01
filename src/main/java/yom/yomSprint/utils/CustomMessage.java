@@ -1,10 +1,10 @@
-package yom.yomSprint;
+package yom.yomSprint.utils;
 
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import yom.yomSprint.YomSprint;
 
 import java.util.concurrent.CompletableFuture;
 
