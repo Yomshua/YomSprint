@@ -12,7 +12,7 @@ import yom.yomSprint.utils.Track;
 
 import java.util.UUID;
 
-public class LeaveTrackCommand extends TrackSubCommands{
+public class LeaveTrackCommand extends TrackSubCommands {
 
     public LeaveTrackCommand(YomSprint plugin) {
         super("leave", null, plugin);
@@ -21,25 +21,25 @@ public class LeaveTrackCommand extends TrackSubCommands{
     @Override
     public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         player.setInvulnerable(false);
-        if(TrackManager.isPlayerInAnyTrack(player)){
+        if (TrackManager.isPlayerInAnyTrack(player)) {
             Track track = TrackManager.getTrackByPlayer(player);
             track.getPlayersInGame().remove(player.getUniqueId());
-            player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY +  track.getDisplayName());
+            player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY + track.getDisplayName());
             track.getScoreboardsMap().get(player.getUniqueId()).delete();
-            if(!track.getPlayersInGame().isEmpty()) {
-                for (UUID playerBoard : track.getPlayersInGame()){
+            if (!track.getPlayersInGame().isEmpty()) {
+                for (UUID playerBoard : track.getPlayersInGame()) {
                     FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));
                     waitLobbyBoard.updateTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD");
                     waitLobbyBoard.updateLines(
                             "",
-                            ChatColor.WHITE +  "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
-                            ChatColor.WHITE +  "Jogadores : " + ChatColor.GREEN +  "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
+                            ChatColor.WHITE + "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
+                            ChatColor.WHITE + "Jogadores : " + ChatColor.GREEN + "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
                             "",
                             ChatColor.YELLOW + "neoms.gg");
-
                 }
             }
-        }else{
+            player.teleport(plugin.getLobbyLocation());
+        } else {
             player.sendMessage(ChatColor.RED + "Você não está e nenhum pista!");
         }
     }

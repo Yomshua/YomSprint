@@ -18,5 +18,8 @@ public class CommandsManager{
         base.add(new CreateTrackSubCommand(plugin));
         base.add(new SetWaitLobbyCommand(plugin));
         base.add(new LeaveTrackCommand(plugin));
+        base.add(new SetMainLobbyCommand(plugin));
+        base.add(new AddLanesCommand(plugin));
+        base.add(new ReloadCommand(plugin));
     }
 }

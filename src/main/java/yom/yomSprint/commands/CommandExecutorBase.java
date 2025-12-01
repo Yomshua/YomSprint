@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
-import yom.yomSprint.managers.GameGUIs;
+import yom.yomSprint.guis.MainGUI;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,7 +43,7 @@ public class CommandExecutorBase implements TabExecutor {
         if (!(sender instanceof Player)) return onlyPlayers();
         Player player = ((Player) sender).getPlayer();
         if (args.length == 0) {
-            openMainGui(player);
+            new MainGUI(player).open(player);
             return true;
         }
         TrackSubCommands subCommand = getSubCommand(args);
@@ -68,10 +68,6 @@ public class CommandExecutorBase implements TabExecutor {
         this.subCommandsMain.add(subCommand);
     }
 
-    private boolean openMainGui(Player player) {
-        player.openInventory(GameGUIs.mainGUI(player));
-        return true;
-    }
 
     private boolean onlyPlayers() {
         Bukkit.getLogger().info(ChatColor.RED + "Only players can execute this command!");

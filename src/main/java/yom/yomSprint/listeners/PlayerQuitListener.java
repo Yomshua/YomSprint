@@ -10,7 +10,7 @@ import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.utils.Track;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -21,7 +21,7 @@ public class PlayerQuitListener implements Listener {
         player.setInvulnerable(false);
         if(TrackManager.isPlayerInAnyTrack(player)){
             Track track = TrackManager.getTrackByPlayer(player);
-            List<UUID> listOfPlayers = TrackManager.getTrackByPlayer(player).getPlayersInGame();
+            Set<UUID> listOfPlayers = TrackManager.getTrackByPlayer(player).getPlayersInGame();
             listOfPlayers.remove(player.getUniqueId());
             for (UUID playerBoard : listOfPlayers){
                 FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));

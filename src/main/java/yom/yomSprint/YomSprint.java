@@ -1,6 +1,7 @@
 package yom.yomSprint;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import yom.yomSprint.commands.CommandExecutorBase;
@@ -17,7 +18,7 @@ public final class YomSprint extends JavaPlugin {
     private TracksConfiguration tracksConfiguration;
     private CommandsManager commandsManager;
     private CommandExecutorBase base;
-
+    private Location lobbyLocation;
 
     @Override
     public void onEnable() {
@@ -27,10 +28,19 @@ public final class YomSprint extends JavaPlugin {
         base = new CommandExecutorBase();
         getCommand("run").setExecutor(base);
         getServer().getPluginManager().registerEvents(new MainGUIListener(this),this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinWaitLobbyListener(),this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinWaitLobbyListener(this),this);
         getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this),this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(),this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this),this);
         commandsManager = new CommandsManager(this);
+        if (!getConfig().contains("main_lobby") || getConfig().get("main_lobby") == null) return;
+        if (!getConfig().getBoolean("lobby_activated")) return;
+        Object obj = getConfig().get("main_lobby");
+        if (!(obj instanceof Location)) {
+            getLogger().warning("A chave 'main_lobby' não é uma Location válida!");
+            return;
+        }
+        lobbyLocation = (Location) obj;
 
     }
 
@@ -39,6 +49,7 @@ public final class YomSprint extends JavaPlugin {
       for(Track track : TrackManager.getTracks()){
           for(UUID uuid : track.getPlayersInGame()){
               Player player = Bukkit.getPlayer(uuid);
+              // Caso o player esteja em alguma arena!
               player.setInvulnerable(false);
               track.getScoreboardsMap().get(uuid).delete();
           }
@@ -57,7 +68,7 @@ public final class YomSprint extends JavaPlugin {
                         .build();
                 track.loadConfigs();
                 if(track.hasAllConfigs()){
-                    track.addToList();
+                    TrackManager.addTrackToList(track);
                 }
             }
 
@@ -75,6 +86,9 @@ public final class YomSprint extends JavaPlugin {
         return commandsManager;
     }
 
+    public Location getLobbyLocation() {
+        return lobbyLocation;
+    }
 
     public TracksConfiguration getTracksConfiguration() {
         return tracksConfiguration;

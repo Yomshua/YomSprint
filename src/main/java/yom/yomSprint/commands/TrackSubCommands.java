@@ -12,14 +12,12 @@ public abstract class TrackSubCommands {
 
     private String command;
     private String subCommand;
-    private String helpMessage;
     private List<TrackSubCommands> subcommands = new ArrayList<>();
     YomSprint plugin;
 
     public TrackSubCommands(String command, String subCommand,YomSprint plugin){
         this.command = command;
         this.subCommand = subCommand;
-        this.helpMessage = helpMessage;
         this.plugin = plugin;
     }
 
@@ -29,9 +27,6 @@ public abstract class TrackSubCommands {
 
     abstract public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player);
 
-    public void setHelpMessage(String helpMessage){
-        this.helpMessage = helpMessage;
-    }
 
     public String getCommand() {
         return command;

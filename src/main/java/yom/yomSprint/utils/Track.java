@@ -1,17 +1,15 @@
 package yom.yomSprint.utils;
 
-import org.apache.logging.log4j.spi.LoggerContextFactory;
-import org.bukkit.Bukkit;
+
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.YomSprint;
 
-import javax.xml.stream.Location;
 import java.util.*;
-import java.util.logging.Logger;
 
 public class Track {
 
@@ -26,10 +24,10 @@ public class Track {
     private GameStatus gameStatus = GameStatus.JOIN;
     private int minPlayers;
     private int maxPlayers;
-    private List<Location> laneLocations;
-    private List<UUID> playersInGame;
-    private HashMap<String,String> configs = new HashMap<>();
+    private final Set<UUID> playersInGame = new HashSet<>();
+    private final HashMap<String,String> needConfigs = new HashMap<>();
     private Map<UUID, FastBoard> scoreboardsMap = new HashMap<>();
+    private List<Location> lanes = new ArrayList<>();
 
     private Track(YomSprint plugin,String name, String displayName, int maxPlayers, int minPlayers) {
         this.plugin = plugin;
@@ -37,15 +35,14 @@ public class Track {
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.displayName = displayName;
-        this.playersInGame = new ArrayList<>();
-        configs.put("waitLobby_location", "Localizacoes");
-        configs.put("display_name","Display Name");
-        configs.put("min_players","Players Minimos");
-        configs.put("max_players","Players Maximos");
+        needConfigs.put("waitLobby_location", "Localizacoes");
+        needConfigs.put("display_name","Display Name");
+        needConfigs.put("min_players","Players Minimos");
+        needConfigs.put("max_players","Players Maximos");
+        needConfigs.put("lanes","Raias");
     }
 
     public static class TrackBuilder {
-
         YomSprint plugin;
         String name;
         String displayName;
@@ -81,15 +78,18 @@ public class Track {
             if (plugin == null || name == null){
                 throw new IllegalStateException("Está faltando arugmentos para a construção da pista");
             }
+            if(maxPlayers < minPlayers){
+                throw new IllegalStateException("O número players máximos é menor do que o número de players mínimos!");
+            }
             return new Track(plugin,name,displayName,maxPlayers,minPlayers);
         }
 
     }
 
     public void loadConfigs(){
-        for(String config : configs.keySet()){
+        for(String config : needConfigs.keySet()){
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)){
-                System.out.print((ANSI_RED + "A configuracao " +configs.get(config)+ " da pista " + ANSI_WHITE + name + ANSI_RED + " está incompleta!" + ANSI_RESET));
+                System.out.println((ANSI_RED + "A configuracao " +needConfigs.get(config)+ " da pista " + ANSI_WHITE + name + ANSI_RED + " está incompleta!" + ANSI_RESET));
             }
         }
     }
@@ -111,7 +111,7 @@ public class Track {
     }
 
     public boolean hasAllConfigs(){
-        for(String config : configs.keySet()){
+        for(String config : needConfigs.keySet()){
             if(!plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + name).contains(config)) return false;
         }
         return true;
@@ -133,9 +133,6 @@ public class Track {
         return scoreboardsMap;
     }
 
-    public void addToList(){
-        TrackManager.getTracks().add(this);
-    }
 
     public Location getWaitLobbyLocation(){
         return waitLobby;
@@ -145,7 +142,7 @@ public class Track {
         return gameStatus;
     }
 
-    public List<UUID> getPlayersInGame() {
+    public Set<UUID> getPlayersInGame() {
         return playersInGame;
     }
 

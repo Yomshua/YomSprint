@@ -46,6 +46,9 @@ public final class TrackManager {
         }
     }
 
+    public static void addTrackToList(Track track){
+        tracks.add(track);
+    }
 
     public static void teleportPlayerToWaitLobby(Player player, Track track, YomSprint plugin) {
         if (true) {
@@ -68,6 +71,15 @@ public final class TrackManager {
         for (Track track : tracks) {
             for (UUID uuid : track.getPlayersInGame()) {
                 if (player.getUniqueId().equals(uuid)) return track;
+            }
+        }
+        return null;
+    }
+
+    public static Track getTrackByName(String name){
+        for(Track track : TrackManager.getTracks()){
+            if(track.getName().equals(name)){
+                return track;
             }
         }
         return null;

@@ -1,7 +1,5 @@
-package yom.yomSprint.managers;
+package yom.yomSprint.guis;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -10,36 +8,26 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import yom.yomSprint.TracksConfiguration;
-import yom.yomSprint.YomSprint;
-import yom.yomSprint.utils.Track;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
-public class GameGUIs {
+public class MainGUI implements YomGUI{
 
-    public static Inventory mainGUI(Player player){
-        Inventory inventory = Bukkit.createInventory(player,27, "Sprint Game");
+    Player player;
 
-        inventory.setItem(11,getSkull(player));
-        inventory.setItem(13,getGameSkull());
-
-        return inventory;
+    public MainGUI(Player player) {
+        this.player = player;
     }
 
-
-    public static Inventory tracksGUI(YomSprint plugin){
-        Inventory inventory = Bukkit.createInventory(null,54,"C");
-        for (Track track : TrackManager.getTracks()){
-            TrackManager.addTracks(track,inventory);
-        }
-        return inventory;
+    @Override
+    public Inventory getInventory() {
+        Inventory gui = Bukkit.createInventory(player,27, "Sprint Game");
+        gui.setItem(11,getSkull(player));
+        gui.setItem(13,getGameSkull());
+        return gui;
     }
-
 
     private static ItemStack getSkull(Player player){
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
@@ -66,4 +54,5 @@ public class GameGUIs {
         skull.setItemMeta(meta);
         return skull;
     }
+
 }
