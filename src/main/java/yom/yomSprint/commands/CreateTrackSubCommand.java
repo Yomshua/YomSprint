@@ -12,11 +12,11 @@ public class CreateTrackSubCommand extends TrackSubCommands {
     private String helpMessage = ChatColor.RED +  "/run track create <track_name>";
 
     public CreateTrackSubCommand(YomSprint plugin) {
-        super("track", "create", plugin);
+        super("track", "create","sprint.createtrack", plugin);
     }
 
     @Override
-    public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
+    public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         if(!(sender instanceof Player)) return;
         if(args.length != 3 ){
             player.sendMessage(helpMessage);

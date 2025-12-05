@@ -15,11 +15,11 @@ import java.util.UUID;
 public class LeaveTrackCommand extends TrackSubCommands {
 
     public LeaveTrackCommand(YomSprint plugin) {
-        super("leave", null, plugin);
+        super("leave", null,null, plugin);
     }
 
     @Override
-    public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
+    public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         player.setInvulnerable(false);
         if (TrackManager.isPlayerInAnyTrack(player)) {
             Track track = TrackManager.getTrackByPlayer(player);

@@ -41,10 +41,14 @@ public final class YomSprint extends JavaPlugin {
         if (!getConfig().contains("main_lobby") || getConfig().get("main_lobby") == null) return;
         if (!getConfig().getBoolean("lobby_activated")) return;
         Object obj = getConfig().get("main_lobby");
+
         if (!(obj instanceof Location)) {
             getLogger().warning("A chave 'main_lobby' não é uma Location válida!");
+            //Caso a location não seja válida, já é desativado o "lobby_activated"
+            getConfig().set("lobby_activated", false);
             return;
         }
+
         lobbyLocation = (Location) obj;
 
     }
@@ -56,6 +60,9 @@ public final class YomSprint extends JavaPlugin {
                 Player player = Bukkit.getPlayer(uuid);
                 // Caso o player esteja em alguma arena!
                 player.setInvulnerable(false);
+                if (getConfig().getBoolean("lobby_activated")) {
+                    player.teleport(lobbyLocation);
+                }
                 track.getScoreboardsMap().get(uuid).delete();
             }
         }
@@ -87,6 +94,7 @@ public final class YomSprint extends JavaPlugin {
         }
 
     }
+
 
     private void loadDefaulttConfigs() {
         saveDefaultConfig();

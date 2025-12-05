@@ -19,14 +19,15 @@ public class GameStartListener implements Listener {
     void gameStart(GameStartEvent event){
         Track track = event.getTrack();
         Set<UUID> players = event.getPlayer();
-        int countToGetLane = 0;
-        for(UUID uuid : players){
+        final int[] countToGetLane = {0};
+        players.stream().forEach((uuid -> {
             Player player = Bukkit.getPlayer(uuid);
-            Lane lane = track.getLanes().get(countToGetLane);
+            Lane lane = track.getLanes().get(countToGetLane[0]);
             player.teleport(lane.getLineLocation());
             player.sendTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "RAIA", String.valueOf(lane.getNumber()));
-            countToGetLane++;
-        }
+            countToGetLane[0]++;
+
+        }));
 
     }
 

@@ -12,11 +12,11 @@ public class SetWaitLobbyCommand extends TrackSubCommands {
     String helpMessage = ChatColor.RED + "/run track setwlobby <track_name>";
 
     public SetWaitLobbyCommand(YomSprint plugin) {
-        super("track", "setwlobby",plugin);
+        super("track", "setwlobby","sprint.setwlobby",plugin);
     }
 
     @Override
-    public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
+    public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         if(args.length != 3 ){
             player.sendMessage(helpMessage);
             return;

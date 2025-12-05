@@ -24,12 +24,12 @@ public class CommandExecutorBase implements TabExecutor {
         Set<String> list = new HashSet<>();
         if (args.length == 1) {
             for (TrackSubCommands commands : subCommandsMain) {
-                    list.add(commands.getCommand());
+                list.add(commands.getCommand());
             }
             return StringUtil.copyPartialMatches(args[0], list, new ArrayList<>());
         } else if (args.length == 2) {
             for (TrackSubCommands commands : subCommandsMain) {
-                if(commands.getSubCommand() != null) {
+                if (commands.getSubCommand() != null) {
                     list.add(commands.getSubCommand());
                 }
             }
@@ -48,29 +48,39 @@ public class CommandExecutorBase implements TabExecutor {
         }
         TrackSubCommands subCommand = getSubCommand(args);
         if (subCommand == null) return false;
-        subCommand.registerCommand(sender, command, label, args, player);
-        return true;
-    }
-
-    private TrackSubCommands getSubCommand(String[] args) {
-        for (TrackSubCommands subCommand : subCommandsMain) {
-            if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand() == null) {
-                return subCommand;
-            } else if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand().equals(args[1])) {
-                return subCommand;
-            }
-
+        if (subCommand.getPermission() == null) {
+            subCommand.runCommand(sender, command, label, args, player);
+            return true;
         }
-        return null;
+        if (player.hasPermission(subCommand.getPermission())) {
+            subCommand.runCommand(sender, command, label, args, player);
+            return true;
+        }else {
+            player.sendMessage(ChatColor.RED + "Você não tem permissão para acessar esse comando!");
+        }
+        return false;
     }
 
-    public void add(TrackSubCommands subCommand) {
-        this.subCommandsMain.add(subCommand);
-    }
+
+        private TrackSubCommands getSubCommand (String[]args){
+            for (TrackSubCommands subCommand : subCommandsMain) {
+                if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand() == null) {
+                    return subCommand;
+                } else if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand().equals(args[1])) {
+                    return subCommand;
+                }
+
+            }
+            return null;
+        }
+
+        public void add (TrackSubCommands subCommand){
+            this.subCommandsMain.add(subCommand);
+        }
 
 
-    private boolean onlyPlayers() {
-        Bukkit.getLogger().info(ChatColor.RED + "Only players can execute this command!");
-        return true;
+        private boolean onlyPlayers () {
+            Bukkit.getLogger().info(ChatColor.RED + "Only players can execute this command!");
+            return true;
+        }
     }
-}

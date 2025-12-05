@@ -22,5 +22,6 @@ public class HelpCode {
        - Adicionar compatiblidade com MySQL e Json
        - Arrumar chat e tab por pista
        - Adicionar scoreboard customizavel por yaml
+       - Adicionar permissoes nos comandos
      */
 }

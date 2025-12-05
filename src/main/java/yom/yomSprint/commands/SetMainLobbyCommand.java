@@ -12,11 +12,11 @@ public class SetMainLobbyCommand extends TrackSubCommands{
 
 
     public SetMainLobbyCommand(YomSprint plugin) {
-        super("track", "setmlobby", plugin);
+        super("track", "setmlobby", "sprint.setmlobby",plugin);
     }
 
     @Override
-    public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
+    public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         Location lobbyLocation = player.getLocation();
         FileConfiguration fileConfiguration = plugin.getConfig();
         fileConfiguration.set("main_lobby", lobbyLocation);

@@ -14,12 +14,12 @@ import java.util.UUID;
 public class ReloadCommand extends TrackSubCommands{
 
     public ReloadCommand(YomSprint plugin) {
-        super("reload", null, plugin);
+        super("reload", null,"sprint.reload", plugin);
     }
 
     //HACK: ta meio confuso
     @Override
-    public void registerCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
+    public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         for(Track track : TrackManager.getTracks()){
             for(UUID uuid : track.getPlayersInGame()){
                 Player playerInTrack = Bukkit.getPlayer(uuid);
