@@ -18,22 +18,24 @@ public class CommandExecutorBase implements TabExecutor {
 
     private final List<TrackSubCommands> subCommandsMain = new ArrayList<>();
 
-    // FIXME: Tá bugado kkk
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         Set<String> list = new HashSet<>();
+        final String COMMAND = args[0];
         if (args.length == 1) {
             for (TrackSubCommands commands : subCommandsMain) {
                 list.add(commands.getCommand());
             }
-            return StringUtil.copyPartialMatches(args[0], list, new ArrayList<>());
+            return StringUtil.copyPartialMatches(COMMAND, list, new ArrayList<>());
         } else if (args.length == 2) {
             for (TrackSubCommands commands : subCommandsMain) {
                 if (commands.getSubCommand() != null) {
-                    list.add(commands.getSubCommand());
+                    for(String subcommands : getSubCommandsOfCommand(COMMAND)){
+                        list.add(subcommands);
+                    }
                 }
             }
-            return StringUtil.copyPartialMatches(args[1], list, new ArrayList<>());
+            return list.stream().toList();
         }
         return new ArrayList<>();
     }
@@ -83,4 +85,15 @@ public class CommandExecutorBase implements TabExecutor {
             Bukkit.getLogger().info(ChatColor.RED + "Only players can execute this command!");
             return true;
         }
+
+        private List<String>getSubCommandsOfCommand(String command){
+            List<String> commandsList = new ArrayList<>();
+            for(TrackSubCommands commands : subCommandsMain){
+                if(commands.getCommand().equalsIgnoreCase(command)){
+                    commandsList.add(commands.getSubCommand());
+                }
+            }
+            return commandsList;
+        }
+
     }
