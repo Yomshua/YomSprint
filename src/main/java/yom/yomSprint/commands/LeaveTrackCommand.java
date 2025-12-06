@@ -25,7 +25,7 @@ public class LeaveTrackCommand extends TrackSubCommands {
             Track track = TrackManager.getTrackByPlayer(player);
             track.getPlayersInGame().remove(player.getUniqueId());
             player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY + track.getDisplayName());
-            track.getScoreboardsMap().get(player.getUniqueId()).delete();
+            track.getwaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
             if (!track.getPlayersInGame().isEmpty()) {
                 for (UUID playerBoard : track.getPlayersInGame()) {
                     FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));

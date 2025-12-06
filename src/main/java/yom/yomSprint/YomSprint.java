@@ -4,8 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.commands.CommandExecutorBase;
 import yom.yomSprint.commands.CommandsManager;
+import yom.yomSprint.configurations.MessagesConfiguration;
 import yom.yomSprint.configurations.TracksConfiguration;
 import yom.yomSprint.listeners.*;
 import yom.yomSprint.managers.TrackManager;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public final class YomSprint extends JavaPlugin {
 
     private TracksConfiguration tracksConfiguration;
+    private MessagesConfiguration messagesConfiguration;
     private CommandsManager commandsManager;
     private CommandExecutorBase base;
     private Location lobbyLocation;
@@ -28,20 +31,15 @@ public final class YomSprint extends JavaPlugin {
     public void onEnable() {
         this.loadDefaulttConfigs();
         tracksConfiguration = new TracksConfiguration(this);
+        messagesConfiguration = new MessagesConfiguration(this);
         loadTracks();
         base = new CommandExecutorBase();
         getCommand("run").setExecutor(base);
-        getServer().getPluginManager().registerEvents(new MainGUIListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerTrackListener(this), this);
-        getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new GameStartListener(),this);
         commandsManager = new CommandsManager(this);
         if (!getConfig().contains("main_lobby") || getConfig().get("main_lobby") == null) return;
         if (!getConfig().getBoolean("lobby_activated")) return;
         Object obj = getConfig().get("main_lobby");
-
+        loadListeners();
         if (!(obj instanceof Location)) {
             getLogger().warning("A chave 'main_lobby' não é uma Location válida!");
             //Caso a location não seja válida, já é desativado o "lobby_activated"
@@ -63,7 +61,7 @@ public final class YomSprint extends JavaPlugin {
                 if (getConfig().getBoolean("lobby_activated")) {
                     player.teleport(lobbyLocation);
                 }
-                track.getScoreboardsMap().get(uuid).delete();
+                track.getwaitLobbyScoreboadMap().get(uuid).delete();
             }
         }
     }
@@ -71,6 +69,7 @@ public final class YomSprint extends JavaPlugin {
 
     private void loadTracks() {
         Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);
+        List<String> waitLobbyScoreboad = getMessagesConfiguration().getConfig().getStringList("scoreboards.waitLobbyScoreboard");
         for (String key : tracks) {
             List<Lane> lanes = new ArrayList<>();
             int lanesCount = 1;
@@ -86,6 +85,8 @@ public final class YomSprint extends JavaPlugin {
                     .setMaxSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".max_players"))
                     .setLanes(lanes)
                     .setPlugin(this)
+                    .setWaitLobbyScoreboad(waitLobbyScoreboad)
+                    .setWaitLobbyScoreboardTittle(getMessagesConfiguration().getConfig().getString("scoreboards.waitLobbyScoreboardTittle"))
                     .build();
             track.loadConfigs();
             if (track.hasAllConfigs()) {
@@ -95,6 +96,14 @@ public final class YomSprint extends JavaPlugin {
 
     }
 
+    private void loadListeners(){
+        getServer().getPluginManager().registerEvents(new MainGUIListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerTrackListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new GameStartListener(),this);
+    }
 
     private void loadDefaulttConfigs() {
         saveDefaultConfig();
@@ -110,6 +119,10 @@ public final class YomSprint extends JavaPlugin {
 
     public Location getLobbyLocation() {
         return lobbyLocation;
+    }
+
+    public MessagesConfiguration getMessagesConfiguration() {
+        return messagesConfiguration;
     }
 
     public TracksConfiguration getTracksConfiguration() {

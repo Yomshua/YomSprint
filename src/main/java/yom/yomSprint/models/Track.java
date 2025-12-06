@@ -25,16 +25,21 @@ public class Track {
     private int maxPlayers;
     private final Set<UUID> playersInGame = new HashSet<>();
     private final HashMap<String,String> needConfigs = new HashMap<>();
-    private Map<UUID, FastBoard> scoreboardsMap = new HashMap<>();
+    private Map<UUID, FastBoard> waitLobbyScoreboadMap = new HashMap<>();
+    private List<String> waitLobbyScoreboad;
+    String waitLobbyScoreboardTittle;
+    private Map<UUID, FastBoard> gameLobbyScoreboaMap = new HashMap<>();
     private List<Lane> lanes = new ArrayList<>();
 
-    private Track(YomSprint plugin,String name, String displayName, int maxPlayers, int minPlayers, List<Lane> lanes) {
+    private Track(YomSprint plugin,String name, String displayName, int maxPlayers, int minPlayers, List<Lane> lanes,List<String> waitLobbyScoreboad,String waitLobbyScoreboardTittle) {
         this.plugin = plugin;
         this.name = name;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.displayName = displayName;
         this.lanes = lanes;
+        this.waitLobbyScoreboad = waitLobbyScoreboad;
+        this.waitLobbyScoreboardTittle = waitLobbyScoreboardTittle;
         needConfigs.put("waitLobby_location", "Localizacoes");
         needConfigs.put("display_name","Display Name");
         needConfigs.put("min_players","Players Minimos");
@@ -49,6 +54,8 @@ public class Track {
         int maxPlayers;
         int minPlayers;
         List<Lane> lanes;
+        List<String> waitLobbyScoreboard;
+        String waitLobbyScoreboardTittle;
 
         public TrackBuilder setPlugin(YomSprint plugin){
             this.plugin = plugin;
@@ -80,6 +87,16 @@ public class Track {
             return this;
         }
 
+        public TrackBuilder setWaitLobbyScoreboad(List<String> waitLobbyScoreboard){
+            this.waitLobbyScoreboard = waitLobbyScoreboard;
+            return this;
+        }
+
+        public TrackBuilder setWaitLobbyScoreboardTittle(String waitLobbyScoreboardTittle){
+            this.waitLobbyScoreboardTittle = waitLobbyScoreboardTittle;
+            return this;
+        }
+
         public Track build(){
             if (plugin == null || name == null){
                 throw new IllegalStateException("Está faltando arugmentos para a construção da pista");
@@ -87,7 +104,7 @@ public class Track {
             if(maxPlayers < minPlayers){
                 throw new IllegalStateException("O número players máximos é menor do que o número de players mínimos!");
             }
-            return new Track(plugin,name,displayName,maxPlayers,minPlayers,lanes);
+            return new Track(plugin,name,displayName,maxPlayers,minPlayers,lanes,waitLobbyScoreboard,waitLobbyScoreboardTittle);
         }
 
     }
@@ -104,7 +121,7 @@ public class Track {
         FastBoard board = new FastBoard(player);
         board.updateTitle(ChatColor.GREEN.toString() + ChatColor.BOLD + getName());
         board.updateLines("",ChatColor.BLACK +  "Players :  " + getPlayersInGame().size());
-        scoreboardsMap.put(player.getUniqueId(),board);
+        waitLobbyScoreboadMap.put(player.getUniqueId(),board);
         return board;
     }
 
@@ -135,8 +152,14 @@ public class Track {
         return playersInGame.size();
     }
 
-    public Map<UUID, FastBoard> getScoreboardsMap() {
-        return scoreboardsMap;
+    public Map<UUID, FastBoard> getwaitLobbyScoreboadMap() {
+        return waitLobbyScoreboadMap;
+    }
+
+    public List<String> getWaitLobbyScoreboad(){return waitLobbyScoreboad;}
+
+    public String getWaitLobbyScoreboardTittle() {
+        return waitLobbyScoreboardTittle;
     }
 
     public List<Lane> getLanes() {

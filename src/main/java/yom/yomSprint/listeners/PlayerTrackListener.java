@@ -33,13 +33,14 @@ public class PlayerTrackListener implements Listener {
         CustomMessage.sendCustomActionBar(player, ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + event.getTrack().getName(), plugin);
         for (UUID playerBoard : track.getPlayersInGame()) {
             FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));
-            waitLobbyBoard.updateTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD");
-            waitLobbyBoard.updateLines(
-                    "",
-                    ChatColor.WHITE + "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
-                    ChatColor.WHITE + "Jogadores : " + ChatColor.GREEN + "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
-                    "",
-                    ChatColor.YELLOW + "neoms.gg");
+            waitLobbyBoard.updateTitle(track.getWaitLobbyScoreboardTittle());
+//            waitLobbyBoard.updateLines(
+//                    "",
+//                    ChatColor.WHITE + "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
+//                    ChatColor.WHITE + "Jogadores : " + ChatColor.GREEN + "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
+//                    "",
+//                    ChatColor.YELLOW + "neoms.gg");
+            waitLobbyBoard.updateLines(track.getWaitLobbyScoreboad());
         }
         if (track.getWaitLobbySize() >= track.getMinPlayers()) {
             new BukkitRunnable() {
