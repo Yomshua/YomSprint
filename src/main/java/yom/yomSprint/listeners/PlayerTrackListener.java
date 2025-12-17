@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
+import yom.yomSprint.enums.GameStatus;
+import yom.yomSprint.events.GameSetEvent;
 import yom.yomSprint.utils.CustomMessage;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.boards.FastBoard;
@@ -34,12 +36,6 @@ public class PlayerTrackListener implements Listener {
         for (UUID playerBoard : track.getPlayersInGame()) {
             FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));
             waitLobbyBoard.updateTitle(track.getWaitLobbyScoreboardTittle());
-//            waitLobbyBoard.updateLines(
-//                    "",
-//                    ChatColor.WHITE + "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
-//                    ChatColor.WHITE + "Jogadores : " + ChatColor.GREEN + "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
-//                    "",
-//                    ChatColor.YELLOW + "neoms.gg");
             waitLobbyBoard.updateLines(track.getWaitLobbyScoreboad());
         }
         if (track.getWaitLobbySize() >= track.getMinPlayers()) {
@@ -52,7 +48,8 @@ public class PlayerTrackListener implements Listener {
                         playerTittle.sendTitle(ChatColor.GREEN + String.valueOf(TRACK_COUNTDOWN_SECONDS),"");
                     }
                     if(TRACK_COUNTDOWN_SECONDS == 0){
-                        Bukkit.getPluginManager().callEvent(new GameStartEvent(track, track.getPlayersInGame()));
+                        Bukkit.getPluginManager().callEvent(new GameSetEvent(track, track.getPlayersInGame()));
+                        track.setGameStatus(GameStatus.IN_SET);
                         cancel();
                     }
                     TRACK_COUNTDOWN_SECONDS--;

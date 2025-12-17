@@ -4,7 +4,7 @@ import org.bukkit.ChatColor;
 
 public enum GameStatus {
 
-    IN_GAME(ChatColor.RED + ""), STOP(ChatColor.RED + ""), JOIN(ChatColor.GREEN + "" + ChatColor.BOLD + "JOIN");
+    IN_SET(ChatColor.RED + "IN SET"), OCURRING(ChatColor.GREEN + "OCURRING"), JOIN(ChatColor.GREEN.toString() + ChatColor.BOLD + "JOIN");
 
     private String status;
 

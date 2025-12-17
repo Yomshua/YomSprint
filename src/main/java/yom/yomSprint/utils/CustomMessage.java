@@ -10,6 +10,10 @@ import java.util.concurrent.CompletableFuture;
 
 public class CustomMessage {
 
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_WHITE = "\033[37m";
+
     public static CompletableFuture<Void> sendCustomActionBar(Player player, String message, YomSprint plugin) {
         return CompletableFuture.runAsync(() -> {
             int count = 0;

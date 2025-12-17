@@ -1,4 +1,4 @@
-package yom.yomSprint.commands;
+package yom.yomSprint.commands.managers;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -14,7 +14,7 @@ public abstract class TrackSubCommands {
     private String subCommand;
     private String permission;
     private List<TrackSubCommands> subcommands = new ArrayList<>();
-    YomSprint plugin;
+    public YomSprint plugin;
 
     public TrackSubCommands(String command, String subCommand,String permission,YomSprint plugin){
         this.command = command;

@@ -6,12 +6,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.commands.managers.TrackSubCommands;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.models.Track;
 
 import java.util.UUID;
 
-public class ReloadCommand extends TrackSubCommands{
+public class ReloadCommand extends TrackSubCommands {
 
     public ReloadCommand(YomSprint plugin) {
         super("reload", null,"sprint.reload", plugin);

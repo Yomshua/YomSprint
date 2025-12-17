@@ -5,12 +5,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.models.Lane;
 import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.models.Track;
 
-import java.util.Set;
-import java.util.UUID;
 
 public class GameStartListener implements Listener {
 
@@ -18,16 +17,7 @@ public class GameStartListener implements Listener {
     @EventHandler
     void gameStart(GameStartEvent event){
         Track track = event.getTrack();
-        Set<UUID> players = event.getPlayer();
-        final int[] countToGetLane = {0};
-        players.stream().forEach((uuid -> {
-            Player player = Bukkit.getPlayer(uuid);
-            Lane lane = track.getLanes().get(countToGetLane[0]);
-            player.teleport(lane.getLineLocation());
-            player.sendTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "RAIA", String.valueOf(lane.getNumber()));
-            countToGetLane[0]++;
-
-        }));
+        track.setGameStatus(GameStatus.OCURRING);
 
     }
 

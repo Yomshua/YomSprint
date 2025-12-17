@@ -1,6 +1,7 @@
-package yom.yomSprint.commands;
+package yom.yomSprint.commands.managers;
 
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.commands.*;
 
 
 public class CommandsManager{
@@ -21,5 +22,8 @@ public class CommandsManager{
         base.add(new SetMainLobbyCommand(plugin));
         base.add(new AddLanesCommand(plugin));
         base.add(new ReloadCommand(plugin));
+        base.add(new SetLanesLengthCommand(plugin));
+        base.add(new SetStartLaneCommand(plugin));
+        base.add(new SetEndLaneCommand(plugin));
     }
 }

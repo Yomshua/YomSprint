@@ -42,6 +42,16 @@ public class MessagesConfiguration {
                 ChatColor.YELLOW + "neoms.gg");
         config.addDefault("scoreboards.waitLobbyScoreboardTittle", waitLobbyScoreboardTittle);
         config.addDefault("scoreboards.waitLobbyScoreboard",waitobbyScoreboard);
+
+        String gameScoreboardTittle = ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD";
+        List<String> gameScoreboard = Arrays.asList(
+                "",
+                ChatColor.WHITE + "Pista : " + ChatColor.YELLOW + "<name>",
+                ChatColor.WHITE + "Jogadores : " + ChatColor.GREEN + "(" + "<track_minSize>" + "/" + "<track_maxSize>" + ")",
+                "",
+                ChatColor.YELLOW + "neoms.gg");
+        config.addDefault("scoreboards.gameScoreboardTittle", gameScoreboardTittle);
+        config.addDefault("scoreboards.gameScoreboard",gameScoreboard);
         config.options().copyDefaults(true);
     }
 

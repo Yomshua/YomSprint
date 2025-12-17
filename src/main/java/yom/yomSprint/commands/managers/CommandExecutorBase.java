@@ -1,4 +1,4 @@
-package yom.yomSprint.commands;
+package yom.yomSprint.commands.managers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

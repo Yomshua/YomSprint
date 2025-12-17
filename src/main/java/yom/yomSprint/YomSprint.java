@@ -1,131 +1,1 @@
-package yom.yomSprint;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
-import yom.yomSprint.boards.FastBoard;
-import yom.yomSprint.commands.CommandExecutorBase;
-import yom.yomSprint.commands.CommandsManager;
-import yom.yomSprint.configurations.MessagesConfiguration;
-import yom.yomSprint.configurations.TracksConfiguration;
-import yom.yomSprint.listeners.*;
-import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.models.Lane;
-import yom.yomSprint.models.Track;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-public final class YomSprint extends JavaPlugin {
-
-    private TracksConfiguration tracksConfiguration;
-    private MessagesConfiguration messagesConfiguration;
-    private CommandsManager commandsManager;
-    private CommandExecutorBase base;
-    private Location lobbyLocation;
-
-    @Override
-    public void onEnable() {
-        this.loadDefaulttConfigs();
-        tracksConfiguration = new TracksConfiguration(this);
-        messagesConfiguration = new MessagesConfiguration(this);
-        loadTracks();
-        base = new CommandExecutorBase();
-        getCommand("run").setExecutor(base);
-        commandsManager = new CommandsManager(this);
-        if (!getConfig().contains("main_lobby") || getConfig().get("main_lobby") == null) return;
-        if (!getConfig().getBoolean("lobby_activated")) return;
-        Object obj = getConfig().get("main_lobby");
-        loadListeners();
-        if (!(obj instanceof Location)) {
-            getLogger().warning("A chave 'main_lobby' não é uma Location válida!");
-            //Caso a location não seja válida, já é desativado o "lobby_activated"
-            getConfig().set("lobby_activated", false);
-            return;
-        }
-
-        lobbyLocation = (Location) obj;
-
-    }
-
-    @Override
-    public void onDisable() {
-        for (Track track : TrackManager.getTracks()) {
-            for (UUID uuid : track.getPlayersInGame()) {
-                Player player = Bukkit.getPlayer(uuid);
-                // Caso o player esteja em alguma arena!
-                player.setInvulnerable(false);
-                if (getConfig().getBoolean("lobby_activated")) {
-                    player.teleport(lobbyLocation);
-                }
-                track.getwaitLobbyScoreboadMap().get(uuid).delete();
-            }
-        }
-    }
-
-
-    private void loadTracks() {
-        Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);
-        List<String> waitLobbyScoreboad = getMessagesConfiguration().getConfig().getStringList("scoreboards.waitLobbyScoreboard");
-        for (String key : tracks) {
-            List<Lane> lanes = new ArrayList<>();
-            int lanesCount = 1;
-            for(String string : tracksConfiguration.getConfig().getConfigurationSection("tracks." + key + ".lanes").getKeys(false)){
-                Location location = tracksConfiguration.getConfig().getConfigurationSection("tracks." + key + ".lanes").getLocation(String.valueOf(lanesCount));
-                lanes.add(new Lane(location,lanesCount));
-                lanesCount++;
-            }
-            Track track = new Track.TrackBuilder()
-                    .setName(key)
-                    .setDisplayName(tracksConfiguration.getConfig().getString("tracks." + key + ".display_name"))
-                    .setMinSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".min_players"))
-                    .setMaxSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".max_players"))
-                    .setLanes(lanes)
-                    .setPlugin(this)
-                    .setWaitLobbyScoreboad(waitLobbyScoreboad)
-                    .setWaitLobbyScoreboardTittle(getMessagesConfiguration().getConfig().getString("scoreboards.waitLobbyScoreboardTittle"))
-                    .build();
-            track.loadConfigs();
-            if (track.hasAllConfigs()) {
-                TrackManager.addTrackToList(track);
-            }
-        }
-
-    }
-
-    private void loadListeners(){
-        getServer().getPluginManager().registerEvents(new MainGUIListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerTrackListener(this), this);
-        getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new GameStartListener(),this);
-    }
-
-    private void loadDefaulttConfigs() {
-        saveDefaultConfig();
-    }
-
-    public CommandExecutorBase getBase() {
-        return base;
-    }
-
-    public CommandsManager getCommandsManager() {
-        return commandsManager;
-    }
-
-    public Location getLobbyLocation() {
-        return lobbyLocation;
-    }
-
-    public MessagesConfiguration getMessagesConfiguration() {
-        return messagesConfiguration;
-    }
-
-    public TracksConfiguration getTracksConfiguration() {
-        return tracksConfiguration;
-    }
-}
+package yom.yomSprint;import org.bukkit.Bukkit;import org.bukkit.Location;import org.bukkit.entity.Player;import org.bukkit.plugin.java.JavaPlugin;import yom.yomSprint.commands.managers.CommandExecutorBase;import yom.yomSprint.commands.managers.CommandsManager;import yom.yomSprint.configurations.MessagesConfiguration;import yom.yomSprint.configurations.TracksConfiguration;import yom.yomSprint.listeners.*;import yom.yomSprint.managers.ClassBridge;import yom.yomSprint.managers.TrackManager;import yom.yomSprint.models.Lane;import yom.yomSprint.models.Track;import yom.yomSprint.utils.CustomMessage;import java.util.ArrayList;import java.util.List;import java.util.Set;import java.util.UUID;public final class YomSprint extends JavaPlugin {    private TracksConfiguration tracksConfiguration;    private MessagesConfiguration messagesConfiguration;    private CommandsManager commandsManager;    private CommandExecutorBase base;    private Location lobbyLocation;    private ClassBridge classBridge;    @Override    public void onEnable() {        this.loadDefaulttConfigs();        classBridge = new ClassBridge();        loadListeners();        tracksConfiguration = new TracksConfiguration(this);        messagesConfiguration = new MessagesConfiguration(this);        if(isMainLobbyValid()) {            loadTracks();            lobbyLocation = getConfig().getLocation("main_lobby");        }else {            System.out.println(CustomMessage.ANSI_RED + "Defina o main lobby para carregar as pistas" + CustomMessage.ANSI_RESET);        }        base = new CommandExecutorBase();        getCommand("run").setExecutor(base);        commandsManager = new CommandsManager(this);    }    @Override    public void onDisable() {        for (Track track : TrackManager.getTracks()) {            for (UUID uuid : track.getPlayersInGame()) {                Player player = Bukkit.getPlayer(uuid);                // Caso o player esteja em alguma arena!                player.setInvulnerable(false);                if (isMainLobbyValid()) {                    player.teleport(lobbyLocation);                }                track.getwaitLobbyScoreboadMap().get(uuid).delete();            }        }    }    private void loadTracks() {        Set<String> tracks = tracksConfiguration.getConfig().getConfigurationSection("tracks").getKeys(false);        List<String> waitLobbyScoreboad = getMessagesConfiguration().getConfig().getStringList("scoreboards.waitLobbyScoreboard");        List<String> gameScoreboard = getMessagesConfiguration().getConfig().getStringList("scoreboards.gameScoreboard");        for (String key : tracks) {            List<Lane> lanes = new ArrayList<>();            int lanesCount = 1;            if (tracksConfiguration.getConfig().contains("tracks." + key + ".lanes")) {                for(String string : tracksConfiguration.getConfig().getConfigurationSection("tracks." + key + ".lanes").getKeys(false)){                    Location startLocation = tracksConfiguration.getConfig().getConfigurationSection("tracks." + key + ".lanes").getLocation(lanesCount + ".start");                    Location endLocation = tracksConfiguration.getConfig().getConfigurationSection("tracks." + key + ".lanes").getLocation(lanesCount + ".end");                    lanes.add(new Lane(startLocation,endLocation,lanesCount));                    lanesCount++;                }            }            Track track = new Track.TrackBuilder()                    .setName(key)                    .setDisplayName(tracksConfiguration.getConfig().getString("tracks." + key + ".display_name"))                    .setMinSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".min_players"))                    .setMaxSize(tracksConfiguration.getConfig().getInt("tracks." + key + ".max_players"))                    .setLanes(lanes)                    .setPlugin(this)                    .setWaitLobbyScoreboad(waitLobbyScoreboad)                    .setWaitLobbyScoreboardTittle(getMessagesConfiguration().getConfig().getString("scoreboards.waitLobbyScoreboardTittle"))                    .setGameScoreboard(gameScoreboard)                    .setGameScoreboardTittle(getMessagesConfiguration().getConfig().getString("screoboards.gameScoreboardTittle"))                    .build();            track.loadConfigs();            if (track.hasAllConfigs()) {                TrackManager.addTrackToList(track);            }        }    }    private void loadListeners(){        getServer().getPluginManager().registerEvents(new MainGUIListener(this), this);        getServer().getPluginManager().registerEvents(new PlayerTrackListener(this), this);        getServer().getPluginManager().registerEvents(new ChoseGameGUIListener(this), this);        getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);        getServer().getPluginManager().registerEvents(new GameStartListener(),this);        getServer().getPluginManager().registerEvents(new GameSetListener(this),this);        getServer().getPluginManager().registerEvents(new PlayerMoveListener(),this);        getServer().getPluginManager().registerEvents(new PlayerInteractListener(this,classBridge),this);        getServer().getPluginManager().registerEvents(new PlayerChatListener(this,classBridge),this);    }    public boolean isMainLobbyValid(){        Object obj = getConfig().get("main_lobby");        if (!(obj instanceof Location)) {            getLogger().warning("A chave 'main_lobby' não é uma Location válida!");            return false;        }        return true;    }    private void loadDefaulttConfigs() {        saveDefaultConfig();    }    public CommandExecutorBase getBase() {        return base;    }    public CommandsManager getCommandsManager() {        return commandsManager;    }    public Location getLobbyLocation() {        return lobbyLocation;    }    public MessagesConfiguration getMessagesConfiguration() {        return messagesConfiguration;    }    public TracksConfiguration getTracksConfiguration() {        return tracksConfiguration;    }    public ClassBridge getClassBridge() {        return classBridge;    }}

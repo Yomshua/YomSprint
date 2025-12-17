@@ -4,16 +4,22 @@ import org.bukkit.Location;
 
 public class Lane {
 
-    private Location laneLocation;
+    private Location laneStartLocation;
+    private Location laneEndLocation;
     private int number;
 
-    public Lane(Location laneLocation, int number) {
-        this.laneLocation = laneLocation;
+    public Lane(Location laneStartLocation,Location laneEndLocation, int number) {
+        this.laneStartLocation = laneStartLocation;
+        this.laneEndLocation = laneEndLocation;
         this.number = number;
     }
 
-    public Location getLineLocation() {
-        return laneLocation;
+    public Location getLaneStartLocation() {
+        return laneStartLocation;
+    }
+
+    public Location getLaneEndLocation() {
+        return laneEndLocation;
     }
 
     public int getNumber() {

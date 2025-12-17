@@ -11,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MainGUI implements YomGUI{
@@ -24,8 +26,8 @@ public class MainGUI implements YomGUI{
     @Override
     public Inventory getInventory() {
         Inventory gui = Bukkit.createInventory(player,27, "Sprint Game");
-        gui.setItem(11,getSkull(player));
-        gui.setItem(13,getGameSkull());
+        gui.setItem(12,getSkull(player));
+        gui.setItem(14,getGameSkull());
         return gui;
     }
 
@@ -33,7 +35,10 @@ public class MainGUI implements YomGUI{
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         meta.setOwningPlayer(player);
-        meta.setDisplayName(ChatColor.YELLOW + "Status");
+        meta.setDisplayName(ChatColor.YELLOW.toString() + ChatColor.BOLD +  "Status");
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(ChatColor.WHITE + " ▪ Player: " + ChatColor.GRAY + player.getDisplayName());
         skull.setItemMeta(meta);
         return skull;
     }

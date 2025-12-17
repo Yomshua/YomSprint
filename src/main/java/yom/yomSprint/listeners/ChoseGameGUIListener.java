@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.models.Track;
@@ -32,11 +33,13 @@ public class ChoseGameGUIListener implements Listener {
         if (item == null || item.equals(Material.AIR)) return;
         FileConfiguration tracksConfig = plugin.getTracksConfiguration().getConfig();
         for (Track track : TrackManager.getTracks()) {
-            if(!item.hasItemMeta()) return;
-                if (tracksConfig.getConfigurationSection("tracks." + track.getName()).getString("display_name").equals(item.getItemMeta().getDisplayName())) {
-                    TrackManager.teleportPlayerToWaitLobby(player,track,plugin);
-                    Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(track,player));
+            if (!item.hasItemMeta()) return;
+            if (tracksConfig.getConfigurationSection("tracks." + track.getName()).getString("display_name").equals(item.getItemMeta().getDisplayName())) {
+                if (track.getGameStatus().equals(GameStatus.JOIN)) {
+                    TrackManager.teleportPlayerToWaitLobby(player, track, plugin);
+                    Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(track, player));
                 }
+            }
         }
     }
 
