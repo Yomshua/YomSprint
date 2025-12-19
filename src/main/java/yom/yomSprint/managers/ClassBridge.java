@@ -6,6 +6,9 @@ public class ClassBridge {
 
     Location blockLocation;
     Boolean canExecute;
+    String tittlePositionsGUI;
+    int laneNumber;
+    String trackName;
 
     public Location getBlockLocation() {
         return blockLocation;
@@ -21,5 +24,29 @@ public class ClassBridge {
 
     public void setCanExecute(Boolean canExecute) {
         this.canExecute = canExecute;
+    }
+
+    public String getTittlePositionsGUI() {
+        return tittlePositionsGUI;
+    }
+
+    public void setTittlePositionsGUI(String tittlePositionsGUI) {
+        this.tittlePositionsGUI = tittlePositionsGUI;
+    }
+
+    public int getLaneNumber() {
+        return laneNumber;
+    }
+
+    public void setLaneNumber(int laneNumber) {
+        this.laneNumber = laneNumber;
+    }
+
+    public String getTrackName() {
+        return trackName;
+    }
+
+    public void setTrackName(String trackName) {
+        this.trackName = trackName;
     }
 }

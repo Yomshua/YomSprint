@@ -8,6 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.models.BoudingBox;
+import yom.yomSprint.models.Lane;
 import yom.yomSprint.models.Track;
 
 import java.util.ArrayList;
@@ -32,9 +34,9 @@ public final class TrackManager {
             meta.setDisplayName(track.getDisplayName());
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.WHITE+ "▪ Status: " + track.getGameStatus().getStatus());
+            lore.add(ChatColor.WHITE + "▪ Status: " + track.getGameStatus().getStatus());
             lore.add(ChatColor.WHITE + "▪ Players na pista: "
-                    + (track.getWaitLobbySize() > 0 ? ChatColor.WHITE:ChatColor.GRAY)
+                    + (track.getWaitLobbySize() > 0 ? ChatColor.WHITE : ChatColor.GRAY)
                     + track.getPlayersInGame().size());
             lore.add("");
             lore.add(ChatColor.GRAY.toString() + "Players máximos: " + ChatColor.WHITE + track.getMaxPlayers());
@@ -46,7 +48,7 @@ public final class TrackManager {
         }
     }
 
-    public static void addTrackToList(Track track){
+    public static void addTrackToList(Track track) {
         tracks.add(track);
     }
 
@@ -67,7 +69,7 @@ public final class TrackManager {
         return false;
     }
 
-    public static Track getTrackByPlayer(Player player){
+    public static Track getTrackByPlayer(Player player) {
         for (Track track : tracks) {
             for (UUID uuid : track.getPlayersInGame()) {
                 if (player.getUniqueId().equals(uuid)) return track;
@@ -76,9 +78,9 @@ public final class TrackManager {
         return null;
     }
 
-    public static Track getTrackByName(String name){
-        for(Track track : TrackManager.getTracks()){
-            if(track.getName().equals(name)){
+    public static Track getTrackByName(String name) {
+        for (Track track : TrackManager.getTracks()) {
+            if (track.getName().equals(name)) {
                 return track;
             }
         }
@@ -88,4 +90,28 @@ public final class TrackManager {
     public static List<Track> getTracks() {
         return tracks;
     }
+
+    public static boolean isAvailableLane(Lane lane) {
+        BoudingBox startBox = lane.getStartBoudingBox();
+        BoudingBox endBox = lane.getEndBoudingBox();
+
+        if (startBox == null || endBox == null) return false;
+        if (startBox.getPos1() == null || startBox.getPos2() == null) return false;
+        if (endBox.getPos1() == null || endBox.getPos2() == null) return false;
+
+        if ((isLocation(startBox.getPos1()) && isLocation(startBox.getPos2())
+                && (isLocation(endBox.getPos1()) && isLocation(endBox.getPos2())))){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isLocation(Object object) {
+        if (object instanceof Location) {
+            return true;
+        }
+        return false;
+    }
+
 }

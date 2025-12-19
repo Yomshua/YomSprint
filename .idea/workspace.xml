@@ -10,67 +10,43 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d331d726-40f9-45c7-a077-f6ffa91fc0aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetEndLaneCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetLanesLengthCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetStartLaneCommand.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/events/GameSetEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/GameSetListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerChatListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerInteractListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerMoveListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/ClassBridge.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/utils/PlacheholderReplace.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SeeTracksCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/ChoosePositionGUIHolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/ChoosePositionsGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/TracksGUIHolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChoosePositionsGUIListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/models/BoudingBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/YomSprint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/YomSprint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/AddLanesCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/AddLanesCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/CommandExecutorBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/managers/CommandExecutorBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/CommandsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/managers/CommandsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/CreateTrackSubCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/CreateTrackSubCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/LeaveTrackCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/LeaveTrackCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/ReloadCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/ReloadCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetMainLobbyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetMainLobbyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetWaitLobbyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetWaitLobbyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/TrackSubCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/managers/TrackSubCommands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/configurations/MessagesConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/configurations/MessagesConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/enums/GameStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/enums/GameStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetEndLaneCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/SetStartLaneCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/managers/CommandsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/commands/managers/CommandsManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/MainGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/MainGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChoseGameGUIListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChoseGameGUIListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/GameStartListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/GameStartListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerJoinListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerJoinListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerTrackListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerTrackListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/TracksGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/TracksGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/YomGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/guis/YomGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChoseGameGUIListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/ChooseGameGUIListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/GameSetListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/GameSetListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/MainGUIListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/MainGUIListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerChatListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerChatListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerInteractListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerInteractListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerMoveListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/listeners/PlayerMoveListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/ClassBridge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/ClassBridge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/TrackManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/managers/TrackManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/models/Lane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/models/Lane.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/models/Track.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/models/Track.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/yom/yomSprint/utils/CustomMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/yom/yomSprint/utils/CustomMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/YomSprint.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/YomSprint.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/AddLanesCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/CommandExecutorBase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/CommandsManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/CreateTrackSubCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/LeaveTrackCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/LeaveTrackCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/ReloadCommand.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/ReloadCommand.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/SetMainLobbyCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/SetWaitLobbyCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/TrackSubCommands.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/configurations/MessagesConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/configurations/MessagesConfiguration.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/enums/GameStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/enums/GameStatus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/events/GameStartEvent.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/SetEndLaneCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/SetStartLaneCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/managers/CommandsManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/commands/managers/CommandsManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/guis/MainGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/guis/MainGUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/ChoseGameGUIListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/GameStartListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/MainGUIListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerJoinListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerJoinListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerQuitListener.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerTrackListener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerTrackListener$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerTrackListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerTrackListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/TrackManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/guis/TracksGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/guis/TracksGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/guis/YomGUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/guis/YomGUI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerChatListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerChatListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerInteractListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/listeners/PlayerInteractListener.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/ClassBridge.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/managers/ClassBridge.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/models/Lane.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/models/Lane.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/models/Track$TrackBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/models/Track$TrackBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/models/Track.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/models/Track.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/CustomMessage$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/CustomMessage$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/CustomMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/CustomMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/yom/yomSprint/utils/HelpCode.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

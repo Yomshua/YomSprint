@@ -37,6 +37,7 @@ public class Track {
     private List<UUID> order = new ArrayList<>();
 
 
+
     private Track(YomSprint plugin, String name, String displayName, int maxPlayers, int minPlayers, List<Lane> lanes, List<String> waitLobbyScoreboad, String waitLobbyScoreboardTittle,List<String> gameScoreboad, String gameScoreboardTittle) {
         this.plugin = plugin;
         this.name = name;

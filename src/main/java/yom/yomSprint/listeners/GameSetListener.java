@@ -33,7 +33,7 @@ public class GameSetListener implements Listener {
         for(UUID uuid : players){
             Player player = Bukkit.getPlayer(uuid);
             Lane lane = track.getLanes().get(countToGetLane);
-            player.teleport(lane.getLaneStartLocation());
+            player.teleport(lane.getStartBoudingBox().getMiddle(player.getWorld()));
             player.sendTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "RAIA", String.valueOf(lane.getNumber()));
             countToGetLane++;
         }

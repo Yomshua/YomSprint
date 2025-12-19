@@ -31,7 +31,7 @@ public class MainGUI implements YomGUI{
         return gui;
     }
 
-    private static ItemStack getSkull(Player player){
+    private ItemStack getSkull(Player player){
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         meta.setOwningPlayer(player);
@@ -43,7 +43,7 @@ public class MainGUI implements YomGUI{
         return skull;
     }
 
-    private static ItemStack getGameSkull(){
+    private ItemStack getGameSkull(){
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(),"Join Game");

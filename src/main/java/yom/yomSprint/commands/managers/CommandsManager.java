@@ -23,7 +23,5 @@ public class CommandsManager{
         base.add(new AddLanesCommand(plugin));
         base.add(new ReloadCommand(plugin));
         base.add(new SetLanesLengthCommand(plugin));
-        base.add(new SetStartLaneCommand(plugin));
-        base.add(new SetEndLaneCommand(plugin));
     }
 }

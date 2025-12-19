@@ -16,20 +16,25 @@ import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.managers.ClassBridge;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class PlayerInteractListener implements Listener {
 
     private YomSprint plugin;
-    private ClassBridge classBridge;
+    private Map<UUID,ClassBridge> classBridgeMap;
 
-    public PlayerInteractListener(YomSprint plugin,ClassBridge classBridge) {
+    public PlayerInteractListener(YomSprint plugin, Map<UUID,ClassBridge> classBridgeMap) {
         this.plugin = plugin;
-        this.classBridge = classBridge;
+        this.classBridgeMap = classBridgeMap;
     }
 
     @EventHandler
     public void onInteractEvent(PlayerInteractEvent event){
         Player player = event.getPlayer();
         if (!player.hasPermission("sprint.addlanes")) return;
+        if (!classBridgeMap.containsKey(player.getUniqueId())){classBridgeMap.put(player.getUniqueId(),new ClassBridge());}
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (event.getHand() != EquipmentSlot.HAND) return;
         if (event.getPlayer().getItemInHand().getType().equals(Material.STICK)){
@@ -38,10 +43,11 @@ public class PlayerInteractListener implements Listener {
             ItemMeta meta = stick.getItemMeta();
             String trackName = meta.getDisplayName().replace(ChatColor.YELLOW.toString(),"");
             if (plugin.getTracksConfiguration().getConfig().contains("tracks." + trackName)) {
+                ClassBridge classBridge = classBridgeMap.get(player.getUniqueId());
                 player.sendMessage("Digite o número da raia a qual quer adicionar: ");
                 classBridge.setCanExecute(true);
                 classBridge.setBlockLocation(event.getClickedBlock().getLocation());
-
+                classBridge.setTrackName(trackName);
             }
         }
     }

@@ -11,14 +11,15 @@ import org.bukkit.inventory.ItemStack;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
+import yom.yomSprint.guis.holders.TracksGUIHolder;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.models.Track;
 
-public class ChoseGameGUIListener implements Listener {
+public class ChooseGameGUIListener implements Listener {
 
     YomSprint plugin;
 
-    public ChoseGameGUIListener(YomSprint plugin) {
+    public ChooseGameGUIListener(YomSprint plugin) {
         this.plugin = plugin;
     }
 
@@ -27,7 +28,7 @@ public class ChoseGameGUIListener implements Listener {
         if (!(event.getWhoClicked() instanceof Player)) return;
         Player player = (Player) event.getWhoClicked();
         if (event.getClickedInventory() == null) return;
-        if (!event.getView().getTitle().equals("C")) return;
+        if (!(event.getInventory().getHolder() instanceof TracksGUIHolder)) return;
         event.setCancelled(true);
         ItemStack item = event.getCurrentItem();
         if (item == null || item.equals(Material.AIR)) return;

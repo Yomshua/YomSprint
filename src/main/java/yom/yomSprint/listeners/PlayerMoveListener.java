@@ -20,13 +20,13 @@ public class PlayerMoveListener implements Listener {
         if(!TrackManager.isPlayerInAnyTrack(player)) return;
         Track track = TrackManager.getTrackByPlayer(player);
         if (track.getGameStatus().equals(GameStatus.IN_SET)){
-         event.setCancelled(true);
+            if (!getLane(player,track).getStartBoudingBox().contains(player)){
+                player.teleport(getLane(player,track).getStartBoudingBox().getMiddle(player.getWorld()));
+            }
         }
         int laneNumber = getLaneNumberOfPlayer(player,track);
         Location location = player.getLocation();
         Lane lane = getLane(player,track);
-
-        Location endLocation = lane.getLaneEndLocation();
 
 
 
