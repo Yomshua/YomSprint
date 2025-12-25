@@ -10,6 +10,7 @@ import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.commands.managers.TrackSubCommands;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.models.Track;
+import yom.yomSprint.utils.PlacheholderReplace;
 
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class LeaveTrackCommand extends TrackSubCommands {
         if (TrackManager.isPlayerInAnyTrack(player)) {
             Track track = TrackManager.getTrackByPlayer(player);
             track.getPlayersInGame().remove(player.getUniqueId());
-            player.sendMessage(ChatColor.GREEN + "Você saiu da pista: " + ChatColor.GRAY + track.getDisplayName());
+            player.sendMessage(PlacheholderReplace.apply(plugin.getMessagesConfiguration().track_leave,track));
             track.getwaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
             if (!track.getPlayersInGame().isEmpty()) {
                 for (UUID playerBoard : track.getPlayersInGame()) {

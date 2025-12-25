@@ -33,6 +33,7 @@ public class PlayerQuitListener implements Listener {
                         "",
                         ChatColor.YELLOW + "neoms.gg");
             }
+
         }
         
     }

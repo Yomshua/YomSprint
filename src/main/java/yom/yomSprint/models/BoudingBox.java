@@ -54,6 +54,10 @@ public class BoudingBox {
         double x2 = getPos2().getX();
         double z2 = getPos2().getZ();
 
+        if (x1 == x2 &&z1 ==z2){
+            Location location = new Location(world,x1,(int)(getPos1().getY()+1),z1);
+        }
+
         double xMax =  Math.max(x1, x2);
         double xMin =  Math.min(x1,x2);
 
@@ -63,7 +67,7 @@ public class BoudingBox {
         double x = (xMax - xMin) / 2;
         double z = (zMax - zMin) / 2;
 
-        Location location = new Location(world,xMin + x,getPos1().getY()+1,z+zMin);
+        Location location = new Location(world,xMin + x ,(int)(getPos1().getY()+1),z+zMin);
         return location;
     }
 

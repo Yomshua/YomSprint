@@ -34,9 +34,7 @@ public class Track {
     private Map<UUID, FastBoard> gameLobbyScoreboaMap = new HashMap<>();
     private List<Lane> lanes = new ArrayList<>();
     private long whenGameStarted;
-    private List<UUID> order = new ArrayList<>();
-
-
+    private HashMap<UUID,Time> marks = new HashMap<>();
 
     private Track(YomSprint plugin, String name, String displayName, int maxPlayers, int minPlayers, List<Lane> lanes, List<String> waitLobbyScoreboad, String waitLobbyScoreboardTittle,List<String> gameScoreboad, String gameScoreboardTittle) {
         this.plugin = plugin;
@@ -234,8 +232,7 @@ public class Track {
         return displayName;
     }
 
-    public void addOrder(Player player){
-        order.add(player.getUniqueId());
+    public HashMap<UUID, Time> getMarks() {
+        return marks;
     }
-
 }

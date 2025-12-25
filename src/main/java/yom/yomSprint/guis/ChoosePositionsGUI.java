@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.Inventory;
@@ -14,21 +15,24 @@ import org.bukkit.inventory.meta.SkullMeta;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.guis.holders.ChoosePositionGUIHolder;
 import yom.yomSprint.managers.ClassBridge;
+import yom.yomSprint.utils.HelpCode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
-public class ChoosePositionsGUI implements YomGUI{
+public class ChoosePositionsGUI implements YomGUI {
 
     private YomSprint plugin;
     private String trackName;
     private ClassBridge classBridge;
     private int laneNumber;
     private FileConfiguration trackConfig;
+    private final String prefix = ChatColor.YELLOW.toString() + ChatColor.BOLD + " > " + ChatColor.WHITE;
 
-    public ChoosePositionsGUI(YomSprint plugin,String trackName,ClassBridge classBridge) {
+    public ChoosePositionsGUI(YomSprint plugin, String trackName, ClassBridge classBridge) {
         this.plugin = plugin;
         this.trackName = trackName;
         this.classBridge = classBridge;
@@ -38,24 +42,24 @@ public class ChoosePositionsGUI implements YomGUI{
 
     @Override
     public Inventory getInventory() {
-        Inventory gui = Bukkit.createInventory(new ChoosePositionGUIHolder(),27,trackName + " (lane "+classBridge.getLaneNumber()+") positions");
-        classBridge.setTittlePositionsGUI(trackName + " (lane "+ classBridge.getLaneNumber() +") positions");
-        gui.setItem(10,itemPos("Start Pos1","startPos1"));
-        gui.setItem(12,getGameSkull("Start Pos2"));
-        gui.setItem(14,getGameSkull("End Pos1"));
-        gui.setItem(16,getGameSkull("End Pos2"));
+        Inventory gui = Bukkit.createInventory(new ChoosePositionGUIHolder(), 27, ChatColor.YELLOW +  trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
+        classBridge.setTittlePositionsGUI(trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
+        gui.setItem(10, itemPos("Start Pos1", "startPos1"));
+        gui.setItem(12, itemPos("Start Pos2", "startPos2"));
+        gui.setItem(14, itemPos("End Pos1", "endPos1"));
+        gui.setItem(16, itemPos("End Pos2", "endPos2"));
         return gui;
     }
 
-    private ItemStack getGameSkull(String name){
+    private ItemStack getGameSkull(String name) {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(),name);
-        profile.getProperties().put("textures",new Property("texture","eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQzZmU4ODAyZWRiMmU5ODFhZTZlZDRkZmFiYTNlYWI3OWFhOGZhY2Y5YWJkYzM4MTI2ODk2ZGViZWI3YzZiIn19fQ=="));
+        GameProfile profile = new GameProfile(UUID.randomUUID(), name);
+        profile.getProperties().put("textures", new Property("texture", "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTQzZmU4ODAyZWRiMmU5ODFhZTZlZDRkZmFiYTNlYWI3OWFhOGZhY2Y5YWJkYzM4MTI2ODk2ZGViZWI3YzZiIn19fQ=="));
         try {
             Field field = meta.getClass().getDeclaredField("profile");
             field.setAccessible(true);
-            field.set(meta,profile);
+            field.set(meta, profile);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
@@ -64,16 +68,25 @@ public class ChoosePositionsGUI implements YomGUI{
         return skull;
     }
 
-    private ItemStack itemPos(String itemName, String path){
+    private ItemStack itemPos(String itemName, String path) {
         ItemStack itemStack = getGameSkull(itemName);
         ItemMeta meta = itemStack.getItemMeta();
         List<String> lore = new ArrayList<>();
-        if (trackConfig.getConfigurationSection("tracks." + trackName + ".lanes." + laneNumber).contains(path)){
-            lore.add(trackConfig.getLocation("tracks." + trackName + ".lanes." + laneNumber+"." + path).toString());
-            meta.setLore(lore);
-            itemStack.setItemMeta(meta);
+        if (trackConfig.getConfigurationSection("tracks." + trackName + ".lanes." + laneNumber).contains(path)) {
+            Location location = trackConfig.getLocation("tracks." + trackName + ".lanes." + laneNumber + "." + path);
+            lore.add("");
+            lore.add(ChatColor.AQUA.toString() + ChatColor.BOLD + "World : " + ChatColor.WHITE + location.getWorld().getName());
+            lore.add(prefix + "X : " + location.getX());
+            lore.add(prefix + "Y : " + location.getY());
+            lore.add(prefix + "Z : " + location.getZ());
+        } else {
+            lore.add("");
+            lore.add(ChatColor.RED + path + " não configurada!");
         }
+        meta.setLore(lore);
+        itemStack.setItemMeta(meta);
         return itemStack;
     }
+
 
 }

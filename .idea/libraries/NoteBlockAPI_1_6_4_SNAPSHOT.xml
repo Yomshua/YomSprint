@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="NoteBlockAPI-1.6.4-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/NoteBlockAPI-1.6.4-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

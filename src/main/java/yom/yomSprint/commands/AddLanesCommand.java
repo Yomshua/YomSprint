@@ -41,35 +41,5 @@ public class AddLanesCommand extends TrackSubCommands {
 
         player.getInventory().addItem(stick);
 
-//
-//        final String PATH = "tracks." + args[2];
-//        List<Integer> LANE_NUMBERS = new ArrayList<>();
-//        if (!config.getConfigurationSection(PATH).contains("lanes")) {
-//            config.getConfigurationSection(PATH).createSection("lanes");
-//            config.set(PATH + ".lanes.1", player.getLocation());
-//            tracksConfiguation.saveConfig();
-//            player.sendMessage(ChatColor.GREEN + "Raia 1 adiciona com sucesso na pista " + trackName + "!");
-//            return;
-//        }
-//
-//        //Pega as raias da pista
-//        Set<String> lanes = config.getConfigurationSection(PATH + ".lanes").getKeys(false);
-//
-//        for(String lane : lanes){
-//            if(!NumberUtils.isNumber(lane)) return;
-//            LANE_NUMBERS.add(Integer.parseInt(lane));
-//        }
-//
-//        int maxPlayers = config.getInt(PATH + ".max_players");
-//        if (LANE_NUMBERS.size() >= maxPlayers) {
-//            player.sendMessage(ChatColor.RED + "Você não pode adicionar mais raias do que o número máximo de players");
-//            return;
-//        }
-//
-//        String value = String.valueOf(LANE_NUMBERS.size() + 1);
-//        config.set("tracks." + trackName + ".lanes." + value, player.getLocation());
-//        tracksConfiguation.saveConfig();
-//
-//        player.sendMessage(ChatColor.GREEN + "Raia " + value + " adiciona com sucesso na pista " + trackName + "!");
     }
 }

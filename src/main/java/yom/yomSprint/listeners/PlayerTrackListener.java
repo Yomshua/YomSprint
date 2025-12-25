@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
+import yom.yomSprint.configurations.MessagesConfiguration;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameSetEvent;
 import yom.yomSprint.utils.CustomMessage;
@@ -15,6 +16,7 @@ import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.models.Track;
+import yom.yomSprint.utils.PlacheholderReplace;
 
 import java.util.UUID;
 

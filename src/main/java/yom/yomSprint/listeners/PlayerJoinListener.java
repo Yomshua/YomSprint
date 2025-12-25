@@ -6,6 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.configurations.PlayersConfiguration;
 
 public class PlayerJoinListener implements Listener {
 
@@ -22,6 +23,10 @@ public class PlayerJoinListener implements Listener {
         if (plugin.isMainLobbyValid()) {
             player.teleport(plugin.getLobbyLocation());
         }
+        if (!plugin.getPlayersCofigsMap().containsKey(player.getUniqueId())){
+            PlayersConfiguration playersConfiguration = new PlayersConfiguration(player.getUniqueId(),plugin);
+        }
+
     }
 
 }

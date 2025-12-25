@@ -1,12 +1,8 @@
 package yom.yomSprint.listeners;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import yom.yomSprint.enums.GameStatus;
-import yom.yomSprint.models.Lane;
 import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.models.Track;
 
@@ -18,7 +14,9 @@ public class GameStartListener implements Listener {
     void gameStart(GameStartEvent event){
         Track track = event.getTrack();
         track.setGameStatus(GameStatus.OCURRING);
-
+        track.setWhenGameStarted(System.currentTimeMillis());
     }
+
+
 
 }

@@ -1,2 +1,12 @@
-lobby_activated: true
-main_lobby:
+# As configurações abaixo são apenas exemplos, sinta-se a vontade em modificar do seu jeito
+
+config:
+  main_lobby:
+    ==: org.bukkit.Location
+    world: world
+    x: -228.3130375559442
+    y: 67.0
+    z: 258.69999998807907
+    pitch: 10.174814
+    yaw: 161.96877
+  join_message: "&eSeja Bem-Vindo!"

@@ -1,5 +1,7 @@
 package yom.yomSprint.utils;
 
+import javax.xml.stream.Location;
+
 public class HelpCode {
 //    TODO: ("para fazer") Alguém [eu] precisa arrumar isso urgente
 //    FIXME: ("me conserte") Tem um erro que precisa ser consertado aqui, mas funciona (TOFIX:)
@@ -23,5 +25,15 @@ public class HelpCode {
        - Arrumar chat e tab por pista
        - Adicionar scoreboard customizavel por yaml
        - Adicionar permissoes nos comandos
+       - Sistema
      */
+
+
+    public static boolean isLocation(Object object){
+        if (object instanceof Location){
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -12,27 +12,47 @@ import java.util.List;
 
 public class MessagesConfiguration {
 
+    public String track_join = "&aVocê entrou na pista <track_name>";
+    public String track_leave = "&aVocê saiu da pista <track_name>";
+
     YomSprint plugin;
     File file;
     FileConfiguration config;
 
     public MessagesConfiguration(YomSprint plugin) {
         this.plugin = plugin;
-        this.file = new File(plugin.getDataFolder(),"messages.yml");
+        this.file = new File(plugin.getDataFolder(), "messages.yml");
         notExists();
         this.config = YamlConfiguration.loadConfiguration(file);
         addDefaults();
         saveConfig();
+        init();
+    }
+
+    private void init() {
+
+        config.addDefault("messages.track_join", track_join);
+        config.addDefault("messages.track_leave", track_leave);
+
+        config.options().copyDefaults(true);
+        saveConfig();
+
+        track_join = translateColorCodes("messages.track_join");
+        track_leave = translateColorCodes("messages.track_leave");
 
     }
 
-    private void notExists(){
-        if(!file.exists()){
-            plugin.saveResource("messages.yml",false);
+    private void notExists() {
+        if (!file.exists()) {
+            plugin.saveResource("messages.yml", false);
         }
     }
 
-    private void addDefaults(){
+    private String translateColorCodes(String path) {
+        return ChatColor.translateAlternateColorCodes('&', config.getString(path));
+    }
+
+    private void addDefaults() {
         String waitLobbyScoreboardTittle = ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD";
         List<String> waitobbyScoreboard = Arrays.asList(
                 "",
@@ -41,7 +61,7 @@ public class MessagesConfiguration {
                 "",
                 ChatColor.YELLOW + "neoms.gg");
         config.addDefault("scoreboards.waitLobbyScoreboardTittle", waitLobbyScoreboardTittle);
-        config.addDefault("scoreboards.waitLobbyScoreboard",waitobbyScoreboard);
+        config.addDefault("scoreboards.waitLobbyScoreboard", waitobbyScoreboard);
 
         String gameScoreboardTittle = ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD";
         List<String> gameScoreboard = Arrays.asList(
@@ -51,7 +71,7 @@ public class MessagesConfiguration {
                 "",
                 ChatColor.YELLOW + "neoms.gg");
         config.addDefault("scoreboards.gameScoreboardTittle", gameScoreboardTittle);
-        config.addDefault("scoreboards.gameScoreboard",gameScoreboard);
+        config.addDefault("scoreboards.gameScoreboard", gameScoreboard);
         config.options().copyDefaults(true);
     }
 

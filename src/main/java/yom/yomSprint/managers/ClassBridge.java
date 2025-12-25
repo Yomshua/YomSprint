@@ -2,6 +2,9 @@ package yom.yomSprint.managers;
 
 import org.bukkit.Location;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class ClassBridge {
 
     Location blockLocation;
@@ -9,6 +12,7 @@ public class ClassBridge {
     String tittlePositionsGUI;
     int laneNumber;
     String trackName;
+    HashMap<UUID,Boolean> alreadyFinish = new HashMap<>();
 
     public Location getBlockLocation() {
         return blockLocation;
@@ -48,5 +52,13 @@ public class ClassBridge {
 
     public void setTrackName(String trackName) {
         this.trackName = trackName;
+    }
+
+    public HashMap<UUID, Boolean> getAlreadyFinish() {
+        return alreadyFinish;
+    }
+
+    public void setAlreadyFinish(HashMap<UUID, Boolean> alreadyFinish) {
+        this.alreadyFinish = alreadyFinish;
     }
 }

@@ -31,7 +31,7 @@ public class PlayerInteractListener implements Listener {
     }
 
     @EventHandler
-    public void onInteractEvent(PlayerInteractEvent event){
+    public void onInteract(PlayerInteractEvent event){
         Player player = event.getPlayer();
         if (!player.hasPermission("sprint.addlanes")) return;
         if (!classBridgeMap.containsKey(player.getUniqueId())){classBridgeMap.put(player.getUniqueId(),new ClassBridge());}
@@ -51,4 +51,5 @@ public class PlayerInteractListener implements Listener {
             }
         }
     }
+
 }

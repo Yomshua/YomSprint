@@ -1,5 +1,4 @@
 package yom.yomSprint.listeners;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -7,13 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameSetEvent;
 import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.models.Lane;
 import yom.yomSprint.models.Track;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
