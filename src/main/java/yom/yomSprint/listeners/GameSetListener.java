@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.events.GameSetEvent;
 import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.models.Lane;
@@ -29,6 +30,9 @@ public class GameSetListener implements Listener {
         Set<UUID> players = track.getPlayersInGame();
         for(UUID uuid : players){
             Player player = Bukkit.getPlayer(uuid);
+            track.removeWaitBoard(uuid);
+            track.getGameScoreboaMap().put(player.getUniqueId(),new FastBoard(player));
+            track.updateGameBoard();
             Lane lane = track.getLanes().get(countToGetLane);
             player.teleport(lane.getStartBoudingBox().getMiddle(player.getWorld()));
             player.sendTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "RAIA", String.valueOf(lane.getNumber()));

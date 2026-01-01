@@ -49,6 +49,8 @@ public class ChoosePositionsGUIListener implements Listener {
         String startPos2 = ChatColor.WHITE.toString() + "Start Pos2";
         String endPos1 = ChatColor.WHITE.toString() + "End Pos1";
         String endPos2 = ChatColor.WHITE.toString() + "End Pos2";
+        String edgePos1 = ChatColor.WHITE.toString() + "Edge Pos1";
+        String edgePos2 = ChatColor.WHITE.toString() + "Edge Pos2";
         if (itemName.equals(startPos1)) {
             tracksConfiguration.getConfig().set("tracks."+trackName+".lanes."+laneNumber +".startPos1",classBridge.getBlockLocation());
             tracksConfiguration.saveConfig();
@@ -69,8 +71,17 @@ public class ChoosePositionsGUIListener implements Listener {
             tracksConfiguration.saveConfig();
             player.sendMessage(ChatColor.GREEN + "EndPos2 adicionando com sucesso na pista " + trackName + ", na raia " + laneNumber );
             player.closeInventory();
+        } else if (itemName.equals(edgePos1)) {
+            tracksConfiguration.getConfig().set("tracks."+trackName+".lanes."+laneNumber +".edgePos1",classBridge.getBlockLocation());
+            tracksConfiguration.saveConfig();
+            player.sendMessage(ChatColor.GREEN + "EdgePos1 adicionando com sucesso na pista " + trackName + ", na raia " + laneNumber );
+            player.closeInventory();
+        } else if (itemName.equals(edgePos2)) {
+            tracksConfiguration.getConfig().set("tracks."+trackName+".lanes."+laneNumber +".edgePos2",classBridge.getBlockLocation());
+            tracksConfiguration.saveConfig();
+            player.sendMessage(ChatColor.GREEN + "EdgePos2 adicionando com sucesso na pista " + trackName + ", na raia " + laneNumber );
+            player.closeInventory();
         }
-
 
 
     }

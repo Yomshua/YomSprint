@@ -1,8 +1,8 @@
-package yom.yomSprint.run;
+package yom.yomSprint.clicks;
 
 public enum ClickQuality {
 
-    PERFECT(0.7), GOOD(0.5),OK(0.4),BAD(0.2);
+    PERFECT(0.7), GOOD(0.5),OK(0.3),BAD(0.1);
 
     double quality;
 

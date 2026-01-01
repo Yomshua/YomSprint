@@ -21,7 +21,10 @@ public class PlayersConfiguration {
         file = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "players",uuid.toString()+".yml");
         notExists();
         config = YamlConfiguration.loadConfiguration(file);
-
+        config.addDefault("wins",0);
+        config.addDefault("best_time","0");
+        config.options().copyDefaults(true);
+        saveConfig();
     }
 
     private void notExists(){

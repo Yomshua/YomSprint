@@ -1,6 +1,7 @@
 package yom.yomSprint.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -37,8 +38,12 @@ public class ChooseGameGUIListener implements Listener {
             if (!item.hasItemMeta()) return;
             if (tracksConfig.getConfigurationSection("tracks." + track.getName()).getString("display_name").equals(item.getItemMeta().getDisplayName())) {
                 if (track.getGameStatus().equals(GameStatus.JOIN)) {
-                    TrackManager.teleportPlayerToWaitLobby(player, track, plugin);
-                    Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(track, player));
+                    if (track.getLanes().size() == track.getPlayersInGame().size()) {
+                        player.sendMessage(ChatColor.RED + "Você pode no entrar, as raias não foram configuradas corretamente!");
+                    }else {
+                        TrackManager.teleportPlayerToWaitLobby(player, track, plugin);
+                        Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(track, player));
+                    }
                 }
             }
         }

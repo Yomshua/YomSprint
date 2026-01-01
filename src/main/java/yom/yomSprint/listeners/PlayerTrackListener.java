@@ -6,18 +6,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.scheduler.BukkitRunnable;
-import yom.yomSprint.configurations.MessagesConfiguration;
-import yom.yomSprint.enums.GameStatus;
-import yom.yomSprint.events.GameSetEvent;
+import yom.yomSprint.models.Stamina;
 import yom.yomSprint.utils.CustomMessage;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.boards.FastBoard;
-import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.models.Track;
-import yom.yomSprint.utils.PlacheholderReplace;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerTrackListener implements Listener {
@@ -31,32 +27,25 @@ public class PlayerTrackListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinWaitLobbyEvent event) {
         Player player = event.getPlayer();
-        player.setInvulnerable(true);
         Track track = event.getTrack();
+        player.setInvulnerable(true);
+        if (!track.getWaitLobbyScoreboadMap().containsKey(player.getUniqueId())){
+            track.getWaitLobbyScoreboadMap().put(player.getUniqueId(),new FastBoard(player));
+        }
+        HashMap<UUID, Stamina> staminaMap = track.getStaminaMap();
+        staminaMap.put(player.getUniqueId(),new Stamina(player.getUniqueId(),track));
+        Stamina stamina = staminaMap.get(player.getUniqueId());
+        stamina.setExpAndLevel(36);
         track.addPlayerInGame(player);
         CustomMessage.sendCustomActionBar(player, ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + event.getTrack().getName(), plugin);
-        for (UUID playerBoard : track.getPlayersInGame()) {
-            FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));
-            waitLobbyBoard.updateTitle(track.getWaitLobbyScoreboardTittle());
-            waitLobbyBoard.updateLines(track.getWaitLobbyScoreboad());
-        }
+        // Atualiza o board de todos os players
+        track.updateWaitBoard();
+        // Começa a contagem regresiva
         if (track.getWaitLobbySize() >= track.getMinPlayers()) {
-            new BukkitRunnable() {
-                int TRACK_COUNTDOWN_SECONDS = 30;
-                @Override
-                public void run() {
-                    for(UUID uuid : track.getPlayersInGame()){
-                        Player playerTittle = Bukkit.getPlayer(uuid);
-                        playerTittle.sendTitle(ChatColor.GREEN + String.valueOf(TRACK_COUNTDOWN_SECONDS),"");
-                    }
-                    if(TRACK_COUNTDOWN_SECONDS == 0){
-                        Bukkit.getPluginManager().callEvent(new GameSetEvent(track, track.getPlayersInGame()));
-                        track.setGameStatus(GameStatus.IN_SET);
-                        cancel();
-                    }
-                    TRACK_COUNTDOWN_SECONDS--;
-                }
-            }.runTaskTimer(plugin, 0, 20L);
+           if (!track.isRunnableRunining()) {
+               track.getStartCountRunnable().start();
+               track.setRunnableRunining(true);
+           }
         }
 
 

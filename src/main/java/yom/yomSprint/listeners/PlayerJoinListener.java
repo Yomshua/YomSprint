@@ -20,8 +20,10 @@ public class PlayerJoinListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     void onJoinEvent(PlayerJoinEvent event){
         Player player = event.getPlayer();
-        if (plugin.isMainLobbyValid()) {
-            player.teleport(plugin.getLobbyLocation());
+        if (plugin.getConfig().getBoolean("config.join_teleport")) {
+            if (plugin.isMainLobbyValid()) {
+                player.teleport(plugin.getLobbyLocation());
+            }
         }
         if (!plugin.getPlayersCofigsMap().containsKey(player.getUniqueId())){
             PlayersConfiguration playersConfiguration = new PlayersConfiguration(player.getUniqueId(),plugin);

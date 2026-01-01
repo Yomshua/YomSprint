@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import yom.yomSprint.boards.FastBoard;
+import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.models.Track;
 
@@ -23,17 +24,11 @@ public class PlayerQuitListener implements Listener {
             Track track = TrackManager.getTrackByPlayer(player);
             Set<UUID> listOfPlayers = TrackManager.getTrackByPlayer(player).getPlayersInGame();
             listOfPlayers.remove(player.getUniqueId());
-            for (UUID playerBoard : listOfPlayers){
-                FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));
-                waitLobbyBoard.updateTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD");
-                waitLobbyBoard.updateLines(
-                        "",
-                        ChatColor.WHITE +  "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
-                        ChatColor.WHITE +  "Jogadores : " + ChatColor.GREEN +  "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
-                        "",
-                        ChatColor.YELLOW + "neoms.gg");
+            if (track.getGameStatus().equals(GameStatus.JOIN)) {
+                track.updateWaitBoard();
+            }else if (track.getGameStatus().equals(GameStatus.OCURRING)){
+                track.updateGameBoard();
             }
-
         }
         
     }

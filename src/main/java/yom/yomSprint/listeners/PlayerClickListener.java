@@ -5,16 +5,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import yom.yomSprint.run.ClickChecker;
+import yom.yomSprint.clicks.ClickChecker;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.TrackManager;
+import yom.yomSprint.models.Stamina;
 import yom.yomSprint.models.Track;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class PlayerClickListener implements Listener {
 
-    long lastClick = 0;
-    ClickChecker clickChecker = new ClickChecker(lastClick);
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
@@ -22,13 +26,10 @@ public class PlayerClickListener implements Listener {
         if (TrackManager.isPlayerInAnyTrack(player)) {
             Track track = TrackManager.getTrackByPlayer(player);
             if (track.getGameStatus().equals(GameStatus.OCURRING)) {
-
+                ClickChecker clickChecker = new ClickChecker(track.getLastClickMap().get(player.getUniqueId()),track);
                 if (event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-
-                    clickChecker.setTimeInMillis(lastClick);
-                    lastClick = System.currentTimeMillis();
-
+                    track.getLastClickMap().put(player.getUniqueId(),System.currentTimeMillis());
 
                     if ((player.getEyeLocation().getYaw() > 135.1 && player.getEyeLocation().getYaw() <= 180)
                             || (player.getEyeLocation().getYaw() <= -135.1 && player.getEyeLocation().getYaw() >= -180)) {

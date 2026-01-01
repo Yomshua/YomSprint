@@ -8,7 +8,7 @@ import java.util.UUID;
 public class ClassBridge {
 
     Location blockLocation;
-    Boolean canExecute;
+    Boolean canExecute = false;
     String tittlePositionsGUI;
     int laneNumber;
     String trackName;

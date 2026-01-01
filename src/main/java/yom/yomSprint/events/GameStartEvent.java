@@ -24,7 +24,7 @@ public class GameStartEvent extends Event {
         return track;
     }
 
-    public Set<UUID> getPlayer() {
+    public Set<UUID> getPlayers() {
         return playersList;
     }
 

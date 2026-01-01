@@ -1,7 +1,6 @@
 package yom.yomSprint.listeners;
 
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,6 +12,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.managers.ClassBridge;
 
@@ -46,7 +46,7 @@ public class PlayerInteractListener implements Listener {
                 ClassBridge classBridge = classBridgeMap.get(player.getUniqueId());
                 player.sendMessage("Digite o número da raia a qual quer adicionar: ");
                 classBridge.setCanExecute(true);
-                classBridge.setBlockLocation(event.getClickedBlock().getLocation());
+                classBridge.setBlockLocation(event.getClickedBlock().getLocation().add(new Vector(1,0,1)));
                 classBridge.setTrackName(trackName);
             }
         }

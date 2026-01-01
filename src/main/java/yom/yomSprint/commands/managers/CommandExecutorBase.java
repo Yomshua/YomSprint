@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
+import yom.yomSprint.YomSprint;
 import yom.yomSprint.guis.MainGUI;
 
 import java.util.ArrayList;
@@ -17,6 +18,12 @@ import java.util.Set;
 public class CommandExecutorBase implements TabExecutor {
 
     private final List<TrackSubCommands> subCommandsMain = new ArrayList<>();
+
+    YomSprint plugin;
+
+    public CommandExecutorBase(YomSprint plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
@@ -30,7 +37,7 @@ public class CommandExecutorBase implements TabExecutor {
         } else if (args.length == 2) {
             for (TrackSubCommands commands : subCommandsMain) {
                 if (commands.getSubCommand() != null) {
-                    for(String subcommands : getSubCommandsOfCommand(COMMAND)){
+                    for (String subcommands : getSubCommandsOfCommand(COMMAND)) {
                         list.add(subcommands);
                     }
                 }
@@ -45,11 +52,14 @@ public class CommandExecutorBase implements TabExecutor {
         if (!(sender instanceof Player)) return onlyPlayers();
         Player player = ((Player) sender).getPlayer();
         if (args.length == 0) {
-            new MainGUI(player).open(player);
+            new MainGUI(player,plugin).open(player);
             return true;
         }
         TrackSubCommands subCommand = getSubCommand(args);
-        if (subCommand == null) return false;
+        if (subCommand == null){
+            player.sendMessage(ChatColor.RED + "Esse comando não existe!");
+            return false;
+        }
         if (subCommand.getPermission() == null) {
             subCommand.runCommand(sender, command, label, args, player);
             return true;
@@ -57,43 +67,45 @@ public class CommandExecutorBase implements TabExecutor {
         if (player.hasPermission(subCommand.getPermission())) {
             subCommand.runCommand(sender, command, label, args, player);
             return true;
-        }else {
+        } else {
             player.sendMessage(ChatColor.RED + "Você não tem permissão para acessar esse comando!");
         }
         return false;
     }
 
 
-        private TrackSubCommands getSubCommand (String[]args){
-            for (TrackSubCommands subCommand : subCommandsMain) {
-                if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand() == null) {
-                    return subCommand;
-                } else if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand().equals(args[1])) {
+    private TrackSubCommands getSubCommand(String[] args) {
+        for (TrackSubCommands subCommand : subCommandsMain) {
+            if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand() == null) {
+                return subCommand;
+            }
+            if (args.length >= 2) {
+                if (subCommand.getCommand().equals(args[0]) && subCommand.getSubCommand().equals(args[1])) {
                     return subCommand;
                 }
-
             }
-            return null;
         }
-
-        public void add (TrackSubCommands subCommand){
-            this.subCommandsMain.add(subCommand);
-        }
-
-
-        private boolean onlyPlayers () {
-            Bukkit.getLogger().info(ChatColor.RED + "Only players can execute this command!");
-            return true;
-        }
-
-        private List<String>getSubCommandsOfCommand(String command){
-            List<String> commandsList = new ArrayList<>();
-            for(TrackSubCommands commands : subCommandsMain){
-                if(commands.getCommand().equalsIgnoreCase(command)){
-                    commandsList.add(commands.getSubCommand());
-                }
-            }
-            return commandsList;
-        }
-
+        return null;
     }
+
+    public void add(TrackSubCommands subCommand) {
+        this.subCommandsMain.add(subCommand);
+    }
+
+
+    private boolean onlyPlayers() {
+        Bukkit.getLogger().info(ChatColor.RED + "Only players can execute this command!");
+        return true;
+    }
+
+    private List<String> getSubCommandsOfCommand(String command) {
+        List<String> commandsList = new ArrayList<>();
+        for (TrackSubCommands commands : subCommandsMain) {
+            if (commands.getCommand().equalsIgnoreCase(command)) {
+                commandsList.add(commands.getSubCommand());
+            }
+        }
+        return commandsList;
+    }
+
+}

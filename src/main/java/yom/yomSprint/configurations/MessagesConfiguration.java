@@ -12,8 +12,8 @@ import java.util.List;
 
 public class MessagesConfiguration {
 
-    public String track_join = "&aVocê entrou na pista <track_name>";
-    public String track_leave = "&aVocê saiu da pista <track_name>";
+    public String track_join = "&aVocê entrou na pista %yomsprint_track_name%";
+    public String track_leave = "&aVocê saiu da pista %yomsprint_track_name%";
 
     YomSprint plugin;
     File file;

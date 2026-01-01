@@ -94,18 +94,56 @@ public final class TrackManager {
     public static boolean isAvailableLane(Lane lane) {
         BoudingBox startBox = lane.getStartBoudingBox();
         BoudingBox endBox = lane.getEndBoudingBox();
+        Location edge1 = lane.getEdge1();
+        Location edge2 = lane.getEdge2();
 
         if (startBox == null || endBox == null) return false;
         if (startBox.getPos1() == null || startBox.getPos2() == null) return false;
         if (endBox.getPos1() == null || endBox.getPos2() == null) return false;
+        if (edge1 == null || edge2 == null) return false;
 
         if ((isLocation(startBox.getPos1()) && isLocation(startBox.getPos2())
-                && (isLocation(endBox.getPos1()) && isLocation(endBox.getPos2())))){
+                && (isLocation(endBox.getPos1()) && isLocation(endBox.getPos2())) &&
+                (isLocation(edge1) && isLocation(edge2)))){
             return true;
         } else {
             return false;
         }
     }
+
+     public static boolean isInsideLane(Player player,Lane lane){
+
+        Location edge1 = lane.getEdge1();
+        Location edge2 = lane.getEdge2();
+
+        double xMax = Math.max(edge1.getX(),edge2.getX());
+        double xMin = Math.min(edge1.getX(),edge2.getX());
+
+         double zMax = Math.max(edge1.getZ(),edge2.getZ());
+         double zMin = Math.min(edge1.getZ(),edge2.getZ());
+
+         Location pLoc = player.getLocation();
+
+        if (xMax == xMin){
+
+            double pZ = pLoc.getZ();
+
+            if (pZ <= zMax && pZ >= zMin ){
+                return true;
+            }
+            return false;
+        } else if (zMax == zMin) {
+
+            double pX = pLoc.getX();
+
+            if (pX <= xMax && pX >= xMin ){
+                return true;
+            }
+            return false;
+        }
+
+         return false;
+     }
 
     private static boolean isLocation(Object object) {
         if (object instanceof Location) {

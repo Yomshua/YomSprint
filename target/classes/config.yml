@@ -9,4 +9,4 @@ config:
     z: 258.69999998807907
     pitch: 10.174814
     yaw: 161.96877
-  join_message: "&eSeja Bem-Vindo!"
+  join_teleport : true

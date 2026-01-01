@@ -20,8 +20,8 @@ import yom.yomSprint.utils.HelpCode;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
+
 
 public class ChoosePositionsGUI implements YomGUI {
 
@@ -42,12 +42,14 @@ public class ChoosePositionsGUI implements YomGUI {
 
     @Override
     public Inventory getInventory() {
-        Inventory gui = Bukkit.createInventory(new ChoosePositionGUIHolder(), 27, ChatColor.YELLOW +  trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
+        Inventory gui = Bukkit.createInventory(new ChoosePositionGUIHolder(), 45, ChatColor.YELLOW + trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
         classBridge.setTittlePositionsGUI(trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
-        gui.setItem(10, itemPos("Start Pos1", "startPos1"));
-        gui.setItem(12, itemPos("Start Pos2", "startPos2"));
-        gui.setItem(14, itemPos("End Pos1", "endPos1"));
-        gui.setItem(16, itemPos("End Pos2", "endPos2"));
+        gui.setItem(11, itemPos("Start Pos1", "startPos1"));
+        gui.setItem(29, itemPos("Start Pos2", "startPos2"));
+        gui.setItem(13, itemPos("End Pos1", "endPos1"));
+        gui.setItem(31, itemPos("End Pos2", "endPos2"));
+        gui.setItem(15, itemPos("Edge Pos1", "edgePos1"));
+        gui.setItem(33, itemPos("Edge Pos2", "edgePos2"));
         return gui;
     }
 
@@ -72,15 +74,31 @@ public class ChoosePositionsGUI implements YomGUI {
         ItemStack itemStack = getGameSkull(itemName);
         ItemMeta meta = itemStack.getItemMeta();
         List<String> lore = new ArrayList<>();
-        if (trackConfig.getConfigurationSection("tracks." + trackName + ".lanes." + laneNumber).contains(path)) {
-            Location location = trackConfig.getLocation("tracks." + trackName + ".lanes." + laneNumber + "." + path);
-            lore.add("");
-            lore.add(ChatColor.AQUA.toString() + ChatColor.BOLD + "World : " + ChatColor.WHITE + location.getWorld().getName());
-            lore.add(prefix + "X : " + location.getX());
-            lore.add(prefix + "Y : " + location.getY());
-            lore.add(prefix + "Z : " + location.getZ());
+        if (trackConfig.getConfigurationSection("tracks." + trackName + ".lanes." + laneNumber) == null) {
+            if (!trackConfig.getConfigurationSection("tracks." + trackName).contains("lanes")) {
+                trackConfig.getConfigurationSection("tracks." + trackName).createSection("lanes");
+                plugin.getTracksConfiguration().saveConfig();
+            }
+            trackConfig.set("tracks." + trackName + ".lanes." + laneNumber, null);
+            plugin.getTracksConfiguration().saveConfig();
+        }
+        if (trackConfig.getConfigurationSection("tracks." + trackName + ".lanes").contains(laneNumber + "." + path)) {
+            Object object = trackConfig.get("tracks." + trackName + ".lanes." + laneNumber + "." + path);
+            if (object instanceof Location) {
+                Location location = trackConfig.getLocation("tracks." + trackName + ".lanes." + laneNumber + "." + path);
+                lore.add("");
+                lore.add(ChatColor.AQUA.toString() + ChatColor.BOLD + "World : " + ChatColor.WHITE + location.getWorld().getName());
+                lore.add(prefix + "X : " + location.getX());
+                lore.add(prefix + "Y : " + location.getY());
+                lore.add(prefix + "Z : " + location.getZ());
+            } else {
+                lore.add("");
+                lore.add(ChatColor.RED + path + " não é uma location válida!");
+                meta.setLore(lore);
+                itemStack.setItemMeta(meta);
+                return itemStack;
+            }
         } else {
-            lore.add("");
             lore.add(ChatColor.RED + path + " não configurada!");
         }
         meta.setLore(lore);

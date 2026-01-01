@@ -20,20 +20,20 @@ public class HelpCode {
 //    REVIEW: ("revise") Revise isso pra mim, usado onde se costuma fazer peer review
 //    WTF: Fizeram um besteira muito grande aqui
 
-    /* - TabCompleter Bugado
-       - Adicionar compatiblidade com MySQL e Json
-       - Arrumar chat e tab por pista
-       - Adicionar scoreboard customizavel por yaml
-       - Adicionar permissoes nos comandos
-       - Sistema
+    /* - TabCompleter Bugado - OK
+       - Arrumar chat e tab por pista - OK
+       - Adicionar scoreboard customizavel por yaml - OK
+       - Adicionar permissoes nos comandos - OK
      */
 
+    /*
+     Placheholders :
 
-    public static boolean isLocation(Object object){
-        if (object instanceof Location){
-            return true;
-        }
-        return false;
-    }
+        %yomsprint_track_name%
+        %yomsprint_track_minsize%
+        %yomsprint_track_maxsize%
+        %yomsprint_player%
+
+     */
 
 }

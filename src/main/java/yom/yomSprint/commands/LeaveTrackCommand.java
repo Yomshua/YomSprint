@@ -1,5 +1,6 @@
 package yom.yomSprint.commands;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -8,9 +9,9 @@ import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.commands.managers.TrackSubCommands;
+import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.TrackManager;
 import yom.yomSprint.models.Track;
-import yom.yomSprint.utils.PlacheholderReplace;
 
 import java.util.UUID;
 
@@ -25,19 +26,14 @@ public class LeaveTrackCommand extends TrackSubCommands {
         player.setInvulnerable(false);
         if (TrackManager.isPlayerInAnyTrack(player)) {
             Track track = TrackManager.getTrackByPlayer(player);
+            player.sendMessage(PlaceholderAPI.setPlaceholders(player,plugin.getMessagesConfiguration().track_leave));
             track.getPlayersInGame().remove(player.getUniqueId());
-            player.sendMessage(PlacheholderReplace.apply(plugin.getMessagesConfiguration().track_leave,track));
-            track.getwaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
+            track.getWaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
             if (!track.getPlayersInGame().isEmpty()) {
-                for (UUID playerBoard : track.getPlayersInGame()) {
-                    FastBoard waitLobbyBoard = track.waitLobbyBoard(Bukkit.getPlayer(playerBoard));
-                    waitLobbyBoard.updateTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "TRACK AND FIELD");
-                    waitLobbyBoard.updateLines(
-                            "",
-                            ChatColor.WHITE + "Pista : " + ChatColor.YELLOW + track.getDisplayName(),
-                            ChatColor.WHITE + "Jogadores : " + ChatColor.GREEN + "(" + track.getWaitLobbySize() + "/" + track.getMaxPlayers() + ")",
-                            "",
-                            ChatColor.YELLOW + "neoms.gg");
+                if (track.getGameStatus().equals(GameStatus.JOIN)){
+                    track.updateWaitBoard();
+                }else if (track.getGameStatus().getStatus().equals(GameStatus.OCURRING)){
+                    track.updateGameBoard();
                 }
             }
             player.teleport(plugin.getLobbyLocation());

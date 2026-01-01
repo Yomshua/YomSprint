@@ -26,7 +26,7 @@ public class ReloadCommand extends TrackSubCommands {
                 Player playerInTrack = Bukkit.getPlayer(uuid);
                 // Caso o player esteja em alguma arena!
                 playerInTrack.setInvulnerable(false);
-                track.getwaitLobbyScoreboadMap().get(uuid).delete();
+                track.getWaitLobbyScoreboadMap().get(uuid).delete();
                 if (!plugin.getConfig().contains("main_lobby") || plugin.getConfig().get("main_lobby") == null) return;
                 if (!plugin.getConfig().getBoolean("lobby_activated")) return;
                 Object obj = plugin.getConfig().get("main_lobby");
