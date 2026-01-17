@@ -51,6 +51,7 @@ public class GameEndListener implements Listener {
                         player.setInvulnerable(false);
                         player.setExp(0);
                         player.removePotionEffect(PotionEffectType.SLOW);
+                        players.remove(uuid);
                     }
                     track.reload();
                     cancel();

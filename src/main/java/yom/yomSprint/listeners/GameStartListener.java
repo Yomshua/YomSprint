@@ -11,7 +11,6 @@ import java.util.UUID;
 
 public class GameStartListener implements Listener {
 
-    //Quando o jogo começar, todos os players são teleportados para sua raia perspectivamente na ordem de entrada
     @EventHandler
     void gameStart(GameStartEvent event){
         Track track = event.getTrack();

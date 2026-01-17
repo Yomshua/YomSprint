@@ -14,6 +14,8 @@ public class MessagesConfiguration {
 
     public String track_join = "&aVocê entrou na pista %yomsprint_track_name%";
     public String track_leave = "&aVocê saiu da pista %yomsprint_track_name%";
+    public String join = "&a %yomsprint_player% entrou no lobby";
+
 
     YomSprint plugin;
     File file;
@@ -33,12 +35,14 @@ public class MessagesConfiguration {
 
         config.addDefault("messages.track_join", track_join);
         config.addDefault("messages.track_leave", track_leave);
+        config.addDefault("messages.join",join);
 
         config.options().copyDefaults(true);
         saveConfig();
 
         track_join = translateColorCodes("messages.track_join");
         track_leave = translateColorCodes("messages.track_leave");
+        join = translateColorCodes("messages.join");
 
     }
 

@@ -11,7 +11,6 @@ import yom.yomSprint.commands.managers.TrackSubCommands;
 
 public class SetMainLobbyCommand extends TrackSubCommands {
 
-
     public SetMainLobbyCommand(YomSprint plugin) {
         super("track", "setmlobby", "sprint.setmlobby",plugin);
     }
@@ -20,8 +19,10 @@ public class SetMainLobbyCommand extends TrackSubCommands {
     public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         Location lobbyLocation = player.getLocation();
         FileConfiguration fileConfiguration = plugin.getConfig();
-        fileConfiguration.set("main_lobby", lobbyLocation);
+        fileConfiguration.set("config.main_lobby", lobbyLocation);
         plugin.saveConfig();
+
+        plugin.setLobbyLocation(lobbyLocation);
 
         player.sendMessage(ChatColor.GREEN + "Main lobby adicionado com sucesso ");
     }

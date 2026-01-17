@@ -1,7 +1,6 @@
 yom\yomSprint\guis\YomGUI.class
 yom\yomSprint\listeners\MainGUIListener.class
 yom\yomSprint\listeners\GameStartListener.class
-yom\yomSprint\listeners\GameSetListener$1.class
 yom\yomSprint\listeners\PlayerClickListener.class
 yom\yomSprint\commands\managers\CommandExecutorBase.class
 yom\yomSprint\commands\managers\CommandsManager.class
@@ -24,14 +23,12 @@ yom\yomSprint\guis\holders\ChoosePositionGUIHolder.class
 yom\yomSprint\events\PlayerJoinWaitLobbyEvent.class
 yom\yomSprint\guis\holders\TracksGUIHolder.class
 yom\yomSprint\utils\CustomMessage$1.class
-yom\yomSprint\models\StartCountRunnable$1.class
 yom\yomSprint\guis\MainGUI.class
 yom\yomSprint\configurations\TracksConfiguration.class
 yom\yomSprint\clicks\ClickQuality.class
 yom\yomSprint\models\Lane.class
 yom\yomSprint\listeners\PlayerJoinListener.class
 yom\yomSprint\listeners\PlayerQuitListener.class
-yom\yomSprint\utils\PlacheholderReplace.class
 yom\yomSprint\commands\SetMainLobbyCommand.class
 yom\yomSprint\YomSprint.class
 yom\yomSprint\clicks\ClickChecker.class
@@ -42,7 +39,6 @@ yom\yomSprint\commands\SeeTracksCommand.class
 yom\yomSprint\boards\FastBoardBase$VersionType.class
 yom\yomSprint\listeners\ChooseGameGUIListener.class
 yom\yomSprint\commands\LeaveTrackCommand.class
-yom\yomSprint\models\StartCountRunnable.class
 yom\yomSprint\events\GameSetEvent.class
 yom\yomSprint\managers\TrackManager.class
 yom\yomSprint\commands\SetLanesLengthCommand.class

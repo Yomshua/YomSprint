@@ -7,10 +7,11 @@ import java.util.UUID;
 
 public class Stamina {
 
-    UUID uuid;
-    Track track;
-    int level;
-    Player player;
+    private UUID uuid;
+    private Track track;
+    private int level;
+    private Player player;
+    private final float EXP_ONE_BAR = 0.055f;
 
     public Stamina(UUID uuid,Track track) {
         this.uuid = uuid;
@@ -24,7 +25,7 @@ public class Stamina {
 
     public void setExpAndLevel(int level){
         this.level = level;
-        float exp = (level/2) * 0.055F;
+        float exp = (level/2) * EXP_ONE_BAR;
         if (exp >= 0) {
             player.setExp(0);
             player.setExp(exp);

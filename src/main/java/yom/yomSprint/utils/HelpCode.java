@@ -24,6 +24,9 @@ public class HelpCode {
        - Arrumar chat e tab por pista - OK
        - Adicionar scoreboard customizavel por yaml - OK
        - Adicionar permissoes nos comandos - OK
+       - Bug scoreboard
+       - Bug ao entrar novamente em uma partida, depois de acabar
+       - Bug /leave
      */
 
     /*

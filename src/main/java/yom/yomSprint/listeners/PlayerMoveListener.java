@@ -1,6 +1,7 @@
 package yom.yomSprint.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameEndEvent;
@@ -37,26 +39,50 @@ public class PlayerMoveListener implements Listener {
         Player player = event.getPlayer();
         if (!TrackManager.isPlayerInAnyTrack(player)) return;
         Track track = TrackManager.getTrackByPlayer(player);
+        if (track.getLaneHashMap().get(player.getUniqueId()) == null)return;
         Stamina stamina = track.getStaminaMap().get(player.getUniqueId());
-        Lane lane = getLane(player, track);
+        Lane lane = track.getLaneHashMap().get(player.getUniqueId());
         if (track.getGameStatus().equals(GameStatus.IN_SET)) {
             if (!lane.getStartBoudingBox().contains(player)) {
                 player.teleport(lane.getStartBoudingBox().getMiddle(player.getWorld()));
             }
         }
 
-        if (track.getGameStatus().equals(GameStatus.OCURRING)){
-            if (!TrackManager.isInsideLane(player,getLane(player,track))){
-                player.teleport(getLane(player,track).getStartBoudingBox().getMiddle(player.getWorld()));
+        if (track.getGameStatus().equals(GameStatus.READY)) {
+            if (!lane.getStartBoudingBox().contains(player)) {
+                track.removeGameBoard(player.getUniqueId());
+                track.getPlayersInGame().remove(player.getUniqueId());
+                player.sendTitle(ChatColor.RED + "Você queimou a largada!", "");
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.teleport(plugin.getLobbyLocation());
+                    }
+                }.runTaskLater(plugin, 20 * 3);
+
+                    for (UUID uuid : track.getPlayersInGame()) {
+                        Player target = Bukkit.getPlayer(uuid);
+                        target.sendTitle(ChatColor.RED + player.getName() + " queimou a largada!", "");
+                    }
+                    track.getSetRunnable().getRunnable().cancel();
+                    track.getSetRunnable().start();
+
+
             }
         }
 
-        if (stamina.getLevel() < 18){
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW,1000,0));
+        if (track.getGameStatus().equals(GameStatus.OCURRING)) {
+            if (!TrackManager.isInsideLane(player,lane)) {
+                player.teleport(lane.getStartBoudingBox().getMiddle(player.getWorld()));
+            }
+        }
+
+        if (stamina.getLevel() < 18) {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000, 0));
         }
 
         // Detecção de pulo
-        if (track.getGameStatus().equals(GameStatus.OCURRING)){
+        if (track.getGameStatus().equals(GameStatus.OCURRING)) {
             Location from = event.getFrom();
             Location to = event.getTo();
 
@@ -64,34 +90,13 @@ public class PlayerMoveListener implements Listener {
                 stamina.setExpAndLevel(stamina.getLevel() - 2);
             }
         }
-        int laneNumber = getLaneNumberOfPlayer(player, track);
-        Location playerLocation = player.getLocation();
 
         if (track.getPlayersInGame().contains(player.getUniqueId())) {
-            if (lane.getEndBoudingBox().contains(player)) {
+            if (lane.getEndBoudingBox().contains(player) && classBridge.getAlreadyFinish().get(player.getUniqueId()) == null) {
                 Bukkit.getPluginManager().callEvent(new PlayerFinishEvent(track, player, new Time(System.currentTimeMillis())));
             }
         }
     }
 
-    private Lane getLane(Player player, Track track) {
-        for (Lane lane : track.getLanes()) {
-            if (lane.getNumber() == getLaneNumberOfPlayer(player, track)) {
-                return lane;
-            }
-        }
-        return null;
-    }
-
-    private int getLaneNumberOfPlayer(Player player, Track track) {
-        int count = 1;
-        for (UUID uuid : track.getPlayersInGame()) {
-            if (uuid.equals(player.getUniqueId())) {
-                return count;
-            }
-            count++;
-        }
-        return count;
-    }
 
 }

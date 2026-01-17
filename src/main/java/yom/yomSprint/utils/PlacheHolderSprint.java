@@ -48,6 +48,7 @@ public class PlacheHolderSprint extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("track_name")) return track.getDisplayName();
         if (params.equalsIgnoreCase("track_minsize")) return String.valueOf(track.getMinPlayers());
         if (params.equalsIgnoreCase("track_maxsize")) return String.valueOf(track.getMaxPlayers());
+        if (params.equalsIgnoreCase("track_length")) return String.valueOf(track.getPlayersInGame().size());
         if (params.equalsIgnoreCase("player")) return player.getName();
         if (params.equalsIgnoreCase("player_wins")){
             PlayersConfiguration playersConfiguration = new PlayersConfiguration(player.getUniqueId(),plugin);

@@ -35,6 +35,8 @@ public class LeaveTrackCommand extends TrackSubCommands {
                 }else if (track.getGameStatus().getStatus().equals(GameStatus.OCURRING)){
                     track.updateGameBoard();
                 }
+            }else {
+                track.reload();
             }
             player.teleport(plugin.getLobbyLocation());
         } else {

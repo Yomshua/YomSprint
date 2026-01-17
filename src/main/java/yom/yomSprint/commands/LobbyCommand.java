@@ -1,5 +1,6 @@
 package yom.yomSprint.commands;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +21,7 @@ public class LobbyCommand extends TrackSubCommands {
            return;
         }
         player.teleport(plugin.getLobbyLocation());
-        player.sendMessage(plugin.getConfig().getString("config.join_message").replace("&","§"));
+        player.sendMessage(PlaceholderAPI.setPlaceholders(player,plugin.getMessagesConfiguration().join));
 
     }
 }

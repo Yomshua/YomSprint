@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import yom.yomSprint.boards.FastBoard;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.runnables.SetRunnable;
 import yom.yomSprint.runnables.StartCountRunnable;
 import yom.yomSprint.utils.CustomMessage;
 
@@ -39,8 +40,10 @@ public class Track {
     private ArrayList<UUID> marks = new ArrayList<>();
     private HashMap<UUID, Long> lastClickMap = new HashMap<>();
     private StartCountRunnable startCountRunnable;
+    private SetRunnable setRunnable;
     private boolean runnableRunning;
     private HashMap<UUID, Stamina> staminaMap = new HashMap<>();
+    private HashMap<UUID,Lane> laneHashMap = new HashMap<>();
 
     private Track(YomSprint plugin, String name, String displayName, int maxPlayers, int minPlayers, List<Lane> lanes, List<String> waitLobbyScoreboad, String waitLobbyScoreboardTittle, List<String> gameScoreboad, String gameScoreboardTittle) {
         this.plugin = plugin;
@@ -60,9 +63,11 @@ public class Track {
         needConfigs.put("lanes", "Raias");
         needConfigs.put("lanes_length", "Comprimento das Raias");
         startCountRunnable = new StartCountRunnable(plugin, this);
+        setRunnable = new SetRunnable(plugin,this);
     }
 
     public void reload() {
+        gameStatus = GameStatus.JOIN;
         lastClickMap.clear();
         waitLobbyScoreboadMap.clear();
         marks.clear();
@@ -71,6 +76,10 @@ public class Track {
         staminaMap.clear();
         gameScoreboaMap.clear();
         waitLobbyScoreboadMap.clear();
+        laneHashMap.clear();
+        runnableRunning = false;
+        setRunnable = new SetRunnable(plugin,this);
+        startCountRunnable = new StartCountRunnable(plugin,this);
     }
 
     public static class TrackBuilder {
@@ -312,6 +321,10 @@ public class Track {
         return startCountRunnable;
     }
 
+    public SetRunnable getSetRunnable() {
+        return setRunnable;
+    }
+
     public boolean isRunnableRunining() {
         return runnableRunning;
     }
@@ -322,5 +335,9 @@ public class Track {
 
     public HashMap<UUID, Stamina> getStaminaMap() {
         return staminaMap;
+    }
+
+    public HashMap<UUID, Lane> getLaneHashMap() {
+        return laneHashMap;
     }
 }

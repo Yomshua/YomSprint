@@ -70,9 +70,8 @@ public class PlayerFinishListener implements Listener {
         }
         classBridge.getAlreadyFinish().put(player.getUniqueId(),true);
         spectatorManager.setSpectate(player,track.getPlayersInGame());
-        track.getPlayersInGame().remove(player.getUniqueId());
 
-        if (track.getPlayersInGame().size() == 0){
+        if (track.getPlayersInGame().size() == track.getMarks().size()){
             Bukkit.getPluginManager().callEvent(new GameEndEvent(track,track.getPlayersInGame(),track.getMarks()));
         }
 

@@ -17,7 +17,7 @@ public class PlayerJoinListener implements Listener {
     }
 
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST)
     void onJoinEvent(PlayerJoinEvent event){
         Player player = event.getPlayer();
         if (plugin.getConfig().getBoolean("config.join_teleport")) {
