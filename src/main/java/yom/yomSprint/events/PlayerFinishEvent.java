@@ -3,21 +3,19 @@ package yom.yomSprint.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Time;
-import yom.yomSprint.models.Track;
-
-import java.util.List;
 
 public class PlayerFinishEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
     Player player;
-    Track track;
+    Competition competition;
     Time time;
 
-    public PlayerFinishEvent(Track track, Player player,Time time) {
-        this.track = track;
+    public PlayerFinishEvent(Competition competition, Player player, Time time) {
+        this.competition = competition;
         this.player = player;
         this.time = time;
     }
@@ -31,8 +29,8 @@ public class PlayerFinishEvent extends Event {
         return player;
     }
 
-    public Track getTrack() {
-        return track;
+    public Competition getGame() {
+        return competition;
     }
 
     public Time getTime() {

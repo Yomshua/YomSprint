@@ -1,28 +1,17 @@
 package yom.yomSprint.events;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import yom.yomSprint.models.Time;
-import yom.yomSprint.models.Track;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.UUID;
+import yom.yomSprint.models.Competition;
 
 public class GameEndEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
-    private Set<UUID> players;
-    private ArrayList<UUID> marks;
-    private Track track;
+    private Competition competition;
 
-    public GameEndEvent(Track track, Set<UUID> players, ArrayList<UUID> marks) {
-        this.track = track;
-        this.players = players;
-        this.marks = marks;
+    public GameEndEvent(Competition competition) {
+        this.competition = competition;
     }
 
     @Override
@@ -34,17 +23,9 @@ public class GameEndEvent extends Event {
         return handlerList;
     }
 
-    public ArrayList<UUID> getMarks() {
-        return marks;
-    }
 
-    public Set<UUID> getPlayers() {
-        return players;
-    }
-
-
-    public Track getTrack() {
-        return track;
+    public Competition getGame(){
+        return competition;
     }
 
 }

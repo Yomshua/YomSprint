@@ -1,50 +1,51 @@
 package yom.yomSprint.listeners;
 
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Stamina;
 import yom.yomSprint.utils.CustomMessage;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.boards.FastBoard;
+import yom.yomSprint.boards.fastboardAPI.FastBoard;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.models.Track;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-public class PlayerTrackListener implements Listener {
+public class PlayerCompetitionListener implements Listener {
 
     private YomSprint plugin;
 
-    public PlayerTrackListener(YomSprint plugin) {
+    public PlayerCompetitionListener(YomSprint plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
     public void onJoin(PlayerJoinWaitLobbyEvent event) {
         Player player = event.getPlayer();
-        Track track = event.getTrack();
+        Competition competition = event.getCompetition();
+        Track track = competition.getTrack();
         player.setInvulnerable(true);
         if (!track.getWaitLobbyScoreboadMap().containsKey(player.getUniqueId())){
             track.getWaitLobbyScoreboadMap().put(player.getUniqueId(),new FastBoard(player));
         }
-        HashMap<UUID, Stamina> staminaMap = track.getStaminaMap();
+        Map<UUID, Stamina> staminaMap = competition.getStaminaMap();
         staminaMap.put(player.getUniqueId(),new Stamina(player.getUniqueId(),track));
         Stamina stamina = staminaMap.get(player.getUniqueId());
         stamina.setExpAndLevel(36);
-        track.addPlayerInGame(player);
-        CustomMessage.sendCustomActionBar(player, ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + event.getTrack().getName(), plugin);
-        // Atualiza o board de todos os players
+        competition.getRunners().add(player.getUniqueId());
+        CustomMessage.sendCustomActionBar(player, ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + competition.getTrack().getName(), plugin);
+
         track.updateWaitBoard();
-        // Começa a contagem regresiva
-        if (track.getWaitLobbySize() >= track.getMinPlayers()) {
-           if (!track.isRunnableRunining()) {
-               track.getStartCountRunnable().start();
-               track.setRunnableRunining(true);
+
+        if (competition.getGameSize() >= track.getMinPlayers()) {
+           if (!competition.isRunnableRunining()) {
+               competition.getStartCountRunnable().start();
+               competition.setRunnableRunining(true);
            }
         }
 

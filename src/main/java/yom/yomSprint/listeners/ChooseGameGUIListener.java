@@ -13,8 +13,8 @@ import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.guis.holders.TracksGUIHolder;
-import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.managers.CompetitionManager;
+import yom.yomSprint.models.Competition;
 
 public class ChooseGameGUIListener implements Listener {
 
@@ -34,15 +34,15 @@ public class ChooseGameGUIListener implements Listener {
         ItemStack item = event.getCurrentItem();
         if (item == null || item.equals(Material.AIR)) return;
         FileConfiguration tracksConfig = plugin.getTracksConfiguration().getConfig();
-        for (Track track : TrackManager.getTracks()) {
+        for (Competition competition : plugin.getCompetitionManager().getCompetitions()) {
             if (!item.hasItemMeta()) return;
-            if (tracksConfig.getConfigurationSection("tracks." + track.getName()).getString("display_name").equals(item.getItemMeta().getDisplayName())) {
-                if (track.getGameStatus().equals(GameStatus.JOIN)) {
-                    if (track.getLanes().size() == track.getPlayersInGame().size()) {
+            if (tracksConfig.getConfigurationSection("tracks." + competition.getTrack().getName()).getString("display_name").equals(item.getItemMeta().getDisplayName())) {
+                if (competition.getStatus().equals(GameStatus.JOIN)) {
+                    if (competition.getTrack().getLanes().size() == competition.getRunners().size()) {
                         player.sendMessage(ChatColor.RED + "Você pode no entrar, as raias não foram configuradas corretamente!");
                     }else {
-                        TrackManager.teleportPlayerToWaitLobby(player, track, plugin);
-                        Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(track, player));
+                        plugin.getCompetitionManager().teleportPlayerToWaitLobby(player,competition);
+                        Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(competition, player));
                     }
                 }
             }

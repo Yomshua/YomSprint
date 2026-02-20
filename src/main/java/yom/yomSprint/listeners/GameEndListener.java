@@ -9,11 +9,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameEndEvent;
-import yom.yomSprint.models.Time;
+import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Track;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,11 +26,12 @@ public class GameEndListener implements Listener {
 
     @EventHandler
     public void onGameEnd(GameEndEvent event){
-        ArrayList<UUID> marks = event.getMarks();
-        Set<UUID> players = event.getPlayers();
-        Track track = event.getTrack();
-        track.setGameStatus(GameStatus.JOIN);
-        track.setRunnableRunining(false);
+        Competition competition = event.getGame();
+        Track track = competition.getTrack();
+        ArrayList<UUID> marks = competition.getMarks();
+        Set<UUID> players = competition.getRunners();
+        competition.setGameStatus(GameStatus.JOIN);
+        competition.setRunnableRunining(false);
         new BukkitRunnable() {
             int count = 0;
             @Override
@@ -53,7 +53,7 @@ public class GameEndListener implements Listener {
                         player.removePotionEffect(PotionEffectType.SLOW);
                         players.remove(uuid);
                     }
-                    track.reload();
+                    competition.reload();
                     cancel();
                 }
                 }

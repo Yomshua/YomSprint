@@ -5,8 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.guis.holders.TracksGUIHolder;
-import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.managers.CompetitionManager;
+import yom.yomSprint.models.Competition;
 
 public class TracksGUI implements YomGUI{
 
@@ -19,8 +19,8 @@ public class TracksGUI implements YomGUI{
     @Override
     public Inventory getInventory() {
         Inventory gui = Bukkit.createInventory(new TracksGUIHolder(),54, ChatColor.AQUA + "Pistas");
-        for (Track track : TrackManager.getTracks()){
-            TrackManager.addTracks(track,gui);
+        for (Competition competition : CompetitionManager.getCompetitions()){
+            CompetitionManager.addTracks(competition,gui);
         }
         return gui;
     }

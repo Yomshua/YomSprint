@@ -21,7 +21,6 @@ public class CommandsManager{
         base.add(new LeaveTrackCommand(plugin));
         base.add(new SetMainLobbyCommand(plugin));
         base.add(new AddLanesCommand(plugin));
-        base.add(new ReloadCommand(plugin));
         base.add(new SetLanesLengthCommand(plugin));
         base.add(new LobbyCommand(plugin));
     }

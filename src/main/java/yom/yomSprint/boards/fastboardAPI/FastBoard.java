@@ -1,4 +1,4 @@
-package yom.yomSprint.boards;
+package yom.yomSprint.boards.fastboardAPI;
 
 /*
  * This file is part of FastBoard, licensed under the MIT License.

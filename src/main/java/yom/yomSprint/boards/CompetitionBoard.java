@@ -2,14 +2,15 @@ package yom.yomSprint.boards;
 
 import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.boards.fastboardAPI.FastBoard;
 
 import java.util.List;
 
-public abstract class SprintBoard extends FastBoard {
+public abstract class CompetitionBoard extends FastBoard {
 
     private YomSprint plugin;
 
-    public SprintBoard(YomSprint plugin, Player player) {
+    public CompetitionBoard(YomSprint plugin, Player player) {
         super(player);
         this.plugin = plugin;
     }

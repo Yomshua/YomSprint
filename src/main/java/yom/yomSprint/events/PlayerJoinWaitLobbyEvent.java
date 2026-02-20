@@ -3,22 +3,22 @@ package yom.yomSprint.events;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.models.Competition;
 
 public class PlayerJoinWaitLobbyEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
     Player player;
-    Track track;
+    Competition competition;
 
-    public PlayerJoinWaitLobbyEvent(Track track,Player player) {
-        this.track = track;
+    public PlayerJoinWaitLobbyEvent(Competition competition, Player player) {
+        this.competition = competition;
         this.player = player;
     }
 
-    public Track getTrack() {
-        return track;
+    public Competition getCompetition() {
+        return competition;
     }
 
     public Player getPlayer() {

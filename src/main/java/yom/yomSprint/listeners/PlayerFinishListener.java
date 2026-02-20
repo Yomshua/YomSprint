@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.configurations.PlayersConfiguration;
 import yom.yomSprint.events.GameEndEvent;
@@ -18,6 +17,7 @@ import yom.yomSprint.events.PlayerFinishEvent;
 import yom.yomSprint.managers.ClassBridge;
 import yom.yomSprint.managers.SpectatorManager;
 import yom.yomSprint.managers.TimeManager;
+import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Track;
 
 public class PlayerFinishListener implements Listener {
@@ -35,11 +35,12 @@ public class PlayerFinishListener implements Listener {
     @EventHandler
     public void finishEvent(PlayerFinishEvent event){
         Player player = event.getPlayer();
-        Track track = event.getTrack();
+        Competition competition = event.getGame();
+        Track track = competition.getTrack();
         PlayersConfiguration playerConfig = new PlayersConfiguration(player.getUniqueId(),plugin);
         FileConfiguration config = playerConfig.getConfig();
-        track.getMarks().add(player.getUniqueId());
-        long finishTime = event.getTime().getTimeFinished() - track.getWhenGameStarted();
+        competition.getMarks().add(player.getUniqueId());
+        long finishTime = event.getTime().getTimeFinished() - competition.getWhenGameStarted();
 
         String time = TimeManager.getTimeInSeconds(finishTime);
         String doubleTime = time.replace(",",".");
@@ -49,8 +50,8 @@ public class PlayerFinishListener implements Listener {
         prBefore = prBefore.replace(",",".");
         double prDouble = Double.valueOf(prBefore);
 
-        for (int i = 0 ; i < track.getMarks().size(); i++){
-            if (track.getMarks().get(i).equals(player.getUniqueId())){
+        for (int i = 0; i < competition.getMarks().size(); i++){
+            if (competition.getMarks().get(i).equals(player.getUniqueId())){
                 player.sendTitle(i+1+ "° lugar",null);
                 int wins = config.getInt("wins");
                 config.set("wins",wins+1);
@@ -69,10 +70,10 @@ public class PlayerFinishListener implements Listener {
             }
         }
         classBridge.getAlreadyFinish().put(player.getUniqueId(),true);
-        spectatorManager.setSpectate(player,track.getPlayersInGame());
+        spectatorManager.setSpectate(player, competition.getRunners());
 
-        if (track.getPlayersInGame().size() == track.getMarks().size()){
-            Bukkit.getPluginManager().callEvent(new GameEndEvent(track,track.getPlayersInGame(),track.getMarks()));
+        if (competition.getRunners().size() == competition.getMarks().size()){
+            Bukkit.getPluginManager().callEvent(new GameEndEvent(competition));
         }
 
     }

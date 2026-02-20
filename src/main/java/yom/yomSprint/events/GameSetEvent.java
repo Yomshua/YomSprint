@@ -2,7 +2,7 @@ package yom.yomSprint.events;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.models.Competition;
 
 import java.util.Set;
 import java.util.UUID;
@@ -12,15 +12,15 @@ public class GameSetEvent extends Event {
     private static final HandlerList handlerList = new HandlerList();
 
     Set<UUID> playersList;
-    Track track;
+    Competition competition;
 
-    public GameSetEvent(Track track,Set<UUID> playersList) {
-        this.track = track;
+    public GameSetEvent(Competition competition, Set<UUID> playersList) {
+        this.competition = competition;
         this.playersList = playersList;
     }
 
-    public Track getTrack() {
-        return track;
+    public Competition getGame() {
+       return competition;
     }
 
     public Set<UUID> getPlayers() {

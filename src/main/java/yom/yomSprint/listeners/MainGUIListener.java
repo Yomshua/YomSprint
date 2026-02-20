@@ -9,7 +9,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.guis.TracksGUI;
-import yom.yomSprint.managers.TrackManager;
+import yom.yomSprint.managers.CompetitionManager;
 
 
 public class MainGUIListener implements Listener {
@@ -33,7 +33,7 @@ public class MainGUIListener implements Listener {
             case "§eStatus": // yellow
                 break;
             case "§a§lGames":
-                if (!TrackManager.isPlayerInAnyTrack(player)) {
+                if (!CompetitionManager.isPlayerInAnyGame(player)) {
                     new TracksGUI(plugin).open(player);
                 } else {
                     player.sendMessage(ChatColor.RED + "Você não pode mudar de pista, saia primeiro a qual está");

@@ -4,29 +4,36 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
-import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.models.Competition;
 
 import java.util.Set;
 import java.util.UUID;
 
 
 public class PlayerQuitListener implements Listener {
+
+    YomSprint plugin;
+
+    public PlayerQuitListener(YomSprint plugin) {
+        this.plugin = plugin;
+    }
+
     @EventHandler
     void onQuitEvent(PlayerQuitEvent event){
         Player player = event.getPlayer();
         player.setInvulnerable(false);
-        if(TrackManager.isPlayerInAnyTrack(player)){
-            Track track = TrackManager.getTrackByPlayer(player);
-            Set<UUID> listOfPlayers = TrackManager.getTrackByPlayer(player).getPlayersInGame();
+        if(plugin.getCompetitionManager().isPlayerInAnyGame(player)){
+            Competition competition = plugin.getCompetitionManager().getCompetition(player);
+            Set<UUID> listOfPlayers = competition.getRunners();
             listOfPlayers.remove(player.getUniqueId());
-            if (track.getGameStatus().equals(GameStatus.JOIN)) {
-                track.getWaitLobbyScoreboadMap().remove(player.getUniqueId());
-                track.updateWaitBoard();
-            }else if (track.getGameStatus().equals(GameStatus.OCURRING)){
-                track.getGameScoreboaMap().remove(player.getUniqueId());
-                track.updateGameBoard();
+            if (competition.getStatus().equals(GameStatus.JOIN)) {
+                competition.getTrack().getWaitLobbyScoreboadMap().remove(player.getUniqueId());
+                competition.getTrack().updateWaitBoard();
+            }else if (competition.getStatus().equals(GameStatus.OCURRING)){
+                competition.getTrack().getGameScoreboaMap().remove(player.getUniqueId());
+                competition.getTrack().updateGameBoard();
             }
         }
         

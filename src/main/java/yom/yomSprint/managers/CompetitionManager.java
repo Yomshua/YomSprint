@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.models.BoudingBox;
+import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Lane;
 import yom.yomSprint.models.Track;
 
@@ -16,28 +17,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public final class TrackManager {
+public final class CompetitionManager {
 
     private YomSprint plugin;
-    private static List<Track> tracks = new ArrayList<>();
+    private final List<Competition> competitions = new ArrayList<>();
 
-
-    public TrackManager(YomSprint plugin) {
+    public CompetitionManager(YomSprint plugin) {
         this.plugin = plugin;
     }
 
-
-    public static void addTracks(Track track, Inventory inventory) {
+    public void addTracks(Competition competition, Inventory inventory) {
+        Track track = competition.getTrack();
         if (track.hasAllConfigs()) {
             ItemStack item = new ItemStack(Material.GREEN_WOOL);
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(track.getDisplayName());
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(ChatColor.WHITE + "▪ Status: " + track.getGameStatus().getStatus());
+            lore.add(ChatColor.WHITE + "▪ Status: " + competition.getStatus().getStatus());
             lore.add(ChatColor.WHITE + "▪ Players na pista: "
-                    + (track.getWaitLobbySize() > 0 ? ChatColor.WHITE : ChatColor.GRAY)
-                    + track.getPlayersInGame().size());
+                    + (competition.getGameSize() > 0 ? ChatColor.WHITE : ChatColor.GRAY)
+                    + competition.getRunners().size());
             lore.add("");
             lore.add(ChatColor.GRAY.toString() + "Players máximos: " + ChatColor.WHITE + track.getMaxPlayers());
             lore.add(ChatColor.GRAY.toString() + "Players minimos: " + ChatColor.WHITE + track.getMinPlayers());
@@ -48,38 +48,39 @@ public final class TrackManager {
         }
     }
 
-    public static void addTrackToList(Track track) {
-        tracks.add(track);
+    public void addGame(Competition competition) {
+        competitions.add(competition);
     }
 
-    public static void teleportPlayerToWaitLobby(Player player, Track track, YomSprint plugin) {
+    public void teleportPlayerToWaitLobby(Player player, Competition competition) {
         if (true) {
-            player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + track.getName()).get("waitLobby_location"));
+            player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + competition.getTrack().getName()).get("waitLobby_location"));
         } else {
             player.sendMessage("Pista não configurada!");
         }
     }
 
-    public static boolean isPlayerInAnyTrack(Player player) {
-        for (Track track : tracks) {
-            for (UUID uuid : track.getPlayersInGame()) {
+    public boolean isPlayerInAnyGame(Player player) {
+        for (Competition competition : competitions) {
+            for (UUID uuid : competition.getRunners()) {
                 if (player.getUniqueId().equals(uuid)) return true;
             }
         }
         return false;
     }
 
-    public static Track getTrackByPlayer(Player player) {
-        for (Track track : tracks) {
-            for (UUID uuid : track.getPlayersInGame()) {
-                if (player.getUniqueId().equals(uuid)) return track;
+    public Competition getCompetition(Player player) {
+        for (Competition competition : competitions) {
+            for (UUID uuid : competition.getRunners()) {
+                if (player.getUniqueId().equals(uuid)) return competition;
             }
         }
         return null;
     }
 
-    public static Track getTrackByName(String name) {
-        for (Track track : TrackManager.getTracks()) {
+    public Track getTrackByName(String name) {
+        for (Competition competition : competitions) {
+            Track track = competition.getTrack();
             if (track.getName().equals(name)) {
                 return track;
             }
@@ -87,11 +88,11 @@ public final class TrackManager {
         return null;
     }
 
-    public static List<Track> getTracks() {
-        return tracks;
+    public List<Competition> getCompetitions() {
+        return competitions;
     }
 
-    public static boolean isAvailableLane(Lane lane) {
+    public boolean isValidLane(Lane lane) {
         BoudingBox startBox = lane.getStartBoudingBox();
         BoudingBox endBox = lane.getEndBoudingBox();
         Location edge1 = lane.getEdge1();

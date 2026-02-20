@@ -4,19 +4,18 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import yom.yomSprint.YomSprint;
+import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Stamina;
-import yom.yomSprint.models.Track;
 
 public class ClickChecker {
 
     long timeInMillis;
     ClickQuality clickQuality;
-    Track track;
+    Competition competition;
 
-    public ClickChecker(long timeInMillis, Track track) {
+    public ClickChecker(long timeInMillis, Competition competition) {
         this.timeInMillis = timeInMillis;
-        this.track = track;
+        this.competition = competition;
     }
 
     public ClickQuality getClickQuality(long timeInMillis) {
@@ -33,8 +32,8 @@ public class ClickChecker {
     }
 
     public double getBoostByQuality(Player player) {
-        Stamina stamina = track.getStaminaMap().get(player.getUniqueId());
-        track.updateGameBoard();
+        Stamina stamina = competition.getStaminaMap().get(player.getUniqueId());
+        competition.getTrack().updateGameBoard();
         if (getClickQuality(timeInMillis).equals(ClickQuality.PERFECT)) {
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.GREEN + "Perfeito"));
             stamina.setExpAndLevel(stamina.getLevel() - 0);

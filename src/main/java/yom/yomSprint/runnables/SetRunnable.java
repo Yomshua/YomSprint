@@ -6,9 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
-import yom.yomSprint.events.GameSetEvent;
 import yom.yomSprint.events.GameStartEvent;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.models.Competition;
 
 import java.util.Set;
 import java.util.UUID;
@@ -16,12 +15,12 @@ import java.util.UUID;
 public class SetRunnable {
 
     private YomSprint plugin;
-    private Track track;
+    private Competition competition;
     private BukkitRunnable runnable;
 
-    public SetRunnable(YomSprint plugin,Track track) {
+    public SetRunnable(YomSprint plugin, Competition competition) {
         this.plugin = plugin;
-        this.track = track;
+        this.competition = competition;
     }
 
     public void start(){
@@ -29,26 +28,25 @@ public class SetRunnable {
             int TRACK_COUNTDOWN_SECONDS = 10;
             @Override
             public void run() {
-               if (track.getPlayersInGame().size() == 0){
-                   track.reload();
-                   track.setGameStatus(GameStatus.JOIN);
+               if (competition.getRunners().isEmpty()){
+                   competition.reload();
                    runnable = null;
                    return;
                }
                 if (TRACK_COUNTDOWN_SECONDS == 5) {
-                    track.setGameStatus(GameStatus.READY);
-                    for (UUID uuid : track.getPlayersInGame()) {
+                   competition.setGameStatus(GameStatus.READY);
+                    for (UUID uuid : competition.getRunners()) {
                         Player playerTittle = Bukkit.getPlayer(uuid);
                         playerTittle.sendTitle(ChatColor.GREEN + "SET", "");
                     }
                 }
                 if (TRACK_COUNTDOWN_SECONDS == 0) {
-                    for (UUID uuid : track.getPlayersInGame()) {
+                    for (UUID uuid : competition.getRunners()) {
                         Player playerTittle = Bukkit.getPlayer(uuid);
                         playerTittle.sendTitle(ChatColor.GREEN + "GO", "");
                     }
-                    Set<UUID> players = track.getPlayersInGame();
-                    Bukkit.getPluginManager().callEvent(new GameStartEvent(track, track.getPlayersInGame()));
+                    Set<UUID> players = competition.getRunners();
+                    Bukkit.getPluginManager().callEvent(new GameStartEvent(competition, competition.getRunners()));
                     cancel();
                 }
                 TRACK_COUNTDOWN_SECONDS--;

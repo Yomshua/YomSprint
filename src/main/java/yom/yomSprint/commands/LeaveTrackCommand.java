@@ -1,19 +1,16 @@
 package yom.yomSprint.commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.boards.FastBoard;
+import yom.yomSprint.managers.BoardManager;
 import yom.yomSprint.commands.managers.TrackSubCommands;
 import yom.yomSprint.enums.GameStatus;
-import yom.yomSprint.managers.TrackManager;
-import yom.yomSprint.models.Track;
-
-import java.util.UUID;
+import yom.yomSprint.managers.CompetitionManager;
+import yom.yomSprint.models.Competition;
 
 public class LeaveTrackCommand extends TrackSubCommands {
 
@@ -24,19 +21,19 @@ public class LeaveTrackCommand extends TrackSubCommands {
     @Override
     public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         player.setInvulnerable(false);
-        if (TrackManager.isPlayerInAnyTrack(player)) {
-            Track track = TrackManager.getTrackByPlayer(player);
+        if (CompetitionManager.isPlayerInAnyGame(player)) {
+            Competition competition = CompetitionManager.getGame(player);
             player.sendMessage(PlaceholderAPI.setPlaceholders(player,plugin.getMessagesConfiguration().track_leave));
-            track.getPlayersInGame().remove(player.getUniqueId());
-            track.getWaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
-            if (!track.getPlayersInGame().isEmpty()) {
-                if (track.getGameStatus().equals(GameStatus.JOIN)){
-                    track.updateWaitBoard();
-                }else if (track.getGameStatus().getStatus().equals(GameStatus.OCURRING)){
-                    track.updateGameBoard();
+            competition.getRunners().remove(player.getUniqueId());
+            competition.getTrack().getWaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
+            if (!competition.getRunners().isEmpty()) {
+                if (competition.getStatus().equals(GameStatus.JOIN)){
+                    new BoardManager()
+                }else if (competition.getStatus().getStatus().equals(GameStatus.OCURRING)){
+                    competition.getTrack().updateGameBoard();
                 }
             }else {
-                track.reload();
+                competition.reload();
             }
             player.teleport(plugin.getLobbyLocation());
         } else {

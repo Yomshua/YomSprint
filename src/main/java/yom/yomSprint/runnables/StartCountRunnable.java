@@ -7,19 +7,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameSetEvent;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.models.Competition;
 
 import java.util.UUID;
 
 public class StartCountRunnable {
 
     private YomSprint plugin;
-    private Track track;
+    private Competition competition;
     private BukkitRunnable runnable;
 
-    public StartCountRunnable(YomSprint plugin,Track track) {
+    public StartCountRunnable(YomSprint plugin, Competition competition) {
         this.plugin = plugin;
-        this.track = track;
+        this.competition = competition;
     }
 
     public void start(){
@@ -28,18 +28,18 @@ public class StartCountRunnable {
             @Override
             public void run() {
 
-                if (track.getWaitLobbySize() == 0){
-                    track.setRunnableRunining(false);
+                if (competition.getRunners().isEmpty()){
+                    competition.setRunnableRunining(false);
                     cancel();
                 }
 
-                for(UUID uuid : track.getPlayersInGame()){
+                for(UUID uuid : competition.getRunners()){
                     Player playerTittle = Bukkit.getPlayer(uuid);
                     playerTittle.sendTitle(ChatColor.GREEN + String.valueOf(TRACK_COUNTDOWN_SECONDS),"");
                 }
                 if(TRACK_COUNTDOWN_SECONDS == 0){
-                    Bukkit.getPluginManager().callEvent(new GameSetEvent(track, track.getPlayersInGame()));
-                    track.setGameStatus(GameStatus.IN_SET);
+                    Bukkit.getPluginManager().callEvent(new GameSetEvent(competition, competition.getRunners()));
+                    competition.setGameStatus(GameStatus.IN_SET);
                     cancel();
                 }
                 TRACK_COUNTDOWN_SECONDS--;
