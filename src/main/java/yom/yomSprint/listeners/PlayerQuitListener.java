@@ -6,7 +6,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
+import yom.yomSprint.managers.BoardManager;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 
 import java.util.Set;
 import java.util.UUID;
@@ -26,15 +28,19 @@ public class PlayerQuitListener implements Listener {
         player.setInvulnerable(false);
         if(plugin.getCompetitionManager().isPlayerInAnyGame(player)){
             Competition competition = plugin.getCompetitionManager().getCompetition(player);
-            Set<UUID> listOfPlayers = competition.getRunners();
-            listOfPlayers.remove(player.getUniqueId());
-            if (competition.getStatus().equals(GameStatus.JOIN)) {
-                competition.getTrack().getWaitLobbyScoreboadMap().remove(player.getUniqueId());
-                competition.getTrack().updateWaitBoard();
-            }else if (competition.getStatus().equals(GameStatus.OCURRING)){
-                competition.getTrack().getGameScoreboaMap().remove(player.getUniqueId());
-                competition.getTrack().updateGameBoard();
+            Runner runner = competition.getRunner(player.getUniqueId());
+            Set<Runner> runners = competition.getRunners();
+            runners.remove(runner);
+
+            for (Runner otherRunner : runners){
+                if (competition.getStatus().equals(GameStatus.JOIN)) {
+                    otherRunner.updateBoard(otherRunner.getWaitBoard());
+                }else if (competition.getStatus().equals(GameStatus.OCURRING)){
+                    otherRunner.updateBoard(otherRunner.getCompetitionBoard());
+                }
             }
+
+
         }
         
     }

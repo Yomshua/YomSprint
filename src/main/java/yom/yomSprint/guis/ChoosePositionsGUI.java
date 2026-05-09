@@ -1,6 +1,5 @@
 package yom.yomSprint.guis;
 
-
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
@@ -14,8 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.guis.holders.ChoosePositionGUIHolder;
-import yom.yomSprint.managers.ClassBridge;
-import yom.yomSprint.utils.HelpCode;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -27,23 +24,22 @@ public class ChoosePositionsGUI implements YomGUI {
 
     private YomSprint plugin;
     private String trackName;
-    private ClassBridge classBridge;
     private int laneNumber;
     private FileConfiguration trackConfig;
+    private Location blockLocation;
     private final String prefix = ChatColor.YELLOW.toString() + ChatColor.BOLD + " > " + ChatColor.WHITE;
 
-    public ChoosePositionsGUI(YomSprint plugin, String trackName, ClassBridge classBridge) {
+    public ChoosePositionsGUI(YomSprint plugin, String trackName, int laneNumber, Location blockLocation) {
         this.plugin = plugin;
         this.trackName = trackName;
-        this.classBridge = classBridge;
-        laneNumber = classBridge.getLaneNumber();
+        this.laneNumber = laneNumber;
+        this.blockLocation = blockLocation;
         trackConfig = plugin.getTracksConfiguration().getConfig();
     }
 
     @Override
     public Inventory getInventory() {
-        Inventory gui = Bukkit.createInventory(new ChoosePositionGUIHolder(), 45, ChatColor.YELLOW + trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
-        classBridge.setTittlePositionsGUI(trackName + " (lane " + classBridge.getLaneNumber() + ") positions");
+        Inventory gui = Bukkit.createInventory(new ChoosePositionGUIHolder(plugin.getCompetitionManager().getTrackByName(trackName),blockLocation,laneNumber), 45, ChatColor.YELLOW + trackName + " (lane " +laneNumber + ") positions");
         gui.setItem(11, itemPos("Start Pos1", "startPos1"));
         gui.setItem(29, itemPos("Start Pos2", "startPos2"));
         gui.setItem(13, itemPos("End Pos1", "endPos1"));

@@ -8,6 +8,7 @@ import yom.yomSprint.YomSprint;
 import yom.yomSprint.configurations.PlayersConfiguration;
 import yom.yomSprint.managers.CompetitionManager;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 import yom.yomSprint.models.Track;
 
 public class PlacheHolderSprint extends PlaceholderExpansion {
@@ -44,7 +45,7 @@ public class PlacheHolderSprint extends PlaceholderExpansion {
 
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String params) {
-        Competition competition = CompetitionManager.getGame(player);
+        Competition competition = plugin.getCompetitionManager().getCompetition(player);
         Track track = competition.getTrack();
         if (params.equalsIgnoreCase("track_name")) return track.getDisplayName();
         if (params.equalsIgnoreCase("track_minsize")) return String.valueOf(track.getMinPlayers());
@@ -57,7 +58,11 @@ public class PlacheHolderSprint extends PlaceholderExpansion {
             return String.valueOf(wins);
         }
         if (params.equalsIgnoreCase("player_stamina")){
-           int level = competition.getStaminaMap().get(player.getUniqueId()).getLevel();
+           Runner runner = competition.getRunner(player.getUniqueId());
+
+           if (runner == null) return null;
+
+           int level = runner.getStamina().getLevel();
            return String.valueOf(level);
         }
         if (params.equalsIgnoreCase("max_stamina")){

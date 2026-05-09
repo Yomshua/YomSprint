@@ -11,6 +11,7 @@ import yom.yomSprint.commands.managers.TrackSubCommands;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.CompetitionManager;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 
 public class LeaveTrackCommand extends TrackSubCommands {
 
@@ -21,16 +22,22 @@ public class LeaveTrackCommand extends TrackSubCommands {
     @Override
     public void runCommand(CommandSender sender, Command command, String label, String[] args, Player player) {
         player.setInvulnerable(false);
-        if (CompetitionManager.isPlayerInAnyGame(player)) {
-            Competition competition = CompetitionManager.getGame(player);
+        if (plugin.getCompetitionManager().isPlayerInAnyGame(player)) {
+            Competition competition = plugin.getCompetitionManager().getCompetition(player);
+            Runner runner = competition.getRunner(player.getUniqueId());
+
             player.sendMessage(PlaceholderAPI.setPlaceholders(player,plugin.getMessagesConfiguration().track_leave));
             competition.getRunners().remove(player.getUniqueId());
-            competition.getTrack().getWaitLobbyScoreboadMap().get(player.getUniqueId()).delete();
+            runner.deleteBoard(runner.getWaitBoard());
+            runner.deleteBoard(runner.getCompetitionBoard());
+
             if (!competition.getRunners().isEmpty()) {
-                if (competition.getStatus().equals(GameStatus.JOIN)){
-                    new BoardManager()
-                }else if (competition.getStatus().getStatus().equals(GameStatus.OCURRING)){
-                    competition.getTrack().updateGameBoard();
+                for (Runner otherRunner : competition.getRunners()){
+                    if (competition.getStatus().equals(GameStatus.JOIN)){
+                        otherRunner.deleteBoard(otherRunner.getWaitBoard());
+                    }else if (competition.getStatus().getStatus().equals(GameStatus.OCURRING)){
+                        otherRunner.deleteBoard(otherRunner.getCompetitionBoard());
+                    }
                 }
             }else {
                 competition.reload();

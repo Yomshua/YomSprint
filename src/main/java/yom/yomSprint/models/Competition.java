@@ -1,10 +1,21 @@
 package yom.yomSprint.models;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.boards.CompetitionBoard;
-import yom.yomSprint.boards.WaitLobbyBoard;
+import yom.yomSprint.boards.YomBoard;
+import yom.yomSprint.configurations.PlayersConfiguration;
 import yom.yomSprint.enums.GameStatus;
+import yom.yomSprint.events.GameEndEvent;
+import yom.yomSprint.managers.TimeManager;
 import yom.yomSprint.runnables.SetRunnable;
 import yom.yomSprint.runnables.StartCountRunnable;
 
@@ -15,42 +26,28 @@ public class Competition {
     private YomSprint plugin;
     private Track track;
     private GameStatus status;
-    private Set<UUID> runners;
-    private Map<UUID, Long> lastClickMap;
-    private Map<UUID, Stamina> staminaMap;
-    private ArrayList<UUID> marks;
+    private Set<Runner> runners;
     private SetRunnable setRunnable;
     private boolean runnableRunning;
     private StartCountRunnable startCountRunnable;
     private long whenGameStarted;
-    private final Map<UUID,WaitLobbyBoard> lobbyBoardMap = new HashMap<>();
-    private final Map<UUID, CompetitionBoard> competitionBoardMap = new HashMap<>();
+    private Map<Integer,Runner> marks;
 
-    public Competition(YomSprint plugin, Track track) {
+
+    public Competition(YomSprint plugin,Track track) {
         this.plugin = plugin;
         this.track = track;
         this.status = GameStatus.JOIN;
         this.runners = new HashSet<>();
-        this.lastClickMap = new HashMap<>();
-        this.staminaMap = new HashMap<>();
-        this.marks = new ArrayList<>();
+        this.marks = new HashMap<>();
         this.setRunnable = new SetRunnable(plugin,this);
-        this.startCountRunnable = new StartCountRunnable(plugin, this);
-        this.runnableRunning = false;
-
+        this.startCountRunnable = new StartCountRunnable(plugin,this);
     }
 
     public void reload() {
-        lastClickMap.clear();
         marks.clear();
         runners.clear();
-        staminaMap.clear();
-        track.getGameScoreboaMap().clear();
-        track.getWaitLobbyScoreboadMap().clear();
         track.getLaneHashMap().clear();
-        runnableRunning = false;
-        setRunnable = new SetRunnable(plugin,this);
-        startCountRunnable = new StartCountRunnable(plugin,this);
     }
 
     public void setGameStatus(GameStatus status) {
@@ -69,12 +66,8 @@ public class Competition {
         this.whenGameStarted = whenGameStarted;
     }
 
-    public ArrayList<UUID> getMarks() {
+    public Map<Integer, Runner> getMarks() {
         return marks;
-    }
-
-    public Map<UUID, Long> getLastClickMap() {
-        return lastClickMap;
     }
 
     public StartCountRunnable getStartCountRunnable() {
@@ -93,11 +86,7 @@ public class Competition {
         this.runnableRunning = runnableRunining;
     }
 
-    public Map<UUID, Stamina> getStaminaMap() {
-        return staminaMap;
-    }
-
-    public Set<UUID> getRunners() {
+    public Set<Runner> getRunners() {
         return runners;
     }
 
@@ -120,11 +109,113 @@ public class Competition {
         return false;
     }
 
-    public Map<UUID, WaitLobbyBoard> getLobbyBoardMap() {
-        return lobbyBoardMap;
+    public Runner getRunner(UUID uuid){
+        for (Runner runner : this.runners){
+            if (runner.getUuid().equals(uuid)) return runner;
+        }
+        return null;
     }
 
-    public Map<UUID, CompetitionBoard> getCompetitionBoardMap() {
-        return competitionBoardMap;
+    public void finishRunner(Runner runner, Time time){
+        Player player = Bukkit.getPlayer(runner.getUuid());
+        Track track = getTrack();
+        PlayersConfiguration playerConfig = new PlayersConfiguration(player.getUniqueId(),plugin);
+        FileConfiguration config = playerConfig.getConfig();
+
+        runner.setAlreadyFinished(true);
+
+        addMark(runner);
+
+        System.out.println(getMarks().get(1).getUuid());
+
+        long finishTime = time.getTimeFinished() - getWhenGameStarted();
+
+        String sTime = TimeManager.getTimeInSeconds(finishTime);
+        String doubleTime = sTime.replace(",",".");
+        double pTime = Double.valueOf(doubleTime);
+
+        String prBefore = playerConfig.getConfig().getString("best_time");
+        prBefore = prBefore.replace(",",".");
+        double prDouble = Double.valueOf(prBefore);
+
+        for (int i = 0; i < getMarks().size(); i++) {
+            if (getMarks().get(i + 1).equals(runner)) {
+                player.sendTitle(i + 1 + "° lugar", null);
+                int wins = config.getInt("wins");
+                config.set("wins", wins + 1);
+                playerConfig.saveConfig();
+            }
+            if (prDouble == 0 || pTime < prDouble) {
+                player.sendMessage(ChatColor.BLUE + "Novo recorde pessoal " + ChatColor.WHITE + time + ChatColor.BLUE + ", parabéns!! Tu é fera");
+                Firework firework = player.getWorld().spawn(player.getLocation(), Firework.class);
+                FireworkMeta meta = firework.getFireworkMeta();
+                meta.addEffect(FireworkEffect.builder().withColor(Color.PURPLE).build());
+                firework.setFireworkMeta(meta);
+                config.set("best_time", time);
+                playerConfig.saveConfig();
+            } else {
+                player.sendMessage("Tempo : " + sTime);
+            }
+        }
+
+        plugin.getSpectatorManager().setSpectate(getRunner(player.getUniqueId()), getRunners());
+
+        if (getRunners().size() == getMarks().size()){
+            Bukkit.getPluginManager().callEvent(new GameEndEvent(this));
+            stop();
+        }
     }
+
+    public void stop(){
+        Track track = getTrack();
+        Set<Runner> runners = getRunners();
+        setGameStatus(GameStatus.JOIN);
+        setRunnableRunining(false);
+        new BukkitRunnable() {
+            int count = 0;
+
+            @Override
+            public void run() {
+                count++;
+                if (count == 5) {
+                    for (Runner runner : runners) {
+                        Player player = Bukkit.getPlayer(runner.getUuid());
+                        player.sendTitle("Teleportando...", null);
+                    }
+                }
+                if (count == 8) {
+                    for (Runner runner : runners) {
+                        Player player = Bukkit.getPlayer(runner.getUuid());
+                        player.teleport(plugin.getLobbyLocation());
+                        player.setInvulnerable(false);
+                        player.setExp(0);
+                        player.removePotionEffect(PotionEffectType.SLOW);
+                        runner.deleteBoard(runner.getCompetitionBoard());
+                    }
+                    reload();
+                }
+            }
+        }.runTaskTimer(plugin, 0, 20L);
+    }
+
+    public void addMark(Runner runner){
+        if (this.marks.containsValue(runner)) return;
+
+        if (this.marks.isEmpty()){
+            this.marks.put(1,runner);
+            return;
+        }
+
+        // pega a última posição
+        int lastMark = this.marks.keySet().stream().toList().get(this.marks.size() - 1);
+        int newLastMark = lastMark + 1;
+
+        this.marks.put(newLastMark,runner);
+    }
+
+    public void start(){
+
+    }
+
+
 }

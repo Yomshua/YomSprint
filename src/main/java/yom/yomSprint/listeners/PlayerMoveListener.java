@@ -13,30 +13,27 @@ import org.bukkit.scheduler.BukkitRunnable;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.PlayerFinishEvent;
-import yom.yomSprint.managers.ClassBridge;
 import yom.yomSprint.managers.CompetitionManager;
 import yom.yomSprint.models.*;
-
-import java.util.UUID;
 
 public class PlayerMoveListener implements Listener {
 
     YomSprint plugin;
-    ClassBridge classBridge;
+
 
     public PlayerMoveListener(YomSprint plugin) {
         this.plugin = plugin;
-        this.classBridge = plugin.getClassBridge();
     }
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
         Player player = event.getPlayer();
-        if (!CompetitionManager.isPlayerInAnyGame(player)) return;
-        Competition competition = CompetitionManager.getGame(player);
+        if (!plugin.getCompetitionManager().isPlayerInAnyGame(player)) return;
+        Competition competition = plugin.getCompetitionManager().getCompetition(player);
+        Runner runner = competition.getRunner(player.getUniqueId());
         Track track = competition.getTrack();
         if (track.getLaneHashMap().get(player.getUniqueId()) == null)return;
-        Stamina stamina = competition.getStaminaMap().get(player.getUniqueId());
+        Stamina stamina = runner.getStamina();
         Lane lane = track.getLaneHashMap().get(player.getUniqueId());
         if (competition.getStatus().equals(GameStatus.IN_SET)) {
             if (!lane.getStartBoudingBox().contains(player)) {
@@ -46,7 +43,12 @@ public class PlayerMoveListener implements Listener {
 
         if (competition.getStatus().equals(GameStatus.READY)) {
             if (!lane.getStartBoudingBox().contains(player)) {
-                track.removeGameBoard(player.getUniqueId());
+                runner.deleteBoard(runner.getCompetitionBoard());
+
+                competition.getRunners().forEach(otherRunner -> {
+                    otherRunner.updateBoard(otherRunner.getCompetitionBoard());
+                });
+
                 competition.getRunners().remove(player.getUniqueId());
                 player.sendTitle(ChatColor.RED + "Você queimou a largada!", "");
                 new BukkitRunnable() {
@@ -56,8 +58,8 @@ public class PlayerMoveListener implements Listener {
                     }
                 }.runTaskLater(plugin, 20 * 3);
 
-                    for (UUID uuid : competition.getRunners()) {
-                        Player target = Bukkit.getPlayer(uuid);
+                    for (Runner otherRunner : competition.getRunners()) {
+                        Player target = Bukkit.getPlayer(runner.getUuid());
                         target.sendTitle(ChatColor.RED + player.getName() + " queimou a largada!", "");
                     }
                     competition.getSetRunnable().getRunnable().cancel();
@@ -87,9 +89,10 @@ public class PlayerMoveListener implements Listener {
             }
         }
 
-        if (competition.getRunners().contains(player.getUniqueId())) {
-            if (lane.getEndBoudingBox().contains(player) && classBridge.getAlreadyFinish().get(player.getUniqueId()) == null) {
-                Bukkit.getPluginManager().callEvent(new PlayerFinishEvent(competition, player, new Time(System.currentTimeMillis())));
+        if (competition.getRunners().contains(runner)) {
+            if (lane.getEndBoudingBox().contains(player) && runner.isAlreadyFinished() == false) {
+                competition.finishRunner(runner,new Time(System.currentTimeMillis()));
+                Bukkit.getPluginManager().callEvent(new PlayerFinishEvent(competition, runner, new Time(System.currentTimeMillis())));
             }
         }
     }

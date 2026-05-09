@@ -8,15 +8,14 @@ import java.util.UUID;
 public class Stamina {
 
     private UUID uuid;
-    private Track track;
     private int level;
     private Player player;
     private final float EXP_ONE_BAR = 0.055f;
 
-    public Stamina(UUID uuid,Track track) {
+    public Stamina(UUID uuid) {
         this.uuid = uuid;
-        this.track =track;
-        player = Bukkit.getPlayer(uuid);
+        this.player = Bukkit.getPlayer(uuid);
+        this.setExpAndLevel(36);
     }
 
     public void setLevel(int level){
@@ -40,7 +39,4 @@ public class Stamina {
         return uuid;
     }
 
-    public Track getTrack() {
-        return track;
-    }
 }

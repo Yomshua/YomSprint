@@ -8,6 +8,7 @@ import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameSetEvent;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 
 import java.util.UUID;
 
@@ -33,8 +34,8 @@ public class StartCountRunnable {
                     cancel();
                 }
 
-                for(UUID uuid : competition.getRunners()){
-                    Player playerTittle = Bukkit.getPlayer(uuid);
+                for(Runner runner : competition.getRunners()){
+                    Player playerTittle = Bukkit.getPlayer(runner.getUuid());
                     playerTittle.sendTitle(ChatColor.GREEN + String.valueOf(TRACK_COUNTDOWN_SECONDS),"");
                 }
                 if(TRACK_COUNTDOWN_SECONDS == 0){

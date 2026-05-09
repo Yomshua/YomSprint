@@ -6,18 +6,19 @@ import yom.yomSprint.boards.fastboardAPI.FastBoard;
 
 import java.util.List;
 
-public abstract class CompetitionBoard extends FastBoard {
+public abstract class YomBoard extends FastBoard {
 
     private YomSprint plugin;
 
-    public CompetitionBoard(YomSprint plugin, Player player) {
+    public YomBoard(YomSprint plugin, Player player) {
         super(player);
         this.plugin = plugin;
+
     }
 
     public abstract List<String> getBoard();
 
-    public abstract String getTittle();
+    public abstract String getYomTitle();
 
     public YomSprint getPlugin() {
         return plugin;

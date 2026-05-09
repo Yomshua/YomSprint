@@ -116,57 +116,6 @@ public class Track {
         return maxPlayers;
     }
 
-    public Map<UUID, FastBoard> getWaitLobbyScoreboadMap() {
-        return waitLobbyScoreboadMap;
-    }
-
-
-
-    public void removeWaitBoard(UUID uuid) {
-        FastBoard fastBoard = waitLobbyScoreboadMap.get(uuid);
-        if (fastBoard == null) return;
-        fastBoard.delete();
-        getWaitLobbyScoreboadMap().remove(uuid);
-    }
-
-    public String getGameScoreboardTittle() {
-        return gameScoreboardTittle;
-    }
-
-    public List<String> getGameScoreboard(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        List<String> score = new ArrayList<>();
-        for (String line : gameScoreboard) {
-            score.add(PlaceholderAPI.setPlaceholders(player, line));
-        }
-        return score;
-    }
-
-    public void updateGameBoard() {
-        for (UUID playerBoard : this.getGameScoreboaMap().keySet()) {
-            FastBoard waitLobbyBoard = this.getGameScoreboaMap().get(playerBoard);
-            waitLobbyBoard.updateTitle(this.getGameScoreboardTittle());
-            waitLobbyBoard.updateLines(this.getGameScoreboard(playerBoard));
-        }
-    }
-
-    public void updateGameBoard(UUID uuid) {
-            FastBoard waitLobbyBoard = this.getGameScoreboaMap().get(uuid);
-            waitLobbyBoard.updateTitle(this.getGameScoreboardTittle());
-            waitLobbyBoard.updateLines(this.getGameScoreboard(uuid));
-    }
-
-    public void removeGameBoard(UUID uuid) {
-        FastBoard fastBoard = getGameScoreboaMap().get(uuid);
-        if (fastBoard == null) return;
-        fastBoard.delete();
-        getGameScoreboaMap().remove(uuid);
-    }
-
-    public Map<UUID, FastBoard> getGameScoreboaMap() {
-        return gameScoreboaMap;
-    }
-
     public List<Lane> getLanes() {
         return lanes;
     }

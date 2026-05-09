@@ -33,7 +33,7 @@ public class MainGUIListener implements Listener {
             case "§eStatus": // yellow
                 break;
             case "§a§lGames":
-                if (!CompetitionManager.isPlayerInAnyGame(player)) {
+                if (!plugin.getCompetitionManager().isPlayerInAnyGame(player)) {
                     new TracksGUI(plugin).open(player);
                 } else {
                     player.sendMessage(ChatColor.RED + "Você não pode mudar de pista, saia primeiro a qual está");

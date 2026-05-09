@@ -8,10 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.models.BoudingBox;
-import yom.yomSprint.models.Competition;
-import yom.yomSprint.models.Lane;
-import yom.yomSprint.models.Track;
+import yom.yomSprint.models.*;
+import yom.yomSprint.utils.CustomMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +60,8 @@ public final class CompetitionManager {
 
     public boolean isPlayerInAnyGame(Player player) {
         for (Competition competition : competitions) {
-            for (UUID uuid : competition.getRunners()) {
-                if (player.getUniqueId().equals(uuid)) return true;
+            for (Runner runner : competition.getRunners()) {
+                if (player.getUniqueId().equals(runner.getUuid())) return true;
             }
         }
         return false;
@@ -71,8 +69,8 @@ public final class CompetitionManager {
 
     public Competition getCompetition(Player player) {
         for (Competition competition : competitions) {
-            for (UUID uuid : competition.getRunners()) {
-                if (player.getUniqueId().equals(uuid)) return competition;
+            for (Runner runner : competition.getRunners()) {
+                if (player.getUniqueId().equals(runner.getUuid())) return competition;
             }
         }
         return null;

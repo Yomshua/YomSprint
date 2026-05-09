@@ -3,29 +3,29 @@ package yom.yomSprint.events;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 
 import java.util.Set;
-import java.util.UUID;
 
 
 public class GameStartEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
-    Set<UUID> playersList;
+    Set<Runner> runners;
     Competition competition;
 
-    public GameStartEvent(Competition competition, Set<UUID> playersList) {
+    public GameStartEvent(Competition competition, Set<Runner> runners) {
         this.competition = competition;
-        this.playersList = playersList;
+        this.runners = runners;
     }
 
-    public Competition getGame() {
+    public Competition getCompetition() {
         return competition;
     }
 
-    public Set<UUID> getPlayers() {
-        return playersList;
+    public Set<Runner> getRunners() {
+        return runners;
     }
 
     public static HandlerList getHandlerList() {

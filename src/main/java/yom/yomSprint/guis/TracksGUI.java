@@ -19,8 +19,8 @@ public class TracksGUI implements YomGUI{
     @Override
     public Inventory getInventory() {
         Inventory gui = Bukkit.createInventory(new TracksGUIHolder(),54, ChatColor.AQUA + "Pistas");
-        for (Competition competition : CompetitionManager.getCompetitions()){
-            CompetitionManager.addTracks(competition,gui);
+        for (Competition competition : plugin.getCompetitionManager().getCompetitions()){
+            plugin.getCompetitionManager().addTracks(competition,gui);
         }
         return gui;
     }

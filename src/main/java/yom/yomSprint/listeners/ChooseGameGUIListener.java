@@ -15,6 +15,7 @@ import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.guis.holders.TracksGUIHolder;
 import yom.yomSprint.managers.CompetitionManager;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 
 public class ChooseGameGUIListener implements Listener {
 

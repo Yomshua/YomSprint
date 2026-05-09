@@ -4,29 +4,31 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class WaitLobbyBoard extends CompetitionBoard {
+public final class WaitLobbyBoard extends YomBoard {
 
     private String waitLobbyScoreboardTittle;
     private List<String> waitLobbyScoreboard;
 
     public WaitLobbyBoard(YomSprint plugin, Player player) {
         super(plugin,player);
-        waitLobbyScoreboardTittle = getPlugin().getMessagesConfiguration().getConfig().getString("scoreboard.gameScoreboardTittle");;
-        waitLobbyScoreboard = (List<String>) getPlugin().getMessagesConfiguration().getConfig().getList("scoreboards.gameScoreboard");
+        waitLobbyScoreboardTittle = getPlugin().getMessagesConfiguration().getConfig().getString("scoreboards.waitLobbyScoreboardTittle");;
+        waitLobbyScoreboard = (List<String>) getPlugin().getMessagesConfiguration().getConfig().getList("scoreboards.waitLobbyScoreboard");
     }
 
     @Override
     public List<String> getBoard() {
+        List<String> formated = new ArrayList<>();
         for (String line : waitLobbyScoreboard) {
-            line = PlaceholderAPI.setPlaceholders(getPlayer(),line);
+            formated.add(PlaceholderAPI.setPlaceholders(getPlayer(),line));
         }
-        return waitLobbyScoreboard;
+        return formated;
     }
 
     @Override
-    public String getTittle() {
+    public String getYomTitle() {
         return waitLobbyScoreboardTittle;
     }
 

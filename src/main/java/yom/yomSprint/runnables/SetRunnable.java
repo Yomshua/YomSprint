@@ -8,6 +8,7 @@ import yom.yomSprint.YomSprint;
 import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.events.GameStartEvent;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 
 import java.util.Set;
 import java.util.UUID;
@@ -35,17 +36,17 @@ public class SetRunnable {
                }
                 if (TRACK_COUNTDOWN_SECONDS == 5) {
                    competition.setGameStatus(GameStatus.READY);
-                    for (UUID uuid : competition.getRunners()) {
-                        Player playerTittle = Bukkit.getPlayer(uuid);
+                    for (Runner runner : competition.getRunners()) {
+                        Player playerTittle = Bukkit.getPlayer(runner.getUuid());
                         playerTittle.sendTitle(ChatColor.GREEN + "SET", "");
                     }
                 }
                 if (TRACK_COUNTDOWN_SECONDS == 0) {
-                    for (UUID uuid : competition.getRunners()) {
-                        Player playerTittle = Bukkit.getPlayer(uuid);
+                    for (Runner runner : competition.getRunners()) {
+                        Player playerTittle = Bukkit.getPlayer(runner.getUuid());
                         playerTittle.sendTitle(ChatColor.GREEN + "GO", "");
                     }
-                    Set<UUID> players = competition.getRunners();
+                    Set<Runner> players = competition.getRunners();
                     Bukkit.getPluginManager().callEvent(new GameStartEvent(competition, competition.getRunners()));
                     cancel();
                 }

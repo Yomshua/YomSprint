@@ -4,19 +4,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 import yom.yomSprint.models.Time;
 
 public class PlayerFinishEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
-    Player player;
+    Runner runner;
     Competition competition;
     Time time;
 
-    public PlayerFinishEvent(Competition competition, Player player, Time time) {
+    public PlayerFinishEvent(Competition competition, Runner runner, Time time) {
         this.competition = competition;
-        this.player = player;
+        this.runner = runner;
         this.time = time;
     }
 
@@ -25,11 +26,11 @@ public class PlayerFinishEvent extends Event {
         return handlerList;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Runner getRunner() {
+        return runner;
     }
 
-    public Competition getGame() {
+    public Competition getCompetition() {
         return competition;
     }
 

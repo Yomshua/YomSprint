@@ -5,11 +5,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import yom.yomSprint.boards.CompetitionBoard;
+import yom.yomSprint.boards.WaitLobbyBoard;
+import yom.yomSprint.managers.BoardManager;
 import yom.yomSprint.models.Competition;
+import yom.yomSprint.models.Runner;
 import yom.yomSprint.models.Stamina;
 import yom.yomSprint.utils.CustomMessage;
 import yom.yomSprint.YomSprint;
-import yom.yomSprint.boards.fastboardAPI.FastBoard;
 import yom.yomSprint.events.PlayerJoinWaitLobbyEvent;
 import yom.yomSprint.models.Track;
 
@@ -30,17 +33,18 @@ public class PlayerCompetitionListener implements Listener {
         Competition competition = event.getCompetition();
         Track track = competition.getTrack();
         player.setInvulnerable(true);
-        if (!track.getWaitLobbyScoreboadMap().containsKey(player.getUniqueId())){
-            track.getWaitLobbyScoreboadMap().put(player.getUniqueId(),new FastBoard(player));
-        }
-        Map<UUID, Stamina> staminaMap = competition.getStaminaMap();
-        staminaMap.put(player.getUniqueId(),new Stamina(player.getUniqueId(),track));
-        Stamina stamina = staminaMap.get(player.getUniqueId());
-        stamina.setExpAndLevel(36);
-        competition.getRunners().add(player.getUniqueId());
-        CustomMessage.sendCustomActionBar(player, ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + competition.getTrack().getName(), plugin);
 
-        track.updateWaitBoard();
+        competition.getRunners().add(new Runner(player.getUniqueId()));
+        Runner runner = competition.getRunner(player.getUniqueId());
+
+        runner.setWaitBoard(new WaitLobbyBoard(plugin,player));
+
+        Stamina stamina = runner.getStamina();
+
+        CustomMessage.sendCustomActionBar(player, ChatColor.GREEN + "Você entrou na pista: " + ChatColor.GRAY + competition.getTrack().getName(), plugin);
+        competition.getRunners().forEach(otherRunner -> {
+            otherRunner.updateBoard(otherRunner.getWaitBoard());
+        });
 
         if (competition.getGameSize() >= track.getMinPlayers()) {
            if (!competition.isRunnableRunining()) {
@@ -48,8 +52,5 @@ public class PlayerCompetitionListener implements Listener {
                competition.setRunnableRunining(true);
            }
         }
-
-
     }
-
 }

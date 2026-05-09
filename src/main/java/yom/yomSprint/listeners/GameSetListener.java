@@ -5,10 +5,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.boards.CompetitionBoard;
 import yom.yomSprint.boards.fastboardAPI.FastBoard;
 import yom.yomSprint.events.GameSetEvent;
+import yom.yomSprint.managers.BoardManager;
 import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Lane;
+import yom.yomSprint.models.Runner;
 import yom.yomSprint.models.Track;
 
 import java.util.List;
@@ -27,21 +30,32 @@ public class GameSetListener implements Listener {
     public void onSetEvent(GameSetEvent event){
         Competition competition = event.getGame();
         Track track = competition.getTrack();
-        int countToGetLane = 0;
-        Set<UUID> players = competition.getRunners();
-        List<UUID> playersList = players.stream().toList();
-        for (int i = 0; i < players.size(); i++) {
-            UUID uuid = playersList.get(i);
+        Set<Runner> runners = competition.getRunners();
+
+        int lineCount = 0;
+        for (Runner runner : runners){
+
+            UUID uuid = runner.getUuid();
             Player player = Bukkit.getPlayer(uuid);
-            track.removeWaitBoard(uuid);
-            track.getGameScoreboaMap().put(player.getUniqueId(),new FastBoard(player));
-            Lane lane = track.getLanes().get(i);
+
+            competition.getRunner(uuid).getWaitBoard().delete();
+            competition.getRunner(uuid).setCompetitionBoard(new CompetitionBoard(plugin,player));
+
+            Lane lane = track.getLanes().get(lineCount);
+
             player.teleport(lane.getStartBoudingBox().getMiddle(player.getWorld()));
             player.sendTitle(ChatColor.AQUA.toString() + ChatColor.BOLD + "RAIA", String.valueOf(lane.getNumber()));
+
             track.getLaneHashMap().put(player.getUniqueId(),lane);
-            track.updateGameBoard();
+            runner.updateBoard(runner.getCompetitionBoard());
+
+            lineCount++;
         }
+
        competition.getSetRunnable().start();
     }
+
+
+
 
 }

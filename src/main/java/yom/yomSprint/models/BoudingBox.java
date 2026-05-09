@@ -16,7 +16,6 @@ public class BoudingBox {
         this.pos2 = pos2;
     }
 
-
     public Location getPos1() {
         return pos1;
     }
