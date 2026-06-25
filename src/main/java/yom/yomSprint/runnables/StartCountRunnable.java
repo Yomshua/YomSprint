@@ -39,8 +39,8 @@ public class StartCountRunnable {
                     playerTittle.sendTitle(ChatColor.GREEN + String.valueOf(TRACK_COUNTDOWN_SECONDS),"");
                 }
                 if(TRACK_COUNTDOWN_SECONDS == 0){
-                    Bukkit.getPluginManager().callEvent(new GameSetEvent(competition, competition.getRunners()));
-                    competition.setGameStatus(GameStatus.IN_SET);
+                    competition.callSet();
+                    Bukkit.getPluginManager().callEvent(new GameSetEvent(competition));
                     cancel();
                 }
                 TRACK_COUNTDOWN_SECONDS--;

@@ -46,7 +46,7 @@ public class SetRunnable {
                         Player playerTittle = Bukkit.getPlayer(runner.getUuid());
                         playerTittle.sendTitle(ChatColor.GREEN + "GO", "");
                     }
-                    Set<Runner> players = competition.getRunners();
+                    competition.start();
                     Bukkit.getPluginManager().callEvent(new GameStartEvent(competition, competition.getRunners()));
                     cancel();
                 }

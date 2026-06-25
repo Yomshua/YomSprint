@@ -36,6 +36,7 @@ public class SetLanesLengthCommand extends TrackSubCommands {
         int laneLength = Integer.valueOf(args[3]);
 
         tracksConfiguation.getConfig().set("tracks." + trackName+".lanes_length",laneLength);
+        tracksConfiguation.saveConfig();
         player.sendMessage(ChatColor.GREEN + "Raias da pista " + trackName + " agora tem um comprimento de " + laneLength);
 
     }

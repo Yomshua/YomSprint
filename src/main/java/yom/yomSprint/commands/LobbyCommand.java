@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.commands.managers.TrackSubCommands;
+import yom.yomSprint.utils.Replacer;
 
 public class LobbyCommand extends TrackSubCommands {
     public LobbyCommand(YomSprint plugin) {
@@ -21,7 +22,7 @@ public class LobbyCommand extends TrackSubCommands {
            return;
         }
         player.teleport(plugin.getLobbyLocation());
-        player.sendMessage(PlaceholderAPI.setPlaceholders(player,plugin.getMessagesConfiguration().join));
+        player.sendMessage(Replacer.replace(player,plugin.getMessagesConfiguration().join,plugin));
 
     }
 }

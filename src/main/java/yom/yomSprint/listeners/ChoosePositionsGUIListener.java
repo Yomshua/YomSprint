@@ -16,7 +16,6 @@ public class ChoosePositionsGUIListener implements Listener {
 
     private YomSprint plugin;
 
-
     public ChoosePositionsGUIListener(YomSprint plugin) {
         this.plugin = plugin;
     }

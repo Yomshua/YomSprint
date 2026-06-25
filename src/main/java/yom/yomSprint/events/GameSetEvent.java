@@ -11,20 +11,14 @@ public class GameSetEvent extends Event {
 
     private static final HandlerList handlerList = new HandlerList();
 
-    Set<Runner> runners;
     Competition competition;
 
-    public GameSetEvent(Competition competition, Set<Runner> runners) {
+    public GameSetEvent(Competition competition) {
         this.competition = competition;
-        this.runners = runners;
     }
 
     public Competition getGame() {
        return competition;
-    }
-
-    public Set<Runner> getRunners() {
-        return runners;
     }
 
     public static HandlerList getHandlerList() {

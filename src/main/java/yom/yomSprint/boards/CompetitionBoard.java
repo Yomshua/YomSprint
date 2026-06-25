@@ -3,6 +3,7 @@ package yom.yomSprint.boards;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import yom.yomSprint.YomSprint;
+import yom.yomSprint.utils.Replacer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public final class CompetitionBoard extends YomBoard {
     public List<String> getBoard() {
         List<String> formated = new ArrayList<>();
         for (String line : competitionScoreboard) {
-            formated.add(PlaceholderAPI.setPlaceholders(getPlayer(),line));
+            formated.add(Replacer.replace(getPlayer(),line,getPlugin()));
         }
         return formated;
     }

@@ -29,24 +29,23 @@ public class PlayerInteractListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent event){
+    public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         if (!player.hasPermission("sprint.addlanes")) return;
         if (!event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) return;
         if (event.getHand() != EquipmentSlot.HAND) return;
-        if (event.getPlayer().getItemInHand().getType().equals(Material.STICK)){
+        if (event.getPlayer().getItemInHand().getType().equals(Material.STICK)) {
             ItemStack stick = player.getItemInHand();
             if (!stick.hasItemMeta() || !stick.getItemMeta().hasDisplayName()) return;
             ItemMeta meta = stick.getItemMeta();
-            String trackName = meta.getDisplayName().replace(ChatColor.YELLOW.toString(),"");
+            String trackName = meta.getDisplayName().replace(ChatColor.YELLOW.toString(), "");
             if (plugin.getTracksConfiguration().getConfig().contains("tracks." + trackName)) {
                 Track track = plugin.getCompetitionManager().getTrackByName(trackName);
-                Location clickedBlock = event.getClickedBlock().getLocation().add(new Vector(1,0,1));
+                Location clickedBlock = event.getClickedBlock().getLocation().add(new Vector(1, 0, 1));
                 player.sendMessage("Digite o número da raia a qual quer adicionar: ");
-                plugin.getChatInputManager().getChatInputs().add(new ChatInput(player.getUniqueId(),track,clickedBlock));
+                plugin.getChatInputManager().getChatInputs().add(new ChatInput(player.getUniqueId(), track, clickedBlock));
 
             }
         }
     }
-
 }

@@ -7,10 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.configurations.PlayersConfiguration;
+import yom.yomSprint.database.YamlAdapter;
 
 public class PlayerJoinListener implements Listener {
 
-    YomSprint plugin;
+    private YomSprint plugin;
 
     public PlayerJoinListener(YomSprint plugin){
         this.plugin = plugin;
@@ -25,9 +26,12 @@ public class PlayerJoinListener implements Listener {
                 player.teleport(plugin.getLobbyLocation());
             }
         }
-        if (!plugin.getPlayersCofigsMap().containsKey(player.getUniqueId())){
-            PlayersConfiguration playersConfiguration = new PlayersConfiguration(player.getUniqueId(),plugin);
+        if (plugin.getDatabaseAdapter() instanceof YamlAdapter){
+            if (!plugin.getPlayersConfigsMap().containsKey(player.getUniqueId())){
+                PlayersConfiguration playersConfiguration = new PlayersConfiguration(player.getUniqueId(),plugin);
+            }
         }
+
 
     }
 

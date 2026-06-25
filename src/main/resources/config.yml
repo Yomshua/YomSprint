@@ -1,6 +1,10 @@
 # As configurações abaixo são apenas exemplos, sinta-se a vontade em modificar do seu jeito
 
 config:
+  # Tipo de Banco de Dados: YAML, SQLITE
+  database_type: YAML
+
+
   main_lobby:
     ==: org.bukkit.Location
     world: world

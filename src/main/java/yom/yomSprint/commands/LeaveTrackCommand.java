@@ -12,6 +12,7 @@ import yom.yomSprint.enums.GameStatus;
 import yom.yomSprint.managers.CompetitionManager;
 import yom.yomSprint.models.Competition;
 import yom.yomSprint.models.Runner;
+import yom.yomSprint.utils.Replacer;
 
 public class LeaveTrackCommand extends TrackSubCommands {
 
@@ -26,7 +27,7 @@ public class LeaveTrackCommand extends TrackSubCommands {
             Competition competition = plugin.getCompetitionManager().getCompetition(player);
             Runner runner = competition.getRunner(player.getUniqueId());
 
-            player.sendMessage(PlaceholderAPI.setPlaceholders(player,plugin.getMessagesConfiguration().track_leave));
+            player.sendMessage(Replacer.replace(player,plugin.getMessagesConfiguration().track_leave,plugin));
             competition.getRunners().remove(player.getUniqueId());
             runner.deleteBoard(runner.getWaitBoard());
             runner.deleteBoard(runner.getCompetitionBoard());

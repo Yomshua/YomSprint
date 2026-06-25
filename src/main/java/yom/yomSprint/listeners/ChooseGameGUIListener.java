@@ -42,7 +42,7 @@ public class ChooseGameGUIListener implements Listener {
                     if (competition.getTrack().getLanes().size() == competition.getRunners().size()) {
                         player.sendMessage(ChatColor.RED + "Você pode no entrar, as raias não foram configuradas corretamente!");
                     }else {
-                        plugin.getCompetitionManager().teleportPlayerToWaitLobby(player,competition);
+                        competition.joinWaitLobby(player);
                         Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinWaitLobbyEvent(competition, player));
                     }
                 }

@@ -19,6 +19,7 @@ public final class CompetitionManager {
 
     private YomSprint plugin;
     private final List<Competition> competitions = new ArrayList<>();
+    private final List<Track> tracks = new ArrayList<>();
 
     public CompetitionManager(YomSprint plugin) {
         this.plugin = plugin;
@@ -50,13 +51,6 @@ public final class CompetitionManager {
         competitions.add(competition);
     }
 
-    public void teleportPlayerToWaitLobby(Player player, Competition competition) {
-        if (true) {
-            player.teleport((Location) plugin.getTracksConfiguration().getConfig().getConfigurationSection("tracks." + competition.getTrack().getName()).get("waitLobby_location"));
-        } else {
-            player.sendMessage("Pista não configurada!");
-        }
-    }
 
     public boolean isPlayerInAnyGame(Player player) {
         for (Competition competition : competitions) {
@@ -77,10 +71,10 @@ public final class CompetitionManager {
     }
 
     public Track getTrackByName(String name) {
-        for (Competition competition : competitions) {
-            Track track = competition.getTrack();
-            if (track.getName().equals(name)) {
+        for (Track track : plugin.getCompetitionManager().getTracks()) {
+            if (track.getName().equalsIgnoreCase(name)) {
                 return track;
+
             }
         }
         return null;
@@ -151,4 +145,7 @@ public final class CompetitionManager {
         return false;
     }
 
+    public List<Track> getTracks() {
+        return tracks;
+    }
 }

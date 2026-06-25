@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import yom.yomSprint.YomSprint;
 import yom.yomSprint.configurations.PlayersConfiguration;
+import yom.yomSprint.database.SQLiteAdapter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -36,9 +37,8 @@ public class MainGUI implements YomGUI {
     }
 
     private ItemStack getSkull(Player player) {
-        PlayersConfiguration playersConfiguration = new PlayersConfiguration(player.getUniqueId(), plugin);
-        int wins = playersConfiguration.getConfig().getInt("wins");
-        String pr = playersConfiguration.getConfig().getString("best_time");
+        int wins = plugin.getDatabaseAdapter().getTotalWins(player.getUniqueId());
+        String pr = plugin.getDatabaseAdapter().getPersonalRecord(player.getUniqueId());
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         meta.setOwningPlayer(player);
