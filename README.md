@@ -11,6 +11,8 @@ YomSprint é um plugin/minigame feito com a api do spigot, inspirado na prova do
   - Escolha de banco de dados na config (SQLITE/YAML)
   - Integração com o PlaceholderAPI
   - Mútltiplas competições simultâneas
+  - Impulso com base no intervalo de clicks do player
+  - Scoreboard customizável
 
 # Comandos :
   - /run - Comando Principal
